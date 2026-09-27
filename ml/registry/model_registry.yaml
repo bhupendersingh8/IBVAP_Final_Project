@@ -1,11 +1,35 @@
-active_production_id: yolov8n_pretrained_baseline
+active_production_id: yolo26n_official_baseline
 models:
+- model_id: yolo26n_official_baseline
+  model_version: 1.0.0
+  expert_pool: detection
+  hardware_tier: CPU_LIGHTWEIGHT
+  artifact_path: models/detection/yolo26n.pt
+  status: PRODUCTION
+  installed: true
+  task: 2d_bounding_box_detection
+  parameters_m: 2.9
+  vram_mb: 500
+  latency_ms_cpu: 44.5
+  latency_ms_gpu: 3.9
+  classes:
+    0: person
+    1: car
+    2: motorcycle
+    3: truck
+    4: bus
+  metrics:
+    mAP50_coco: 0.538
+    fps_cpu: 22.4
+  fallback_target: yolov8n_pretrained_baseline
+  license: AGPL-3.0
+  notes: Latest official Ultralytics SOTA (Jan 2026). NMS-free end-to-end edge detector. Primary production detector.
 - model_id: yolov8n_pretrained_baseline
   model_version: 1.0.0
   expert_pool: detection
   hardware_tier: CPU_LIGHTWEIGHT
-  artifact_path: models/yolov8n.pt
-  status: PRODUCTION
+  artifact_path: models/detection/yolov8n.pt
+  status: ACTIVE_BASELINE
   installed: true
   task: 2d_bounding_box_detection
   parameters_m: 3.2
@@ -23,7 +47,7 @@ models:
     fps_cpu: 19.1
   fallback_target: null
   license: AGPL-3.0
-  notes: Active baseline on Dell Core i3 CPU. Native PyTorch and ONNX support.
+  notes: Validated backward-compatible fallback baseline on Dell Core i3 CPU.
 - model_id: yolov8s_detector
   model_version: 1.0.0
   expert_pool: detection
