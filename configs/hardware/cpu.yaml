@@ -1,0 +1,76 @@
+# ==============================================================================
+# IBVAP Hardware Profile: DELL_CPU
+# Optimized for Intel Core i3-1115G4 (4 vCPUs, 12GB RAM, CPU-Only Execution)
+# ==============================================================================
+
+profile_name: "DELL_CPU"
+device: "cpu"
+precision: "fp32"
+
+compute:
+  vram_budget_mb: 0
+  ram_budget_mb: 6144
+  target_fps: 15
+  max_concurrent_streams: 1
+  capture_queue_size: 3
+  batch_size: 1
+  drop_stale_frames: true
+  stale_frame_threshold_sec: 0.15
+
+models:
+  primary_detector:
+    name: "YOLO26n"
+    weights: "yolo26n.pt"
+    device: "cpu"
+    half: false
+    input_size: [640, 640]
+    conf_threshold: 0.25
+    iou_threshold: 0.45
+  
+  fallback_detector:
+    name: "YOLOv8n"
+    weights: "yolov8n.pt"
+    device: "cpu"
+    half: false
+    input_size: [640, 640]
+
+  pose_estimator:
+    name: "YOLO11n-Pose"
+    weights: "yolo11n-pose.pt"
+    device: "cpu"
+    half: false
+    policy: "event_driven"  # Only run when person loitering or perimeter breach occurs
+
+  segmentation:
+    name: "YOLO11n-Seg"
+    weights: "yolo11n-seg.pt"
+    device: "cpu"
+    half: false
+    policy: "event_driven"  # Only run on high-confidence intrusion verification
+
+  reid:
+    name: "OSNet-x0.25"
+    weights: "ml/weights/reid/osnet_x0_25_msmt17.pt"
+    device: "cpu"
+    input_size: [128, 256]
+
+  anpr:
+    engine: "easyocr"
+    device: "cpu"
+    policy: "roi_driven"  # Only run on vehicle plate candidate crops
+
+preprocessing:
+  motion_gater:
+    enabled: true
+    algorithm: "adaptive_frame_skipping"
+    motion_threshold: 0.005
+    pixel_diff_threshold: 22
+    max_consecutive_skips: 15
+    downsample_size: [320, 240]
+
+  night_enhancer:
+    enabled: true
+    algorithm: "clahe"
+    clip_limit: 2.0
+    tile_grid_size: [8, 8]
+    luma_threshold: 30.0

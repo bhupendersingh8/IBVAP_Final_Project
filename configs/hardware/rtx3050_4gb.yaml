@@ -1,0 +1,90 @@
+# ==============================================================================
+# IBVAP Hardware Profile: RTX3050_4GB
+# Optimized for NVIDIA GeForce RTX 3050 Laptop / Desktop (4GB GDDR6 VRAM)
+# Strict 3200 MB VRAM Budget to Prevent CUDA OOM Crashes
+# ==============================================================================
+
+profile_name: "RTX3050_4GB"
+device: "cuda:0"
+precision: "fp16"
+
+compute:
+  vram_budget_mb: 3200
+  ram_budget_mb: 8192
+  target_fps: 30
+  max_concurrent_streams: 2
+  capture_queue_size: 8
+  batch_size: 2
+  drop_stale_frames: true
+  stale_frame_threshold_sec: 0.08
+  pinned_memory: true
+  async_transfer: true
+
+models:
+  primary_detector:
+    name: "YOLO26n"
+    weights: "yolo26n.pt"
+    device: "cuda:0"
+    half: true
+    input_size: [640, 640]
+    conf_threshold: 0.25
+    iou_threshold: 0.45
+    vram_allocation_mb: 450
+  
+  fallback_detector:
+    name: "YOLOv8n"
+    weights: "yolov8n.pt"
+    device: "cuda:0"
+    half: true
+    input_size: [640, 640]
+
+  pose_estimator:
+    name: "YOLO11n-Pose"
+    weights: "yolo11n-pose.pt"
+    device: "cuda:0"
+    half: true
+    policy: "lazy_load"
+    vram_allocation_mb: 500
+
+  segmentation:
+    name: "YOLO11n-Seg"
+    weights: "yolo11n-seg.pt"
+    device: "cuda:0"
+    half: true
+    policy: "lazy_load"
+    vram_allocation_mb: 550
+
+  reid:
+    name: "OSNet-x0.25"
+    weights: "ml/weights/reid/osnet_x0_25_msmt17.pt"
+    device: "cuda:0"
+    half: true
+    vram_allocation_mb: 180
+
+  anpr:
+    engine: "easyocr"
+    device: "cuda:0"
+    policy: "roi_driven"
+    vram_allocation_mb: 600
+
+memory_management:
+  vram_guard:
+    unload_on_idle_sec: 10.0
+    pressure_threshold_pct: 0.85
+    fallback_to_cpu_on_oom: true
+
+preprocessing:
+  motion_gater:
+    enabled: true
+    algorithm: "adaptive_frame_skipping"
+    motion_threshold: 0.005
+    pixel_diff_threshold: 22
+    max_consecutive_skips: 10
+    downsample_size: [320, 240]
+
+  night_enhancer:
+    enabled: true
+    algorithm: "clahe"
+    clip_limit: 2.0
+    tile_grid_size: [8, 8]
+    luma_threshold: 30.0
