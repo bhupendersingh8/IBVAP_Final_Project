@@ -1,0 +1,152 @@
+{
+  "timestamp": "2026-09-27T14:30:26.306653+00:00",
+  "host_specs": {
+    "cpu": "Intel Core i3-1115G4 @ 3.00GHz (4 threads)",
+    "ram_gb": 11.73,
+    "gpu": "None (Intel UHD Graphics / Integrated Only - No CUDA/TensorRT)",
+    "os": "Windows 11 Home",
+    "python": "3.11.9"
+  },
+  "tests": {
+    "A_yolo_detection": {
+      "status": "PASS",
+      "model": "YOLOv8n",
+      "weights": "C:\\Users\\dell\\Desktop\\p2\\IBVAP_Final_Project\\models\\detection\\yolov8n.pt",
+      "input_shape": [
+        720,
+        1280,
+        3
+      ],
+      "boxes_detected": 3,
+      "classes": [
+        "person",
+        "person",
+        "tie"
+      ],
+      "latency_ms": 896.71
+    },
+    "B_bytetrack": {
+      "status": "PASS",
+      "frames_tracked": 5,
+      "final_active_tracks": 1,
+      "total_created": 1,
+      "avg_tracking_latency_ms": 0.04
+    },
+    "C_face_identity": {
+      "status": "PASS",
+      "identity_state": "UNKNOWN",
+      "liveness_status": "AWAITING_BLINK",
+      "latency_ms": 115.08,
+      "yunet_weights": "C:\\Users\\dell\\Desktop\\p2\\IBVAP_Final_Project\\models\\face\\face_detection_yunet_2023mar.onnx",
+      "yunet_exists": true,
+      "sface_weights": "C:\\Users\\dell\\Desktop\\p2\\IBVAP_Final_Project\\models\\face\\face_recognition_sface_2021dec.onnx",
+      "sface_exists": true
+    },
+    "D_easyocr": {
+      "status": "PASS",
+      "raw_text": "DL01 AB1234",
+      "normalized_text": "DL01AB1234",
+      "confidence": 1.0,
+      "ocr_status": "SUCCESS",
+      "latency_ms": 2545.81
+    },
+    "E_segmentation": {
+      "status": "PASS",
+      "model": "YOLOv8n-Seg",
+      "weights": "C:\\Users\\dell\\Desktop\\p2\\IBVAP_Final_Project\\models\\segmentation\\yolov8n-seg.pt",
+      "masks_count": 3,
+      "latency_ms": 216.14
+    },
+    "F_pose": {
+      "status": "PASS",
+      "model": "YOLOv8n-Pose",
+      "weights": "C:\\Users\\dell\\Desktop\\p2\\IBVAP_Final_Project\\models\\pose\\yolov8n-pose.pt",
+      "poses_detected": 2,
+      "latency_ms": 172.01
+    },
+    "G_restoration": {
+      "status": "PASS",
+      "quality_category": "unusable",
+      "needs_enhancement": true,
+      "orig_luma": 14.56,
+      "enhanced_luma": 29.83,
+      "luma_lift": 15.27,
+      "latency_ms": 166.92
+    },
+    "H_dinov2_embedding": {
+      "status": "PASS",
+      "model": "DINOv2 ViT-S/14",
+      "weights": "C:\\Users\\dell\\Desktop\\p2\\IBVAP_Final_Project\\models\\vision\\dinov2_vits14.pth",
+      "embedding_shape": [
+        1,
+        384
+      ],
+      "embedding_norm": 44.963,
+      "latency_ms": 1414.75
+    },
+    "I_temporal_fsm": {
+      "status": "PASS",
+      "start_state": "DETECTED",
+      "mid_state": "STABLE",
+      "final_state": "ALERT_ELIGIBLE",
+      "total_frames_evaluated": 54,
+      "is_alert_eligible": true
+    },
+    "J_evidence_sha256": {
+      "status": "PASS",
+      "incident_id": "INC-CAM01-998811",
+      "block_hash": "f297bd7df058561f9a23145e3493f380015d8836c0c99b43608ff95f9357b55c",
+      "deterministic": true
+    },
+    "K_websocket_telemetry": {
+      "status": "PASS",
+      "ws_routes": [
+        "/ws/alerts"
+      ],
+      "manager_initialized": true,
+      "active_connections": 0
+    },
+    "L_mediamtx_rtsp": {
+      "status": "PASS",
+      "mediamtx_exe": "C:\\Users\\dell\\Desktop\\p2\\IBVAP_Final_Project\\infrastructure\\mediamtx\\mediamtx.exe",
+      "mediamtx_exists": true,
+      "config_exists": true
+    },
+    "M_orchestrator_cascade": {
+      "status": "PASS",
+      "cascade_status": "ALERT_TRIGGERED",
+      "levels_executed": 7,
+      "total_latency_ms": 1180.25,
+      "incidents": 1,
+      "indic_dispatch": true,
+      "evidence_hash": true
+    }
+  },
+  "e2e_performance": {
+    "status": "PASS",
+    "video_path": "C:\\Users\\dell\\Desktop\\p2\\IBVAP_Final_Project\\data\\raw\\test_video.mp4",
+    "frames_processed": 60,
+    "total_elapsed_sec": 4.79,
+    "capture_fps": 1357.35,
+    "inference_fps": 12.71,
+    "end_to_end_fps": 12.54,
+    "mean_latency_ms": 79.69,
+    "p50_latency_ms": 77.73,
+    "p95_latency_ms": 88.08,
+    "dropped_frames": 0,
+    "avg_cpu_percent": 78.2,
+    "process_ram_mb": 811.0,
+    "total_incidents_recorded": 23,
+    "evidence_hashes_verified": 23,
+    "sample_evidence_hash": "3990db05957f5b39696964bda0f070f120691c3b58d53a347005b3039f6442bc"
+  },
+  "webcam_test": {
+    "status": "PASS",
+    "device_index": 0,
+    "resolution": [
+      640,
+      480
+    ],
+    "channels": 3
+  }
+}
