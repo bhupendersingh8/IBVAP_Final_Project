@@ -7,6 +7,10 @@ from .hardware_detector import (
     RuntimeCapabilities,
     hardware_detector
 )
+from .model_router import (
+    ModelRouter,
+    model_router
+)
 
 __all__ = [
     "HardwareDetector",
@@ -15,5 +19,7 @@ __all__ = [
     "CPUCapabilities",
     "GPUCapabilities",
     "RuntimeCapabilities",
-    "hardware_detector"
+    "hardware_detector",
+    "ModelRouter",
+    "model_router"
 ]

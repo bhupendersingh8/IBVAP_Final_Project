@@ -1,6 +1,6 @@
 {
   "platform_profile": "DELL_CPU",
-  "timestamp": "2026-09-27 23:29:45",
+  "timestamp": "2026-09-28 02:51:17",
   "scenarios": {
     "A": {
       "scenario": "A_AUTHORIZED_STAFF_ENTRY",
@@ -64,8 +64,8 @@
       "p1_global_id": "REID-P037",
       "p2_global_id": "REID-P037",
       "cameras_tracked": [
-        "CAM-02-CHECK-POST",
-        "CAM-01-BOP-ENTRY"
+        "CAM-01-BOP-ENTRY",
+        "CAM-02-CHECK-POST"
       ],
       "cross_camera_continuity_verified": true
     },
