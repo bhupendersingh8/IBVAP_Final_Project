@@ -1,0 +1,176 @@
+# =============================================================================
+# IBVAP — Intelligent Border Video Analytics Platform
+# .gitignore — NEVER commit the items below
+# =============================================================================
+
+# ── Secrets & Credentials ────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+secrets/
+credentials/
+
+# ── Video / Image Data ───────────────────────────────────────────────────────
+# Never commit footage, datasets, or evidence to Git
+data/raw/
+data/processed/
+data/labeled/
+data/validation/
+data/incidents/
+*.mp4
+*.avi
+*.mkv
+*.mov
+*.flv
+*.wmv
+*.webm
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.tiff
+# Exception: small UI assets in apps/frontend/public
+!apps/frontend/public/**/*.png
+!apps/frontend/public/**/*.jpg
+!apps/frontend/public/**/*.ico
+!apps/frontend/public/**/*.svg
+
+# ── ML Models & Weights ──────────────────────────────────────────────────────
+*.pt
+*.pth
+*.onnx
+*.engine
+*.trt
+*.bin
+*.safetensors
+ml/models/weights/
+# Exception: model registry JSON (metadata only, no weights)
+!ml/models/model_registry.json
+!ml/models/model_registry.example.json
+
+# ── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+.installed.cfg
+lib/
+lib64/
+MANIFEST
+.Python
+develop-eggs/
+
+# Virtual Environments
+venv/
+env/
+.venv/
+.env/
+ENV/
+env.bak/
+venv.bak/
+
+# pytest / testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# mypy / type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ── Node.js / Frontend ───────────────────────────────────────────────────────
+node_modules/
+apps/frontend/dist/
+apps/frontend/build/
+apps/frontend/.next/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp
+.pnp.js
+
+# ── Docker ───────────────────────────────────────────────────────────────────
+# Do not commit production override files with real credentials
+docker-compose.override.yml
+docker-compose.prod.override.yml
+
+# ── Database ─────────────────────────────────────────────────────────────────
+*.db
+*.sqlite
+*.sqlite3
+# Exception: migration tracking (no actual data)
+!apps/backend/database/migrations/.gitkeep
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+logs/
+*.log
+*.log.*
+
+# ── Evidence & Incidents ─────────────────────────────────────────────────────
+evidence/
+incidents_export/
+
+# ── IDE & OS ─────────────────────────────────────────────────────────────────
+.vscode/settings.json
+.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/tasks.example.json
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── DVC ──────────────────────────────────────────────────────────────────────
+# DVC cache (large binary data)
+.dvc/cache/
+.dvc/tmp/
+
+# ── MLflow ───────────────────────────────────────────────────────────────────
+mlruns/
+mlartifacts/
+
+# ── MediaMTX ─────────────────────────────────────────────────────────────────
+# MediaMTX binary (download separately)
+infrastructure/mediamtx/mediamtx.exe
+infrastructure/mediamtx/mediamtx
+# Actual camera config with real IPs/credentials
+infrastructure/mediamtx/mediamtx.yml
+!infrastructure/mediamtx/mediamtx.example.yml
+
+# ── Benchmark & Reports ──────────────────────────────────────────────────────
+benchmark_results/
+reports/
+
+# ── Temp ─────────────────────────────────────────────────────────────────────
+tmp/
+temp/
+.tmp/
+scratch/
+
+data/raw/*.mp4

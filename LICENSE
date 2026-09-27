@@ -1,0 +1,39 @@
+MIT License
+
+Copyright (c) 2026 IBVAP Development Team
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+IMPORTANT NOTICES:
+
+1. This license applies to the IBVAP application source code only.
+
+2. Third-party components (models, libraries, datasets) are governed by their
+   own licenses. See THIRD_PARTY_LICENSES.md for a complete registry.
+
+3. YOLOv8 / Ultralytics models are subject to the Ultralytics AGPL-3.0 license
+   for open-source use. Proprietary or closed-source commercial deployment may
+   require an Ultralytics Enterprise license. Verify current licensing at:
+   https://www.ultralytics.com/license
+
+4. This software is a research and SIH prototype. It is not certified for
+   operational border security deployment. Actual deployment requires
+   independent security assessment, validation, and regulatory clearance.

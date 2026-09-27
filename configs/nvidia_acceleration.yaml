@@ -1,0 +1,38 @@
+# =============================================================================
+# IBVAP NVIDIA Production Hardware Acceleration Configuration
+# SIH PS-26187: Hardware-Agnostic Intelligent Surveillance for Border Outposts
+# =============================================================================
+
+nvidia_acceleration:
+  enabled: false                      # Automatically enabled if CUDA & TensorRT are detected
+  device_id: 0
+  precision: "fp16"                   # Options: "fp32", "fp16", "int8"
+  
+  # TensorRT Model Engine Settings
+  tensorrt:
+    yolo_model_engine: "models/yolov8n_fp16.engine"
+    plate_model_engine: "models/plate_detect_fp16.engine"
+    batch_size: 4                     # Multi-stream concurrent inference (4 BOP cameras)
+    workspace_size_mb: 2048
+    dla_core: -1                      # For Jetson Orin DLA offloading (-1: disabled, 0/1: DLA cores)
+
+  # NVIDIA DeepStream Pipeline Configuration
+  deepstream:
+    enabled: false
+    config_file: "infrastructure/nvidia/deepstream_app_config.txt"
+    nvtracker_lib: "libnvds_nvmultiobjecttracker.so"
+    tracker_type: "NvDCF"             # DeepStream Visual Tracker
+    hardware_decoder: "nvv4l2decoder" # NVDEC hardware-accelerated H.264/H.265 stream decoding
+
+  # NVIDIA NIM (Inference Microservice) - Free Cloud / Edge AI Agent
+  nim_agent:
+    enabled: true
+    model_name: "meta/llama-3.2-11b-vision-instruct"
+    api_endpoint: "https://integrate.api.nvidia.com/v1"
+    env_var_key: "NVIDIA_API_KEY"
+    temperature: 0.1
+    max_tokens: 512
+    capabilities:
+      - "natural_language_incident_query"
+      - "suspicious_vehicle_briefing"
+      - "automated_shift_log_summary"

@@ -1,0 +1,16 @@
+# ML/AI dependencies (CPU-optimized for this specific system)
+# AGPL-3.0 Note: ultralytics (YOLOv8) is licensed under AGPL-3.0 for open-source use.
+# Proprietary/closed-source deployment may require an Ultralytics Enterprise license.
+
+torch==2.4.1        # Core ML framework (CPU version)
+torchvision==0.19.1
+ultralytics==8.2.100 # YOLOv8n detector
+opencv-python==4.10.0.84 # Image processing
+numpy==2.1.1
+Pillow==10.4.0
+easyocr==1.7.1      # ANPR (Apache 2.0 license)
+dvc==3.55.2         # Data version control
+mlflow==2.16.2      # Experiment tracking
+scipy==1.14.1
+scikit-learn==1.5.2
+lapx==0.5.9         # Required for ByteTrack algorithm

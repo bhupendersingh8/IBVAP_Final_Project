@@ -1,0 +1,11 @@
+-r base.txt
+pytest==8.3.3
+pytest-asyncio==0.24.0
+pytest-cov==5.0.0
+black==24.8.0
+ruff==0.6.8
+mypy==1.11.2
+pip-audit==2.7.3
+cyclonedx-bom==4.5.0
+psutil==6.0.0
+ipython==8.27.0

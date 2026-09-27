@@ -1,0 +1,1748 @@
+# ==============================================================================
+# IBVAP AUTONOMOUS MULTI-MODEL AI REGISTRY (CANONICAL)
+# Intelligent Border Video Analytics Platform - Grand Finale AI Orchestration
+# ==============================================================================
+active_production_id: yolov8n_pretrained_baseline
+
+models:
+  # ----------------------------------------------------------------------------
+  # 1. DETECTION EXPERT POOL
+  # ----------------------------------------------------------------------------
+  - model_id: yolov8n_pretrained_baseline
+    model_version: "1.0.0"
+    expert_pool: detection
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: models/yolov8n.pt
+    status: PRODUCTION
+    installed: true
+    task: 2d_bounding_box_detection
+    parameters_m: 3.2
+    vram_mb: 600
+    latency_ms_cpu: 52.4
+    latency_ms_gpu: 4.8
+    classes: {0: person, 1: car, 2: motorcycle, 3: truck, 4: bus}
+    metrics: {mAP50_coco: 0.522, fps_cpu: 19.1}
+    fallback_target: null
+    license: AGPL-3.0
+    notes: Active baseline on Dell Core i3 CPU. Native PyTorch and ONNX support.
+
+  - model_id: yolov8s_detector
+    model_version: "1.0.0"
+    expert_pool: detection
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/yolov8s.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: 2d_bounding_box_detection
+    parameters_m: 11.2
+    vram_mb: 1800
+    latency_ms_cpu: 145.0
+    latency_ms_gpu: 7.2
+    fallback_target: yolov8n_pretrained_baseline
+    license: AGPL-3.0
+    notes: Higher precision small YOLO detector for RTX 3050.
+
+  - model_id: yolov8x_detector
+    model_version: "1.0.0"
+    expert_pool: detection
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/yolov8x.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: 2d_bounding_box_detection
+    parameters_m: 68.2
+    vram_mb: 6200
+    latency_ms_cpu: 720.0
+    latency_ms_gpu: 18.5
+    fallback_target: yolov8n_pretrained_baseline
+    license: AGPL-3.0
+    notes: Enterprise heavy detector for tactical HQ operations.
+
+  - model_id: rf_detr_edge
+    model_version: "1.0.0"
+    expert_pool: detection
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/rf_detr.onnx
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: transformer_detection
+    parameters_m: 29.4
+    vram_mb: 3200
+    latency_ms_cpu: 280.0
+    latency_ms_gpu: 12.4
+    fallback_target: yolov8n_pretrained_baseline
+    license: Apache-2.0
+    notes: Real-time Focus DETR for low false-positive border detection.
+
+  - model_id: d_fine_detector
+    model_version: "1.0.0"
+    expert_pool: detection
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/d_fine.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: fine_grained_localization
+    parameters_m: 22.0
+    vram_mb: 2800
+    latency_ms_cpu: 210.0
+    latency_ms_gpu: 9.8
+    fallback_target: yolov8n_pretrained_baseline
+    license: Apache-2.0
+    notes: D-FINE fine-grained localization transformer for camouflaged actors.
+
+  - model_id: deim_edge_detector
+    model_version: "1.0.0"
+    expert_pool: detection
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/deim.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: edge_informed_detection
+    parameters_m: 18.5
+    vram_mb: 2400
+    latency_ms_cpu: 180.0
+    latency_ms_gpu: 8.6
+    fallback_target: yolov8n_pretrained_baseline
+    license: Apache-2.0
+    notes: DEIM detection edge-informed model for low-contrast foliage.
+
+  - model_id: rt_detrv3_detector
+    model_version: "1.0.0"
+    expert_pool: detection
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/rt_detrv3.onnx
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: real_time_transformer_detection
+    parameters_m: 32.1
+    vram_mb: 3500
+    latency_ms_cpu: 310.0
+    latency_ms_gpu: 11.2
+    fallback_target: yolov8n_pretrained_baseline
+    license: Apache-2.0
+    notes: Real-Time Detection Transformer v3 with dynamic query scheduling.
+
+  - model_id: yolov12_attention_detector
+    model_version: "1.0.0"
+    expert_pool: detection
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/yolov12.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: attention_centric_detection
+    parameters_m: 26.0
+    vram_mb: 3100
+    latency_ms_cpu: 260.0
+    latency_ms_gpu: 10.4
+    fallback_target: yolov8n_pretrained_baseline
+    license: MIT
+    notes: Attention-centric YOLOv12 for high-speed perimeter surveillance.
+
+  - model_id: yoloe_oriented_detector
+    model_version: "1.0.0"
+    expert_pool: detection
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/yoloe.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: oriented_bounding_box
+    parameters_m: 14.8
+    vram_mb: 2100
+    latency_ms_cpu: 165.0
+    latency_ms_gpu: 7.9
+    fallback_target: yolov8n_pretrained_baseline
+    license: Apache-2.0
+    notes: Oriented bounding box detector for aerial UAV border feeds.
+
+  - model_id: grounding_dino_1_5_pro
+    model_version: "1.5.0"
+    expert_pool: detection
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/grounding_dino_1_5_pro.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: open_world_zero_shot_detection
+    parameters_m: 210.0
+    vram_mb: 8500
+    latency_ms_cpu: 2400.0
+    latency_ms_gpu: 45.0
+    fallback_target: yolov8n_pretrained_baseline
+    license: Commercial/Research
+    notes: Open-vocabulary promptable detector for zero-shot threat recognition.
+
+  # ----------------------------------------------------------------------------
+  # 2. SEGMENTATION EXPERT POOL
+  # ----------------------------------------------------------------------------
+  - model_id: fast_sam_baseline
+    model_version: "1.0.0"
+    expert_pool: segmentation
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/fastsam.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: real_time_segmentation
+    parameters_m: 68.0
+    vram_mb: 3800
+    latency_ms_cpu: 390.0
+    latency_ms_gpu: 15.0
+    fallback_target: yolov8n_pretrained_baseline
+    license: Apache-2.0
+    notes: CNN-based real-time alternative to SAM for perimeter intrusion masks.
+
+  - model_id: mobile_sam_edge
+    model_version: "1.0.0"
+    expert_pool: segmentation
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: models/mobile_sam.onnx
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: lightweight_segmentation
+    parameters_m: 9.6
+    vram_mb: 1100
+    latency_ms_cpu: 180.0
+    latency_ms_gpu: 8.5
+    fallback_target: yolov8n_pretrained_baseline
+    license: Apache-2.0
+    notes: Edge lightweight SAM for mobile border patrol units.
+
+  - model_id: efficient_sam
+    model_version: "1.0.0"
+    expert_pool: segmentation
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/efficient_sam.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: efficient_segmentation
+    parameters_m: 25.0
+    vram_mb: 2600
+    latency_ms_cpu: 240.0
+    latency_ms_gpu: 11.0
+    fallback_target: yolov8n_pretrained_baseline
+    license: Apache-2.0
+    notes: Leveraged cross-attention transformer for high-fidelity segmentation.
+
+  - model_id: sam_2_1_foundation
+    model_version: "2.1.0"
+    expert_pool: segmentation
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/sam2_1_hiera_l.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: video_promptable_segmentation
+    parameters_m: 224.0
+    vram_mb: 9500
+    latency_ms_cpu: 2800.0
+    latency_ms_gpu: 38.0
+    fallback_target: yolov8n_pretrained_baseline
+    license: Apache-2.0
+    notes: Meta SAM 2.1 video segmentation with streaming spatio-temporal memory.
+
+  - model_id: samurai_visual_tracker
+    model_version: "1.0.0"
+    expert_pool: segmentation
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/samurai_tracker.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: zero_shot_tracking_segmentation
+    parameters_m: 224.0
+    vram_mb: 9800
+    latency_ms_cpu: 2950.0
+    latency_ms_gpu: 42.0
+    fallback_target: yolov8n_pretrained_baseline
+    license: MIT
+    notes: Zero-shot visual tracking with SAM 2 for complex occlusion recovery.
+
+  - model_id: seem_multimodal_segmentor
+    model_version: "1.0.0"
+    expert_pool: segmentation
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/seem.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: interactive_multimodal_segmentation
+    parameters_m: 180.0
+    vram_mb: 7200
+    latency_ms_cpu: 2200.0
+    latency_ms_gpu: 32.0
+    fallback_target: yolov8n_pretrained_baseline
+    license: MIT
+    notes: Segment Everything Everywhere All at Once using visual/audio/text prompts.
+
+  # ----------------------------------------------------------------------------
+  # 3. TRACKING EXPERT POOL
+  # ----------------------------------------------------------------------------
+  - model_id: bytetrack_baseline
+    model_version: "1.0.0"
+    expert_pool: tracking
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: services/tracking/bytetrack_adapter.py
+    status: PRODUCTION
+    installed: true
+    task: multi_object_tracking
+    parameters_m: 0.0
+    vram_mb: 50
+    latency_ms_cpu: 3.2
+    latency_ms_gpu: 0.8
+    metrics: {mota: 0.778, idf1: 0.762}
+    fallback_target: null
+    license: MIT
+    notes: Active production multi-object tracker backed by C++ lapx Hungarian solver.
+
+  - model_id: bot_sort_tracker
+    model_version: "1.0.0"
+    expert_pool: tracking
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: services/tracking/botsort.py
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: camera_motion_compensated_tracking
+    parameters_m: 12.0
+    vram_mb: 1200
+    latency_ms_cpu: 45.0
+    latency_ms_gpu: 5.4
+    fallback_target: bytetrack_baseline
+    license: GPL-3.0
+    notes: BoT-SORT with camera motion compensation (GMC) and Re-ID affinity.
+
+  - model_id: deep_oc_sort_tracker
+    model_version: "1.0.0"
+    expert_pool: tracking
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: services/tracking/deep_ocsort.py
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: observation_centric_tracking
+    parameters_m: 15.0
+    vram_mb: 1400
+    latency_ms_cpu: 52.0
+    latency_ms_gpu: 6.1
+    fallback_target: bytetrack_baseline
+    license: MIT
+    notes: Deep OC-SORT with momentum conservation through long occlusions.
+
+  - model_id: hybrid_sort_tracker
+    model_version: "1.0.0"
+    expert_pool: tracking
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: services/tracking/hybrid_sort.py
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: multi_modal_association_tracking
+    parameters_m: 18.0
+    vram_mb: 1600
+    latency_ms_cpu: 65.0
+    latency_ms_gpu: 7.2
+    fallback_target: bytetrack_baseline
+    license: MIT
+    notes: Hybrid-SORT combining motion, appearance, and depth embeddings.
+
+  - model_id: impr_assoc_tracker
+    model_version: "1.0.0"
+    expert_pool: tracking
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: services/tracking/impr_assoc.py
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: improved_data_association
+    parameters_m: 8.5
+    vram_mb: 900
+    latency_ms_cpu: 28.0
+    latency_ms_gpu: 4.2
+    fallback_target: bytetrack_baseline
+    license: MIT
+    notes: High-density border crossing association under high overlap.
+
+  - model_id: motrv3_transformer_tracker
+    model_version: "3.0.0"
+    expert_pool: tracking
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/motrv3.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: end_to_end_mot_transformer
+    parameters_m: 48.0
+    vram_mb: 4800
+    latency_ms_cpu: 550.0
+    latency_ms_gpu: 18.0
+    fallback_target: bytetrack_baseline
+    license: Apache-2.0
+    notes: End-to-end multi-object tracking transformer v3.
+
+  - model_id: memotr_long_term_tracker
+    model_version: "1.0.0"
+    expert_pool: tracking
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/memotr.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: long_term_memory_tracking
+    parameters_m: 64.0
+    vram_mb: 5600
+    latency_ms_cpu: 680.0
+    latency_ms_gpu: 22.0
+    fallback_target: bytetrack_baseline
+    license: Apache-2.0
+    notes: Long-term memory MOT transformer tracking actors across days.
+
+  # ----------------------------------------------------------------------------
+  # 4. FACE & IDENTITY EXPERT POOL
+  # ----------------------------------------------------------------------------
+  - model_id: haar_face_baseline
+    model_version: "1.0.0"
+    expert_pool: face_identity
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: services/detection/haarcascade_frontalface_default.xml
+    status: PRODUCTION
+    installed: true
+    task: frontal_face_detection
+    parameters_m: 0.1
+    vram_mb: 20
+    latency_ms_cpu: 18.5
+    latency_ms_gpu: 2.1
+    fallback_target: null
+    license: BSD-3-Clause
+    notes: Active CPU face detector with 4-state identity verification state machine.
+
+  - model_id: adaface_ir100
+    model_version: "1.0.0"
+    expert_pool: face_identity
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/adaface_ir100.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: quality_adaptive_face_recognition
+    parameters_m: 65.0
+    vram_mb: 2400
+    latency_ms_cpu: 310.0
+    latency_ms_gpu: 12.0
+    fallback_target: haar_face_baseline
+    license: MIT
+    notes: Quality-adaptive margin for low-resolution border face recognition.
+
+  - model_id: transface_transformer
+    model_version: "1.0.0"
+    expert_pool: face_identity
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/transface.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: transformer_face_recognition
+    parameters_m: 85.0
+    vram_mb: 3200
+    latency_ms_cpu: 450.0
+    latency_ms_gpu: 14.5
+    fallback_target: haar_face_baseline
+    license: Apache-2.0
+    notes: Vision Transformer based face representation with patch attention.
+
+  - model_id: magface_quality_recognizer
+    model_version: "1.0.0"
+    expert_pool: face_identity
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/magface.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: magnitude_aware_face_recognition
+    parameters_m: 54.0
+    vram_mb: 2200
+    latency_ms_cpu: 280.0
+    latency_ms_gpu: 10.5
+    fallback_target: haar_face_baseline
+    license: Apache-2.0
+    notes: Feature magnitude directly correlates with facial image quality.
+
+  - model_id: kprpe_face_verifier
+    model_version: "1.0.0"
+    expert_pool: face_identity
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/kprpe.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: keypoint_relative_position_embedding
+    parameters_m: 42.0
+    vram_mb: 1800
+    latency_ms_cpu: 220.0
+    latency_ms_gpu: 9.0
+    fallback_target: haar_face_baseline
+    license: MIT
+    notes: Robust facial pose alignment under high slant angles.
+
+  - model_id: partial_face_recognizer
+    model_version: "1.0.0"
+    expert_pool: face_identity
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/partial_face.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: masked_occluded_face_recognition
+    parameters_m: 48.0
+    vram_mb: 2000
+    latency_ms_cpu: 250.0
+    latency_ms_gpu: 9.5
+    fallback_target: haar_face_baseline
+    license: MIT
+    notes: Recognizes actors wearing tactical balaclavas, scarves, or masks.
+
+  - model_id: xcloud_cross_pose_identity
+    model_version: "1.0.0"
+    expert_pool: face_identity
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/xcloud.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: cross_pose_identity_verification
+    parameters_m: 110.0
+    vram_mb: 4500
+    latency_ms_cpu: 620.0
+    latency_ms_gpu: 16.0
+    fallback_target: haar_face_baseline
+    license: Apache-2.0
+    notes: Multi-view identity aggregation across distributed pan-tilt-zoom cameras.
+
+  - model_id: insightface_antelopev2
+    model_version: "2.0.0"
+    expert_pool: face_identity
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/antelopev2.onnx
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: complete_face_analysis
+    parameters_m: 75.0
+    vram_mb: 2800
+    latency_ms_cpu: 340.0
+    latency_ms_gpu: 11.8
+    fallback_target: haar_face_baseline
+    license: Non-Commercial/Custom
+    notes: SOTA face detection, landmarking, gender/age, and 512D ArcFace embeddings.
+
+  # ----------------------------------------------------------------------------
+  # 5. PERSON RE-ID EXPERT POOL
+  # ----------------------------------------------------------------------------
+  - model_id: spatial_temporal_reid_baseline
+    model_version: "1.0.0"
+    expert_pool: reid
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: services/tracking/reid_heuristics.py
+    status: PRODUCTION
+    installed: true
+    task: spatio_temporal_affinity_reid
+    parameters_m: 0.0
+    vram_mb: 30
+    latency_ms_cpu: 1.5
+    latency_ms_gpu: 0.3
+    fallback_target: null
+    license: MIT
+    notes: Fast CPU baseline matching tracklets across cameras via topology and clothing.
+
+  - model_id: trans_reid_vit
+    model_version: "1.0.0"
+    expert_pool: reid
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/transreid.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: vision_transformer_reid
+    parameters_m: 86.0
+    vram_mb: 3400
+    latency_ms_cpu: 480.0
+    latency_ms_gpu: 14.0
+    fallback_target: spatial_temporal_reid_baseline
+    license: Apache-2.0
+    notes: Vision Transformer Re-ID with jigsaw patch permutation invariance.
+
+  - model_id: clip_reid_multimodal
+    model_version: "1.0.0"
+    expert_pool: reid
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/clip_reid.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: multimodal_language_guided_reid
+    parameters_m: 150.0
+    vram_mb: 4200
+    latency_ms_cpu: 720.0
+    latency_ms_gpu: 19.0
+    fallback_target: spatial_temporal_reid_baseline
+    license: MIT
+    notes: Natural language text query matching for person search (e.g. 'black backpack').
+
+  - model_id: kpr_part_reid
+    model_version: "1.0.0"
+    expert_pool: reid
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/kpr_reid.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: keypoint_guided_part_reid
+    parameters_m: 52.0
+    vram_mb: 2300
+    latency_ms_cpu: 290.0
+    latency_ms_gpu: 10.2
+    fallback_target: spatial_temporal_reid_baseline
+    license: Apache-2.0
+    notes: Keypoint-guided part decomposition immune to partial occlusions.
+
+  - model_id: person_mae_reid
+    model_version: "1.0.0"
+    expert_pool: reid
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/person_mae.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: masked_autoencoder_reid
+    parameters_m: 105.0
+    vram_mb: 4600
+    latency_ms_cpu: 650.0
+    latency_ms_gpu: 17.5
+    fallback_target: spatial_temporal_reid_baseline
+    license: Apache-2.0
+    notes: Self-supervised masked autoencoder pretraining for high cross-domain transfer.
+
+  - model_id: fast_reid_baseline
+    model_version: "1.0.0"
+    expert_pool: reid
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/fastreid.onnx
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: real_time_deep_reid
+    parameters_m: 25.0
+    vram_mb: 1800
+    latency_ms_cpu: 160.0
+    latency_ms_gpu: 6.8
+    fallback_target: spatial_temporal_reid_baseline
+    license: Apache-2.0
+    notes: ResNet50-IBN backbone optimized for low latency camera handover.
+
+  - model_id: solider_semantic_reid
+    model_version: "1.0.0"
+    expert_pool: reid
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/solider.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: semantic_oriented_reid
+    parameters_m: 88.0
+    vram_mb: 3600
+    latency_ms_cpu: 510.0
+    latency_ms_gpu: 14.8
+    fallback_target: spatial_temporal_reid_baseline
+    license: Apache-2.0
+    notes: Explicitly extracts semantic attributes (clothing style, bags, footwear).
+
+  # ----------------------------------------------------------------------------
+  # 6. VISION-LANGUAGE MODELS (VLM) EXPERT POOL
+  # ----------------------------------------------------------------------------
+  - model_id: rule_based_copilot_baseline
+    model_version: "1.0.0"
+    expert_pool: vlm
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: services/agents/tactical_ai_engine.py
+    status: PRODUCTION
+    installed: true
+    task: tactical_reasoning_and_synthesis
+    parameters_m: 0.0
+    vram_mb: 100
+    latency_ms_cpu: 8.0
+    latency_ms_gpu: 1.0
+    fallback_target: null
+    license: MIT
+    notes: Active deterministic local tactical copilot and situational rule engine.
+
+  - model_id: florence_2_base
+    model_version: "1.0.0"
+    expert_pool: vlm
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/florence2_base.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: vision_foundation_multitask
+    parameters_m: 230.0
+    vram_mb: 3800
+    latency_ms_cpu: 1400.0
+    latency_ms_gpu: 35.0
+    fallback_target: rule_based_copilot_baseline
+    license: MIT
+    notes: Microsoft Florence-2 lightweight multimodal model for captioning and grounding.
+
+  - model_id: paligemma_2_3b
+    model_version: "2.0.0"
+    expert_pool: vlm
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/paligemma2_3b.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: open_vision_language
+    parameters_m: 3000.0
+    vram_mb: 7500
+    latency_ms_cpu: 4800.0
+    latency_ms_gpu: 85.0
+    fallback_target: rule_based_copilot_baseline
+    license: Gemma
+    notes: Google DeepMind compact vision-language model for edge surveillance Q&A.
+
+  - model_id: qwen2_5_vl_7b
+    model_version: "2.5.0"
+    expert_pool: vlm
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/qwen2_5_vl_7b
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: frontier_edge_vlm
+    parameters_m: 7000.0
+    vram_mb: 14000
+    latency_ms_cpu: 12000.0
+    latency_ms_gpu: 140.0
+    fallback_target: rule_based_copilot_baseline
+    license: Apache-2.0
+    notes: High resolution document, fine-grained object and video reasoning.
+
+  - model_id: qwen2_5_vl_72b
+    model_version: "2.5.0"
+    expert_pool: vlm
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: sovereign_cloud/qwen2_5_vl_72b
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: sovereign_hq_frontier_vlm
+    parameters_m: 72000.0
+    vram_mb: 85000
+    latency_ms_cpu: 120000.0
+    latency_ms_gpu: 950.0
+    fallback_target: rule_based_copilot_baseline
+    license: Apache-2.0
+    notes: Central Command strategic intelligence assessment and incident synthesis.
+
+  - model_id: intern_vl_2_5
+    model_version: "2.5.0"
+    expert_pool: vlm
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/internvl_2_5
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: multimodal_vision_reasoning
+    parameters_m: 8000.0
+    vram_mb: 16000
+    latency_ms_cpu: 15000.0
+    latency_ms_gpu: 165.0
+    fallback_target: rule_based_copilot_baseline
+    license: Apache-2.0
+    notes: Dynamic resolution patch encoder for distant border terrain inspection.
+
+  - model_id: llava_onevision_7b
+    model_version: "1.0.0"
+    expert_pool: vlm
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/llava_onevision
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: single_image_multi_image_video
+    parameters_m: 7000.0
+    vram_mb: 14500
+    latency_ms_cpu: 13500.0
+    latency_ms_gpu: 150.0
+    fallback_target: rule_based_copilot_baseline
+    license: Apache-2.0
+    notes: Unified single-image, multi-image, and video stream comprehension.
+
+  - model_id: videollama_3
+    model_version: "3.0.0"
+    expert_pool: vlm
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/videollama3
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: conversational_video_foundation
+    parameters_m: 7000.0
+    vram_mb: 15000
+    latency_ms_cpu: 14000.0
+    latency_ms_gpu: 175.0
+    fallback_target: rule_based_copilot_baseline
+    license: Apache-2.0
+    notes: Video-centric conversational agent tracking multi-minute border events.
+
+  - model_id: nvila_nvidia_agent
+    model_version: "1.0.0"
+    expert_pool: vlm
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/nvila
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: vision_language_embodied_agent
+    parameters_m: 8000.0
+    vram_mb: 17000
+    latency_ms_cpu: 16000.0
+    latency_ms_gpu: 180.0
+    fallback_target: rule_based_copilot_baseline
+    license: NVIDIA Open Model
+    notes: NVIDIA Vision-Language Agent for real-time video spatial reasoning.
+
+  - model_id: molmo_7b
+    model_version: "1.0.0"
+    expert_pool: vlm
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/molmo_7b
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: pointing_and_grounding_vlm
+    parameters_m: 7200.0
+    vram_mb: 15000
+    latency_ms_cpu: 13800.0
+    latency_ms_gpu: 155.0
+    fallback_target: rule_based_copilot_baseline
+    license: Apache-2.0
+    notes: AllenAI open model with exact 2D pixel pointing and spatial grounding.
+
+  - model_id: pixtral_12b
+    model_version: "1.0.0"
+    expert_pool: vlm
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/pixtral_12b
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: arbitrary_resolution_vision_language
+    parameters_m: 12000.0
+    vram_mb: 24000
+    latency_ms_cpu: 22000.0
+    latency_ms_gpu: 210.0
+    fallback_target: rule_based_copilot_baseline
+    license: Apache-2.0
+    notes: Mistral multimodal model handling arbitrary image aspect ratios.
+
+  - model_id: llama_3_2_vision_11b
+    model_version: "3.2.0"
+    expert_pool: vlm
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/llama3_2_vision_11b
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: multimodal_reasoning_and_synthesis
+    parameters_m: 11000.0
+    vram_mb: 22000
+    latency_ms_cpu: 19500.0
+    latency_ms_gpu: 190.0
+    fallback_target: rule_based_copilot_baseline
+    license: Llama 3.2 Community
+    notes: Meta open vision-language model for tactical situational analysis.
+
+  # ----------------------------------------------------------------------------
+  # 7. VIDEO UNDERSTANDING EXPERT POOL
+  # ----------------------------------------------------------------------------
+  - model_id: videomae_v2_vit_b
+    model_version: "2.0.0"
+    expert_pool: video_understanding
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/videomae_v2.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: self_supervised_video_representation
+    parameters_m: 86.0
+    vram_mb: 4200
+    latency_ms_cpu: 850.0
+    latency_ms_gpu: 28.0
+    fallback_target: rule_based_copilot_baseline
+    license: Apache-2.0
+    notes: Masked video autoencoder for border perimeter motion representation.
+
+  - model_id: intern_video_2
+    model_version: "2.0.0"
+    expert_pool: video_understanding
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/internvideo2.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: video_foundation_model
+    parameters_m: 1000.0
+    vram_mb: 12000
+    latency_ms_cpu: 5200.0
+    latency_ms_gpu: 88.0
+    fallback_target: rule_based_copilot_baseline
+    license: Apache-2.0
+    notes: Frontier video foundation model with cross-modal alignment.
+
+  - model_id: video_mamba_ssm
+    model_version: "1.0.0"
+    expert_pool: video_understanding
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/video_mamba.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: state_space_video_understanding
+    parameters_m: 45.0
+    vram_mb: 2800
+    latency_ms_cpu: 320.0
+    latency_ms_gpu: 12.0
+    fallback_target: rule_based_copilot_baseline
+    license: Apache-2.0
+    notes: Linear-time State Space Model for infinite-duration CCTV video streams.
+
+  - model_id: long_va_video
+    model_version: "1.0.0"
+    expert_pool: video_understanding
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/longva.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: long_context_video_analysis
+    parameters_m: 7000.0
+    vram_mb: 15000
+    latency_ms_cpu: 14000.0
+    latency_ms_gpu: 160.0
+    fallback_target: rule_based_copilot_baseline
+    license: Apache-2.0
+    notes: Processes hours of continuous perimeter footage for loitering detection.
+
+  - model_id: tarsier_surveillance
+    model_version: "1.0.0"
+    expert_pool: video_understanding
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/tarsier.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: tactical_surveillance_video_reasoning
+    parameters_m: 7000.0
+    vram_mb: 14000
+    latency_ms_cpu: 13000.0
+    latency_ms_gpu: 145.0
+    fallback_target: rule_based_copilot_baseline
+    license: MIT
+    notes: Specialized video reasoning benchmark for low-light night patrol streams.
+
+  # ----------------------------------------------------------------------------
+  # 8. IMAGE / LOW-LIGHT / WEATHER RESTORATION EXPERT POOL
+  # ----------------------------------------------------------------------------
+  - model_id: clahe_gamma_restoration_baseline
+    model_version: "1.0.0"
+    expert_pool: restoration
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: services/preprocessing/night_enhancer.py
+    status: PRODUCTION
+    installed: true
+    task: low_light_contrast_enhancement
+    parameters_m: 0.0
+    vram_mb: 10
+    latency_ms_cpu: 4.5
+    latency_ms_gpu: 0.6
+    fallback_target: null
+    license: MIT
+    notes: Active production CPU adaptive histogram equalization and gamma booster.
+
+  - model_id: zero_dce_plus_plus
+    model_version: "1.0.0"
+    expert_pool: restoration
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: models/zero_dce_pp.onnx
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: zero_reference_deep_curve_enhancement
+    parameters_m: 0.08
+    vram_mb: 150
+    latency_ms_cpu: 12.0
+    latency_ms_gpu: 1.8
+    fallback_target: clahe_gamma_restoration_baseline
+    license: MIT
+    notes: Ultralight zero-reference curve estimation for dark border foliage.
+
+  - model_id: retinexformer_enhancer
+    model_version: "1.0.0"
+    expert_pool: restoration
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/retinexformer.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: transformer_low_light_restoration
+    parameters_m: 1.6
+    vram_mb: 950
+    latency_ms_cpu: 140.0
+    latency_ms_gpu: 8.2
+    fallback_target: clahe_gamma_restoration_baseline
+    license: MIT
+    notes: Retinex-based transformer restoring color in 0.01 lux starlight conditions.
+
+  - model_id: sci_self_calibrated_enhancer
+    model_version: "1.0.0"
+    expert_pool: restoration
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: models/sci.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: self_calibrated_illuminance_learning
+    parameters_m: 0.12
+    vram_mb: 180
+    latency_ms_cpu: 15.0
+    latency_ms_gpu: 2.2
+    fallback_target: clahe_gamma_restoration_baseline
+    license: MIT
+    notes: Self-calibrated illumination learning running fast on edge CPU.
+
+  - model_id: mirnet_v2_restorer
+    model_version: "2.0.0"
+    expert_pool: restoration
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/mirnet_v2.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: multi_stage_image_restoration
+    parameters_m: 5.9
+    vram_mb: 1600
+    latency_ms_cpu: 280.0
+    latency_ms_gpu: 11.5
+    fallback_target: clahe_gamma_restoration_baseline
+    license: Apache-2.0
+    notes: Simultaneous denoising, deblurring, and low-light restoration.
+
+  - model_id: dehaze_former_fog
+    model_version: "1.0.0"
+    expert_pool: restoration
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/dehazeformer.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: dense_fog_and_smoke_dehazing
+    parameters_m: 2.8
+    vram_mb: 1200
+    latency_ms_cpu: 190.0
+    latency_ms_gpu: 9.4
+    fallback_target: clahe_gamma_restoration_baseline
+    license: MIT
+    notes: Vision Transformer removing dense fog, dust storms, and smoke grenades.
+
+  - model_id: diff_ll_diffusion_restorer
+    model_version: "1.0.0"
+    expert_pool: restoration
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/diff_ll.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: diffusion_low_light_restoration
+    parameters_m: 28.0
+    vram_mb: 5200
+    latency_ms_cpu: 3400.0
+    latency_ms_gpu: 75.0
+    fallback_target: clahe_gamma_restoration_baseline
+    license: Apache-2.0
+    notes: Conditional diffusion model for extreme night forensic restoration.
+
+  - model_id: thermal_gan_synthetic
+    model_version: "1.0.0"
+    expert_pool: restoration
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/thermal_gan.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: thermal_to_rgb_cross_spectral_synthesis
+    parameters_m: 14.0
+    vram_mb: 2200
+    latency_ms_cpu: 260.0
+    latency_ms_gpu: 10.8
+    fallback_target: clahe_gamma_restoration_baseline
+    license: MIT
+    notes: Translates FLIR LWIR thermal sensor streams into pseudo-daylight RGB.
+
+  - model_id: mamba_ir_restorer
+    model_version: "1.0.0"
+    expert_pool: restoration
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/mamba_ir.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: state_space_image_restoration
+    parameters_m: 8.5
+    vram_mb: 1800
+    latency_ms_cpu: 175.0
+    latency_ms_gpu: 7.8
+    fallback_target: clahe_gamma_restoration_baseline
+    license: Apache-2.0
+    notes: Selective state-space model for rain streak and heavy snow removal.
+
+  # ----------------------------------------------------------------------------
+  # 9. POSE / BEHAVIOR / ACTION EXPERT POOL
+  # ----------------------------------------------------------------------------
+  - model_id: yolov8n_pose_baseline
+    model_version: "1.0.0"
+    expert_pool: pose_behavior
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: yolov8n-pose.pt
+    status: PRODUCTION
+    installed: true
+    task: human_keypoint_pose_estimation
+    parameters_m: 3.3
+    vram_mb: 650
+    latency_ms_cpu: 58.0
+    latency_ms_gpu: 5.2
+    classes: {0: nose, 1: left_eye, 2: right_eye, 5: left_shoulder, 6: right_shoulder}
+    fallback_target: null
+    license: AGPL-3.0
+    notes: Active production 17-keypoint skeleton detector running on Dell CPU.
+
+  - model_id: rtmpose_m_realtime
+    model_version: "1.0.0"
+    expert_pool: pose_behavior
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/rtmpose_m.onnx
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: real_time_multi_person_pose
+    parameters_m: 13.5
+    vram_mb: 1500
+    latency_ms_cpu: 110.0
+    latency_ms_gpu: 4.8
+    fallback_target: yolov8n_pose_baseline
+    license: Apache-2.0
+    notes: SOTA real-time multi-person pose estimation from OpenMMLab.
+
+  - model_id: rtmpose_s_edge
+    model_version: "1.0.0"
+    expert_pool: pose_behavior
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: models/rtmpose_s.onnx
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: ultralight_edge_pose
+    parameters_m: 4.8
+    vram_mb: 600
+    latency_ms_cpu: 45.0
+    latency_ms_gpu: 2.9
+    fallback_target: yolov8n_pose_baseline
+    license: Apache-2.0
+    notes: Ultralight pose model optimized for edge IoT surveillance processors.
+
+  - model_id: vitpose_plus_plus
+    model_version: "2.0.0"
+    expert_pool: pose_behavior
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/vitpose_huge.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: vision_transformer_pose
+    parameters_m: 307.0
+    vram_mb: 8500
+    latency_ms_cpu: 2600.0
+    latency_ms_gpu: 32.0
+    fallback_target: yolov8n_pose_baseline
+    license: Apache-2.0
+    notes: SOTA multi-task human pose foundation transformer.
+
+  - model_id: sapiens_meta_foundation
+    model_version: "1.0.0"
+    expert_pool: pose_behavior
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/sapiens_1b.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: human_foundation_pose_depth_surface
+    parameters_m: 1000.0
+    vram_mb: 18000
+    latency_ms_cpu: 8500.0
+    latency_ms_gpu: 78.0
+    fallback_target: yolov8n_pose_baseline
+    license: Creative Commons
+    notes: Meta 1B parameter human foundation model for pose, depth, and segmentation.
+
+  - model_id: mmpose_behavior_suite
+    model_version: "1.3.0"
+    expert_pool: pose_behavior
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/mmpose_suite.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: composite_behavior_analysis
+    parameters_m: 28.0
+    vram_mb: 2600
+    latency_ms_cpu: 210.0
+    latency_ms_gpu: 8.5
+    fallback_target: yolov8n_pose_baseline
+    license: Apache-2.0
+    notes: Detects climbing, crawling, crouching, weapon aiming, and prone sniper posture.
+
+  - model_id: pose_anything_zeroshot
+    model_version: "1.0.0"
+    expert_pool: pose_behavior
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/pose_anything.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: open_domain_zero_shot_pose
+    parameters_m: 120.0
+    vram_mb: 4800
+    latency_ms_cpu: 950.0
+    latency_ms_gpu: 21.0
+    fallback_target: yolov8n_pose_baseline
+    license: MIT
+    notes: Zero-shot pose estimation on arbitrary creatures or non-standard equipment.
+
+  - model_id: animal_kingdom_behavior
+    model_version: "1.0.0"
+    expert_pool: pose_behavior
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/animal_kingdom.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: wildlife_and_livestock_pose
+    parameters_m: 35.0
+    vram_mb: 2400
+    latency_ms_cpu: 230.0
+    latency_ms_gpu: 9.8
+    fallback_target: yolov8n_pose_baseline
+    license: MIT
+    notes: Differentiates livestock grazing from wildlife herds to avoid false breach alerts.
+
+  - model_id: ctr_gcn_action_recognizer
+    model_version: "1.0.0"
+    expert_pool: pose_behavior
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/ctr_gcn.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: graph_convolutional_action_recognition
+    parameters_m: 1.4
+    vram_mb: 850
+    latency_ms_cpu: 65.0
+    latency_ms_gpu: 3.5
+    fallback_target: yolov8n_pose_baseline
+    license: Apache-2.0
+    notes: Channel-Topology Refinement Graph Convolution for border fence climbing.
+
+  # ----------------------------------------------------------------------------
+  # 10. ANOMALY DETECTION EXPERT POOL
+  # ----------------------------------------------------------------------------
+  - model_id: heuristic_spatial_anomaly_baseline
+    model_version: "1.0.0"
+    expert_pool: anomaly
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: services/rules/rule_engine.py
+    status: PRODUCTION
+    installed: true
+    task: rule_based_spatial_temporal_anomaly
+    parameters_m: 0.0
+    vram_mb: 20
+    latency_ms_cpu: 2.1
+    latency_ms_gpu: 0.4
+    fallback_target: null
+    license: MIT
+    notes: Active production zone intrusion, wrong-way, and loitering anomaly engine.
+
+  - model_id: anomalib_patchcore
+    model_version: "1.0.0"
+    expert_pool: anomaly
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/anomalib_patchcore.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: visual_patchcore_anomaly_detection
+    parameters_m: 24.0
+    vram_mb: 2200
+    latency_ms_cpu: 240.0
+    latency_ms_gpu: 8.8
+    fallback_target: heuristic_spatial_anomaly_baseline
+    license: Apache-2.0
+    notes: Memory-bank neighborhood embedding for anomalous obstacle detection.
+
+  - model_id: mnad_normality_model
+    model_version: "1.0.0"
+    expert_pool: anomaly
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/mnad.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: memory_guided_normality_for_video
+    parameters_m: 16.0
+    vram_mb: 1800
+    latency_ms_cpu: 180.0
+    latency_ms_gpu: 7.2
+    fallback_target: heuristic_spatial_anomaly_baseline
+    license: MIT
+    notes: Memory network learning standard terrain patterns; flags abnormal motion.
+
+  - model_id: staeformer_anomaly_transformer
+    model_version: "1.0.0"
+    expert_pool: anomaly
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/staeformer.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: spatio_temporal_autoencoder_transformer
+    parameters_m: 48.0
+    vram_mb: 3800
+    latency_ms_cpu: 450.0
+    latency_ms_gpu: 14.5
+    fallback_target: heuristic_spatial_anomaly_baseline
+    license: Apache-2.0
+    notes: Spatio-temporal autoencoder capturing multi-camera crowd flow anomalies.
+
+  - model_id: pyod_anomaly_ensemble
+    model_version: "2.0.0"
+    expert_pool: anomaly
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: services/detection/pyod_suite.py
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: tabular_and_trajectory_outlier_detection
+    parameters_m: 0.0
+    vram_mb: 120
+    latency_ms_cpu: 18.0
+    latency_ms_gpu: 3.5
+    fallback_target: heuristic_spatial_anomaly_baseline
+    license: BSD-2-Clause
+    notes: Python Outlier Detection suite for vehicle speed and trajectory deviations.
+
+  - model_id: mem_ae_memory_autoencoder
+    model_version: "1.0.0"
+    expert_pool: anomaly
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/memae.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: memory_augmented_deep_autoencoder
+    parameters_m: 12.0
+    vram_mb: 1500
+    latency_ms_cpu: 150.0
+    latency_ms_gpu: 6.2
+    fallback_target: heuristic_spatial_anomaly_baseline
+    license: MIT
+    notes: Memory-augmented autoencoder preventing reconstruction of novel intrusions.
+
+  - model_id: ubnormal_atypical_border
+    model_version: "1.0.0"
+    expert_pool: anomaly
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/ubnormal.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: synthetic_border_atypical_event_detection
+    parameters_m: 32.0
+    vram_mb: 2600
+    latency_ms_cpu: 290.0
+    latency_ms_gpu: 10.4
+    fallback_target: heuristic_spatial_anomaly_baseline
+    license: Academic
+    notes: Pretrained on atypical synthetic border events (tunneling, crawling, thrown parcels).
+
+  # ----------------------------------------------------------------------------
+  # 11. FOUNDATION MODELS EXPERT POOL
+  # ----------------------------------------------------------------------------
+  - model_id: dinov2_vit_b
+    model_version: "2.0.0"
+    expert_pool: foundation
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/dinov2_vitb14.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: self_supervised_visual_features
+    parameters_m: 86.0
+    vram_mb: 3200
+    latency_ms_cpu: 460.0
+    latency_ms_gpu: 13.5
+    fallback_target: yolov8n_pretrained_baseline
+    license: Apache-2.0
+    notes: Meta DINOv2 foundational representation without human labels.
+
+  - model_id: dinov3_nextgen_foundation
+    model_version: "3.0.0"
+    expert_pool: foundation
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/dinov3_large.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: nextgen_visual_representation
+    parameters_m: 300.0
+    vram_mb: 8800
+    latency_ms_cpu: 2400.0
+    latency_ms_gpu: 36.0
+    fallback_target: yolov8n_pretrained_baseline
+    license: Apache-2.0
+    notes: Advanced self-supervised foundation model with linear attention scales.
+
+  - model_id: clip_vit_b32
+    model_version: "1.0.0"
+    expert_pool: foundation
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/clip_vitb32.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: zero_shot_multimodal_alignment
+    parameters_m: 151.0
+    vram_mb: 3600
+    latency_ms_cpu: 620.0
+    latency_ms_gpu: 16.0
+    fallback_target: yolov8n_pretrained_baseline
+    license: MIT
+    notes: OpenAI CLIP zero-shot text-to-image classification and tactical retrieval.
+
+  - model_id: siglip_2_so400m
+    model_version: "2.0.0"
+    expert_pool: foundation
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/siglip2.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: multilingual_vision_language_pretraining
+    parameters_m: 400.0
+    vram_mb: 9200
+    latency_ms_cpu: 2900.0
+    latency_ms_gpu: 44.0
+    fallback_target: yolov8n_pretrained_baseline
+    license: Apache-2.0
+    notes: Google SigLIP 2 with sigmoid loss, superior text-image grounding at scale.
+
+  - model_id: depth_anything_v2_vit_s
+    model_version: "2.0.0"
+    expert_pool: foundation
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/depth_anything_v2_vits.onnx
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: monocular_metric_depth_estimation
+    parameters_m: 24.8
+    vram_mb: 1800
+    latency_ms_cpu: 180.0
+    latency_ms_gpu: 6.5
+    fallback_target: yolov8n_pretrained_baseline
+    license: Apache-2.0
+    notes: Instant monocular metric 3D depth maps to calculate target distance from border line.
+
+  - model_id: vggt_visual_geometry_grounded
+    model_version: "1.0.0"
+    expert_pool: foundation
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: models/vggt.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: visual_geometry_grounded_transformer
+    parameters_m: 180.0
+    vram_mb: 6800
+    latency_ms_cpu: 1800.0
+    latency_ms_gpu: 28.0
+    fallback_target: yolov8n_pretrained_baseline
+    license: MIT
+    notes: End-to-end 3D scene geometry from multi-view uncalibrated cameras.
+
+  - model_id: moge_monocular_geometry
+    model_version: "1.0.0"
+    expert_pool: foundation
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/moge.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: accurate_monocular_geometry_estimation
+    parameters_m: 65.0
+    vram_mb: 2800
+    latency_ms_cpu: 410.0
+    latency_ms_gpu: 12.8
+    fallback_target: yolov8n_pretrained_baseline
+    license: Apache-2.0
+    notes: Recovers normal surfaces, camera intrinsics, and metric depth from single frame.
+
+  # ----------------------------------------------------------------------------
+  # 12. ANPR / VEHICLE INTELLIGENCE EXPERT POOL
+  # ----------------------------------------------------------------------------
+  - model_id: fast_plate_anpr_baseline
+    model_version: "1.0.0"
+    expert_pool: anpr
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: services/anpr/anpr_pipeline.py
+    status: PRODUCTION
+    installed: true
+    task: indian_hsrp_plate_reader
+    parameters_m: 1.2
+    vram_mb: 150
+    latency_ms_cpu: 28.0
+    latency_ms_gpu: 3.5
+    fallback_target: null
+    license: MIT
+    notes: Active production ANPR pipeline for Indian license plates with heuristic OCR.
+
+  - model_id: vehicle_attr_net
+    model_version: "1.0.0"
+    expert_pool: anpr
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/vehicle_attr.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: vehicle_make_model_color_chassis
+    parameters_m: 18.0
+    vram_mb: 1600
+    latency_ms_cpu: 140.0
+    latency_ms_gpu: 5.8
+    fallback_target: fast_plate_anpr_baseline
+    license: Apache-2.0
+    notes: Classifies make, model, color, chassis type, and military vs civilian vehicle.
+
+  - model_id: corner_plate_detector
+    model_version: "1.0.0"
+    expert_pool: anpr
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/corner_plate.onnx
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: skewed_quadrilateral_plate_localization
+    parameters_m: 4.5
+    vram_mb: 600
+    latency_ms_cpu: 48.0
+    latency_ms_gpu: 2.8
+    fallback_target: fast_plate_anpr_baseline
+    license: MIT
+    notes: 4-corner polygon detection correcting perspective distortion up to 70 degrees.
+
+  - model_id: night_plate_enhancer
+    model_version: "1.0.0"
+    expert_pool: anpr
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: models/night_plate.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: headlamp_glare_reduction_ocr
+    parameters_m: 2.1
+    vram_mb: 300
+    latency_ms_cpu: 32.0
+    latency_ms_gpu: 2.1
+    fallback_target: fast_plate_anpr_baseline
+    license: MIT
+    notes: Suppresses headlight glare and retroreflective blooming on license plates.
+
+  # ----------------------------------------------------------------------------
+  # 13. INDIAN AI / INDIC LANGUAGE LAYER
+  # ----------------------------------------------------------------------------
+  - model_id: local_indic_regex_transcriber_baseline
+    model_version: "1.0.0"
+    expert_pool: indian_ai
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: services/agents/local_agents.py
+    status: PRODUCTION
+    installed: true
+    task: indic_tactical_alert_translation
+    parameters_m: 0.0
+    vram_mb: 15
+    latency_ms_cpu: 1.2
+    latency_ms_gpu: 0.2
+    fallback_target: null
+    license: MIT
+    notes: Active production multi-language tactical dispatcher (English, Hindi, Punjabi).
+
+  - model_id: krutrim_sovereign_llm
+    model_version: "1.0.0"
+    expert_pool: indian_ai
+    hardware_tier: SOVEREIGN_CLOUD
+    artifact_path: cloud_gateway/krutrim_api
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: sovereign_indian_intelligence_reasoning
+    parameters_m: 22000.0
+    vram_mb: 48000
+    latency_ms_cpu: 38000.0
+    latency_ms_gpu: 420.0
+    fallback_target: local_indic_regex_transcriber_baseline
+    license: Commercial/Gov
+    notes: Sovereign foundational multimodal AI developed in India.
+
+  - model_id: bhashini_national_api
+    model_version: "2.0.0"
+    expert_pool: indian_ai
+    hardware_tier: SOVEREIGN_CLOUD
+    artifact_path: cloud_gateway/bhashini_api
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: national_multilingual_speech_and_text
+    parameters_m: 1000.0
+    vram_mb: 4000
+    latency_ms_cpu: 1500.0
+    latency_ms_gpu: 80.0
+    fallback_target: local_indic_regex_transcriber_baseline
+    license: MeitY National Open Data
+    notes: Government of India official translation across 22 scheduled Indian languages.
+
+  - model_id: ai4bharat_indic_trans2
+    model_version: "2.0.0"
+    expert_pool: indian_ai
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: models/indictrans2.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: neural_machine_translation_for_indic
+    parameters_m: 1000.0
+    vram_mb: 4500
+    latency_ms_cpu: 1800.0
+    latency_ms_gpu: 65.0
+    fallback_target: local_indic_regex_transcriber_baseline
+    license: MIT
+    notes: Open-source state-of-the-art neural translation across all 22 Indic languages.
+
+  - model_id: ai4bharat_indic_bert
+    model_version: "1.0.0"
+    expert_pool: indian_ai
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: models/indic_bert.onnx
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: multilingual_indic_nlp_understanding
+    parameters_m: 110.0
+    vram_mb: 850
+    latency_ms_cpu: 120.0
+    latency_ms_gpu: 6.2
+    fallback_target: local_indic_regex_transcriber_baseline
+    license: MIT
+    notes: Pretrained ALBERT/BERT for tactical query intent parsing in Hindi, Bengali, etc.
+
+  - model_id: indic_language_embeddings
+    model_version: "1.0.0"
+    expert_pool: indian_ai
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: models/indic_embeddings.pt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: cross_lingual_tactical_embeddings
+    parameters_m: 25.0
+    vram_mb: 400
+    latency_ms_cpu: 35.0
+    latency_ms_gpu: 3.1
+    fallback_target: local_indic_regex_transcriber_baseline
+    license: Apache-2.0
+    notes: Vector embeddings aligning operational directives across Punjabi, Hindi, and English.
+
+  # ----------------------------------------------------------------------------
+  # 14. EDGE / NVIDIA AI RUNTIME STACK
+  # ----------------------------------------------------------------------------
+  - model_id: onnx_runtime_cpu_baseline
+    model_version: "1.19.0"
+    expert_pool: edge_stack
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: system/onnxruntime
+    status: PRODUCTION
+    installed: true
+    task: cross_platform_inference_engine
+    parameters_m: 0.0
+    vram_mb: 50
+    latency_ms_cpu: 1.0
+    latency_ms_gpu: 0.2
+    fallback_target: null
+    license: MIT
+    notes: Active production ONNX Runtime execution engine on Dell Intel CPU.
+
+  - model_id: openvino_2025_intel_runtime
+    model_version: "2025.1.0"
+    expert_pool: edge_stack
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: system/openvino
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: intel_hardware_accelerator
+    parameters_m: 0.0
+    vram_mb: 100
+    latency_ms_cpu: 0.8
+    latency_ms_gpu: 0.2
+    fallback_target: onnx_runtime_cpu_baseline
+    license: Apache-2.0
+    notes: Intel OpenVINO runtime targeting Tiger Lake Intel Core i3 UHD Graphics.
+
+  - model_id: executorch_edge_runtime
+    model_version: "0.3.0"
+    expert_pool: edge_stack
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: system/executorch
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: pytorch_on_device_runtime
+    parameters_m: 0.0
+    vram_mb: 30
+    latency_ms_cpu: 1.1
+    latency_ms_gpu: 0.3
+    fallback_target: onnx_runtime_cpu_baseline
+    license: BSD-3-Clause
+    notes: Highly portable PyTorch on-device runtime for field mobile hand-helds.
+
+  - model_id: llama_cpp_quantized_engine
+    model_version: "b3500"
+    expert_pool: edge_stack
+    hardware_tier: CPU_LIGHTWEIGHT
+    artifact_path: system/llama_cpp
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: gguf_quantized_llm_runner
+    parameters_m: 0.0
+    vram_mb: 200
+    latency_ms_cpu: 25.0
+    latency_ms_gpu: 4.0
+    fallback_target: onnx_runtime_cpu_baseline
+    license: MIT
+    notes: Native C++ quantized GGUF inference running 4-bit LLMs on laptop RAM.
+
+  - model_id: nvidia_cuda_12_runtime
+    model_version: "12.4"
+    expert_pool: edge_stack
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: system/cuda
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: nvidia_parallel_compute_platform
+    parameters_m: 0.0
+    vram_mb: 500
+    latency_ms_cpu: 0.0
+    latency_ms_gpu: 0.1
+    fallback_target: onnx_runtime_cpu_baseline
+    license: NVIDIA Proprietary
+    notes: Target runtime when deploying to RTX 3050 Laptop GPU.
+
+  - model_id: nvidia_tensorrt_10
+    model_version: "10.3"
+    expert_pool: edge_stack
+    hardware_tier: GPU_MIDRANGE
+    artifact_path: system/tensorrt
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: high_performance_deep_learning_inference
+    parameters_m: 0.0
+    vram_mb: 600
+    latency_ms_cpu: 0.0
+    latency_ms_gpu: 0.1
+    fallback_target: onnx_runtime_cpu_baseline
+    license: NVIDIA Proprietary
+    notes: NVIDIA TensorRT compiler achieving 3x-5x speedups via INT8/FP16 kernel fusion.
+
+  - model_id: nvidia_tensorrt_llm
+    model_version: "0.12.0"
+    expert_pool: edge_stack
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: system/tensorrt_llm
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: accelerated_llm_vlm_serving
+    parameters_m: 0.0
+    vram_mb: 2000
+    latency_ms_cpu: 0.0
+    latency_ms_gpu: 0.2
+    fallback_target: onnx_runtime_cpu_baseline
+    license: NVIDIA Proprietary
+    notes: In-flight batching and paged attention for frontier vision-language models.
+
+  - model_id: nvidia_deepstream_7_0
+    model_version: "7.0.0"
+    expert_pool: edge_stack
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: system/deepstream
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: multi_stream_iva_pipeline
+    parameters_m: 0.0
+    vram_mb: 3000
+    latency_ms_cpu: 0.0
+    latency_ms_gpu: 0.3
+    fallback_target: onnx_runtime_cpu_baseline
+    license: NVIDIA Proprietary
+    notes: Multi-stream intelligent video analytics pipeline for 64+ concurrent cameras.
+
+  - model_id: triton_inference_server
+    model_version: "24.08"
+    expert_pool: edge_stack
+    hardware_tier: GPU_ENTERPRISE
+    artifact_path: system/triton
+    status: REGISTERED_NOT_INSTALLED
+    installed: false
+    task: multi_framework_model_orchestration
+    parameters_m: 0.0
+    vram_mb: 1500
+    latency_ms_cpu: 0.0
+    latency_ms_gpu: 0.2
+    fallback_target: onnx_runtime_cpu_baseline
+    license: BSD-3-Clause
+    notes: Scalable dynamic batching microservice serving PyTorch, ONNX, and TensorRT.

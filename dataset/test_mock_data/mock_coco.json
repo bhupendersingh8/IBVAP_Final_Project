@@ -1,0 +1,1 @@
+{"images": [{"id": 10, "file_name": "test_sample.jpg", "width": 640, "height": 480}], "annotations": [{"id": 101, "image_id": 10, "category_id": 1, "bbox": [50.0, 50.0, 100.0, 200.0], "segmentation": [[50.0, 50.0, 150.0, 50.0, 150.0, 250.0, 50.0, 250.0]], "area": 20000.0, "iscrowd": 0}], "categories": [{"id": 1, "name": "person"}]}

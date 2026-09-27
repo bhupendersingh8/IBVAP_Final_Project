@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-accent-glow: rgba(56, 189, 248, 0.25);
+    --bg-grid-color: rgba(255, 255, 255, 0.05);
+  }
+
+  body {
+    @apply antialiased transition-colors duration-300;
+  }
+
+  /* Custom Sleek Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.3);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.5);
+  }
+}
+
+/* Background Atmosphere Presets */
+.theme-cyber-aurora {
+  background: radial-gradient(circle at 15% 15%, #0f172a 0%, #070a13 50%, #04070e 100%);
+  color: #f1f5f9;
+}
+.theme-cyber-aurora .cyber-glow-1 {
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.22) 0%, transparent 70%);
+}
+.theme-cyber-aurora .cyber-glow-2 {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
+}
+.theme-cyber-aurora .cyber-glow-3 {
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, transparent 70%);
+}
+
+.theme-ocean-cobalt {
+  background: radial-gradient(circle at 20% 20%, #0c1a3a 0%, #050d20 50%, #030814 100%);
+  color: #f1f5f9;
+}
+.theme-ocean-cobalt .cyber-glow-1 {
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.28) 0%, transparent 70%);
+}
+.theme-ocean-cobalt .cyber-glow-2 {
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.22) 0%, transparent 70%);
+}
+.theme-ocean-cobalt .cyber-glow-3 {
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.18) 0%, transparent 70%);
+}
+
+.theme-emerald-defense {
+  background: radial-gradient(circle at 15% 15%, #061c16 0%, #030f0b 50%, #020806 100%);
+  color: #f1f5f9;
+}
+.theme-emerald-defense .cyber-glow-1 {
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, transparent 70%);
+}
+.theme-emerald-defense .cyber-glow-2 {
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.22) 0%, transparent 70%);
+}
+.theme-emerald-defense .cyber-glow-3 {
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.18) 0%, transparent 70%);
+}
+
+.theme-sunset-recon {
+  background: radial-gradient(circle at 20% 20%, #1e1022 0%, #110714 50%, #080309 100%);
+  color: #f1f5f9;
+}
+.theme-sunset-recon .cyber-glow-1 {
+  background: radial-gradient(circle, rgba(244, 63, 94, 0.25) 0%, transparent 70%);
+}
+.theme-sunset-recon .cyber-glow-2 {
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, transparent 70%);
+}
+.theme-sunset-recon .cyber-glow-3 {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.20) 0%, transparent 70%);
+}
+
+.theme-radiant-light {
+  background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 35%, #f5f3ff 70%, #ecfdf5 100%);
+  color: #0f172a;
+}
+.theme-radiant-light .cyber-glow-1 {
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, transparent 70%);
+}
+.theme-radiant-light .cyber-glow-2 {
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.22) 0%, transparent 70%);
+}
+.theme-radiant-light .cyber-glow-3 {
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.20) 0%, transparent 70%);
+}
+
+/* High-tech Cyber Grid Texture */
+.cyber-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
+.theme-radiant-light .cyber-grid {
+  background-image: 
+    linear-gradient(to right, rgba(99, 102, 241, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(99, 102, 241, 0.06) 1px, transparent 1px);
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  @apply backdrop-blur-xl transition-all duration-200;
+}
+.dark .glass-panel {
+  background-color: rgba(15, 23, 42, 0.65);
+  border-color: rgba(51, 65, 85, 0.6);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+.theme-radiant-light .glass-panel {
+  background-color: rgba(255, 255, 255, 0.82);
+  border-color: rgba(226, 232, 240, 0.85);
+  box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.08);
+}
+
+/* HUD Corner Accents for Video & Panels */
+.hud-corner {
+  position: relative;
+}
+.hud-corner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid rgba(56, 189, 248, 0.7);
+  border-left: 2px solid rgba(56, 189, 248, 0.7);
+  pointer-events: none;
+}
+.hud-corner::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid rgba(56, 189, 248, 0.7);
+  border-right: 2px solid rgba(56, 189, 248, 0.7);
+  pointer-events: none;
+}
+

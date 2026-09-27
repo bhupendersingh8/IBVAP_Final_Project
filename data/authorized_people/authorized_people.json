@@ -1,0 +1,82 @@
+[
+  {
+    "id": "AUTH-001",
+    "name": "Piyush",
+    "role": "Border Security Officer",
+    "department": "BSF Sector Alpha",
+    "image_file": "WIN_20260908_13_47_40_Pro.jpg",
+    "status": "authorized",
+    "notes": "Verified Primary Personnel",
+    "created_at": ""
+  },
+  {
+    "id": "AUTH-002",
+    "name": "Piyush (Angle 2)",
+    "role": "Border Security Officer",
+    "department": "BSF Sector Alpha",
+    "image_file": "WIN_20260908_13_47_43_Pro.jpg",
+    "status": "authorized",
+    "notes": "Verified Reference Angle 2",
+    "created_at": ""
+  },
+  {
+    "id": "AUTH-003",
+    "name": "Authorized Officer (Primary)",
+    "role": "Border Security Officer",
+    "department": "BSF Sector Alpha",
+    "image_file": "authorized_officer_(primary)_1788976995.jpg",
+    "status": "authorized",
+    "notes": "Captured live from operator viewport",
+    "created_at": "2026-09-09T18:03:15Z"
+  },
+  {
+    "id": "AUTH-004",
+    "name": "Authorized Officer (Primary)",
+    "role": "Border Security Officer",
+    "department": "BSF Sector Alpha",
+    "image_file": "authorized_officer_(primary)_1788977017.jpg",
+    "status": "authorized",
+    "notes": "Captured live from operator viewport",
+    "created_at": "2026-09-09T18:03:37Z"
+  },
+  {
+    "id": "AUTH-005",
+    "name": "Authorized Officer (Primary)",
+    "role": "Border Security Officer",
+    "department": "BSF Sector Alpha",
+    "image_file": "authorized_officer_(primary)_1788977037.jpg",
+    "status": "authorized",
+    "notes": "Captured live from operator viewport",
+    "created_at": "2026-09-09T18:03:57Z"
+  },
+  {
+    "id": "AUTH-006",
+    "name": "Authorized Officer (Primary)",
+    "role": "Border Security Officer",
+    "department": "BSF Sector Alpha",
+    "image_file": "authorized_officer_(primary)_1789017330.jpg",
+    "status": "authorized",
+    "notes": "Captured live from operator viewport",
+    "created_at": "2026-09-10T05:15:30Z"
+  },
+  {
+    "id": "AUTH-007",
+    "name": "Authorized Officer (Primary)",
+    "role": "Border Security Officer",
+    "department": "BSF Sector Alpha",
+    "image_file": "authorized_officer_(primary)_1789018088.jpg",
+    "status": "authorized",
+    "notes": "Captured live from operator viewport",
+    "created_at": "2026-09-10T05:28:08Z"
+  },
+  {
+    "id": "AUTH-008",
+    "name": "Authorized Officer (Primary)",
+    "role": "Border Security Officer",
+    "department": "BSF Sector Alpha",
+    "image_file": "authorized_officer_(primary)_1789031519.jpg",
+    "status": "authorized",
+    "notes": "Captured live from operator viewport",
+    "created_at": "2026-09-10T09:11:59Z"
+  }
+]

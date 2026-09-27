@@ -1,0 +1,14 @@
+# configs/anpr.yaml
+# Authoritative configuration for Vehicle Analytics and License Plate Recognition (ANPR)
+
+anpr:
+  enabled: true
+  min_plate_confidence: 0.40
+  min_ocr_confidence: 0.50
+  min_plate_width: 35
+  min_plate_height: 12
+  ocr_interval_seconds: 1.0
+  plate_detection_interval_seconds: 0.5
+  anpr_cooldown_seconds: 20.0
+  ocr_engine: "easyocr"
+  min_consistent_frames: 2

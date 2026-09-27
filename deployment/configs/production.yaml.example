@@ -1,0 +1,41 @@
+# IBVAP Production Configuration Template
+# Rename to production.yaml and inject sensitive parameters via environment variables
+
+system:
+  environment: "production"
+  log_level: "INFO"
+  worker_concurrency: 4
+
+backend:
+  host: "0.0.0.0"
+  port: 8000
+  api_prefix: "/api/v1"
+  jwt_secret_env: "IBVAP_JWT_SECRET"
+  jwt_algorithm: "HS256"
+  jwt_expiration_minutes: 120
+  rate_limit_per_minute: 60
+  cors_allowed_origins:
+    - "https://surveillance.border.gov.in"
+
+database:
+  url: "postgresql+asyncpg://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
+  pool_size: 20
+  max_overflow: 10
+
+evidence:
+  storage_root: "/var/lib/ibvap/evidence"
+  retention_days: 90
+  compute_sha256: true
+  enable_hash_ledger: true
+
+ingestion:
+  gateway_rtsp_url: "rtsp://127.0.0.1:8554"
+  max_buffer_frames: 10
+  auto_reconnect_seconds: 3.0
+
+perception:
+  detection_engine: "YOLOAdapter"
+  model_weights: "/opt/ibvap/models/yolov8n.pt"
+  confidence_threshold: 0.35
+  input_resolution: 640
+  device: "cpu" # or "cuda:0"
