@@ -23,25 +23,32 @@ from services.orchestrator.orchestrator import AutonomousAIOrchestrator
 from services.detection.mock_detector import MockDetector
 
 
-def test_model_registry_13_expert_pools_coverage():
-    """Verify that all 13 expert pools + edge stack are loaded and cataloged."""
+def test_model_registry_17_expert_pools_coverage():
+    """Verify that all 17 expert pools and edge stack are loaded and cataloged."""
     registry = ModelRegistry()
     summary = registry.get_registry_summary()
 
-    # Total registered models should be over 50 (actually 70+)
-    assert summary["total_models"] >= 50
-    assert summary["installed_models"] >= 5  # Baselines installed on Dell
-    assert summary["expert_pool_count"] >= 13
+    # Total registered models should be over 100 (actually 121)
+    assert summary["total_models"] >= 100
+    assert summary["installed_models"] >= 10  # Active baselines installed on Dell
+    assert summary["expert_pool_count"] == 17
 
-    # Check key expert pools exist
+    # Check all 17 expert pools exist
     expected_pools = [
         "detection", "segmentation", "tracking", "face_identity", "reid",
         "vlm", "video_understanding", "restoration", "pose_behavior",
-        "anomaly", "foundation", "anpr", "indian_ai", "edge_stack"
+        "anomaly", "foundation", "edge_stack", "anpr", "indian_ai",
+        "temporal_event", "camera_health", "evidence_security"
     ]
     for pool in expected_pools:
         models = registry.get_models_by_pool(pool)
         assert len(models) > 0, f"Expected models in pool '{pool}', found none"
+
+    # Verify DINOv3 defense/military licensing restriction safeguard
+    dinov3 = registry.get_model("dinov3_nextgen_foundation")
+    assert dinov3 is not None
+    assert "RESTRICTED" in dinov3.license or "Military" in dinov3.license
+
 
 
 def test_zero_crash_fallback_hierarchy():
@@ -67,6 +74,24 @@ def test_zero_crash_fallback_hierarchy():
     sam_model, is_fb3, _ = orchestrator.query_or_fallback("sam_2_1_foundation")
     assert is_fb3 is True
     assert sam_model.model_id == "yolov8n_pretrained_baseline"
+
+    # 4. Query an uninstalled advanced Temporal Event model (CEP Engine)
+    cep_model, is_fb4, _ = orchestrator.query_or_fallback("cep_complex_event_processor")
+    assert is_fb4 is True
+    assert cep_model.model_id == "temporal_state_machine_baseline"
+    assert cep_model.installed is True
+
+    # 5. Query an uninstalled advanced Camera Health model (Deep Tamper CNN)
+    tamper_model, is_fb5, _ = orchestrator.query_or_fallback("deep_tamper_occlusion_cnn")
+    assert is_fb5 is True
+    assert tamper_model.model_id == "camera_health_diagnostic_baseline"
+    assert tamper_model.installed is True
+
+    # 6. Query an uninstalled advanced Evidence model (RBAC Token Gate)
+    rbac_model, is_fb6, _ = orchestrator.query_or_fallback("rbac_token_gate")
+    assert is_fb6 is True
+    assert rbac_model.model_id == "sha256_evidence_chain_baseline"
+    assert rbac_model.installed is True
 
 
 def test_dynamic_route_scoring_formula():

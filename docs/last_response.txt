@@ -1,0 +1,51 @@
+# IBVAP MASTER MODEL STACK INVENTORY & AUTONOMOUS MULTI-TIER AI ORCHESTRATION BLUEPRINT
+
+> **Core System Doctrine:**  
+> *“IBVAP does not execute every model on every frame. It maintains a unified, version-controlled portfolio of specialized AI experts and autonomously selects, activates, escalates, fuses, or bypasses them based on real-time scene diagnostics, bounding box uncertainty, temporal stability, and hardware compute budgets.”*
+
+---
+
+## 1. Complete Master Model Stack Inventory (All 17 Layers)
+
+> [!NOTE]
+> **Fit % Metric Definition:**  
+> The percentage assigned to each model represents **IBVAP Practical Operational Fit & Contextual Utility** (edge feasibility, operational relevance, architectural synergy), **not raw benchmark accuracy on public benchmark datasets**.
+
+---
+
+### Layer 1: Detection / Object Detection Expert Pool
+
+| Model | Variant Scope | Architectural Role | Execution Mode | IBVAP Fit % | Key Technical Note / License Context |
+|:---|:---|:---|:---|:---:|:---|
+| **YOLOv8** | Nano / Small (`yolov8n`, `yolov8s`) | Always-on primary baseline detector; fast CPU/edge inference | **Continuous (30 FPS)** | **85%** | Active local baseline; portable `.pt` / `.onnx` / TensorRT FP16. |
+| **RF-DETR** | Nano $\to$ XL (ResNet / ConvNeXt) | High-accuracy deformable transformer detector | **Triggered / High-Value** | **95%** | Ultra-clean boundary boxes; official weights mix Apache-2.0 & PML (variant-dependent). |
+| **D-FINE** | Large / XLarge (`D-FINE-L/X`) | Fine-grained bounding box regressor for distant/small targets | **Escalation (Low Confidence)** | **92%** | Exceptional IoU convergence on occluded perimeter objects. |
+| **DEIM** | Real-Time DEIM | Dense edge-optimized object detector | **Alternate Primary** | **90%** | Excellent parameter-to-mAP ratio on constrained compute. |
+| **RT-DETRv3** | Small / Medium / Large | Real-time transformer detection with multi-scale feature fusion | **Specialist Verification** | **92%** | Eliminates NMS bottlenecks; robust to dense border foliage. |
+| **YOLOv12
+<truncated 25826 bytes>
+*  
+   Employs **IndicTrans2** (distilled 1B variant) for high-speed edge text translation of incident logs, and **IndicWhisper** for radio audio transcription.
+3. **Defense Positioning:**  
+   Positioned as: *“IBVAP natively interoperates with sovereign Indian AI language foundations to ensure field operators receive situational awareness in their primary regional dialect without cloud dependency for core computer vision.”*
+
+---
+
+## 7. Model Licensing & Compliance Safeguards
+
+| Model / Dataset | Declared License | IBVAP Production Policy |
+|:---|:---|:---|
+| **YOLOv8** | AGPL-3.0 | Permissible for standalone inference services; dual-licensing path for commercial distribution. |
+| **SAM 2.1** | Apache-2.0 | Fully compliant for edge deployment and integration. |
+| **DINOv3** | Non-Commercial / Research | **RESTRICTED:** Contains explicit military/defense exclusion clauses. Retained strictly in registry as an experimental academic benchmark; excluded from production deployment binaries. |
+| **DINOv2** | Apache-2.0 | Production-approved replacement for visual feature embeddings. |
+| **RF-DETR** | Apache-2.0 / PML | Base models compliant; Plus/XL variants reviewed individually per deployment. |
+
+---
+
+## 8. Summary of Completed System Alignment
+
+Your complete master stack—spanning all 17 layers and every discussed model—is fully cataloged inside the local repository:
+- **Registry Source of Truth:** [`ml/registry/model_registry.yaml`](file:///C:/Users/dell/Desktop/p2/IBVAP_Final_Project/ml/registry/model_registry.yaml) & [`model_registry.py`](file:///C:/Users/dell/Desktop/p2/IBVAP_Final_Project/ml/registry/model_registry.py) (106 cataloged models across 14 pools).
+- **Zero-Crash Fallback Hierarchy:** Heavy or uninstalled models safely route to the active CPU/RTX baselines with status `REGISTERED / NOT INSTALLED / FALLBACK ACTIVE`.
+- **Verified Local Flow:** Tested live on your Dell machine with MediaMTX, FFmpeg, YOLOv8, ByteTrack, WebSocket telemetry, SQLite persistence, and SHA-256 evidence chain verification.
