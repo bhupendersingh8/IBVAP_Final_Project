@@ -264,7 +264,9 @@ if os.path.exists(frontend_dist):
             if full_path == reserved or full_path.startswith(f"{reserved}/"):
                 raise HTTPException(status_code=404, detail="Not Found")
         
-        target = os.path.join(frontend_dist, full_path)
+        target = os.path.abspath(os.path.join(frontend_dist, full_path))
+        if not target.startswith(frontend_dist):
+            raise HTTPException(status_code=403, detail="Forbidden")
         if full_path and os.path.isfile(target):
             return FileResponse(target)
         

@@ -35,6 +35,7 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
 
 async def init_db() -> None:
     """Create all tables. Safe to call multiple times."""
+    from . import models  # Ensures all ORM models are registered in Base.metadata
     from sqlalchemy import text
     async with engine.begin() as conn:
         if "sqlite" in DATABASE_URL:

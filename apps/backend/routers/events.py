@@ -56,6 +56,42 @@ async def list_incidents(
         incidents.append(IncidentResponse(**inc_dict))
 
     return incidents
+ 
+@router.get("/incidents/{incident_id}", response_model=IncidentResponse)
+async def get_incident(
+    incident_id: str,
+    db: AsyncSession = Depends(get_db),
+    user: dict = Depends(require_permission(Permission.VIEW_INCIDENTS))
+):
+    """Retrieve details for a specific incident by ID."""
+    query = select(Incident, Event.explanation, Event.track_id).outerjoin(
+        Event, Incident.event_id == Event.id
+    ).where(Incident.id == incident_id)
+    result = await db.execute(query)
+    row = result.first()
+    if not row:
+        raise HTTPException(status_code=404, detail="Incident not found")
+
+    inc, explanation, track_id = row
+    ts = inc.timestamp
+    if ts and ts.tzinfo is None:
+        ts = ts.replace(tzinfo=timezone.utc)
+    return IncidentResponse(
+        id=inc.id,
+        camera_id=inc.camera_id,
+        timestamp=ts,
+        event_type=inc.event_type,
+        severity=inc.severity,
+        confidence=inc.confidence,
+        track_id=track_id,
+        explanation=explanation or f"{inc.event_type} on {inc.camera_id}",
+        evidence_reference=inc.evidence_reference,
+        sha256=inc.sha256,
+        status=inc.status or ("ACKNOWLEDGED" if inc.acknowledged else "NEW"),
+        acknowledged=inc.acknowledged,
+        acknowledged_by=inc.acknowledged_by,
+        acknowledged_at=inc.acknowledged_at
+    )
 
 @router.post("/incidents/{incident_id}/status", response_model=SuccessResponse)
 async def update_incident_status(
