@@ -2,6 +2,7 @@ from .night_enhancer import NightVisionEnhancer, NightEnhancementResult, NightMo
 from .clahe_enhancer import CLAHEEnhancer
 from .quality_assessor import QualityAssessor, FrameQuality
 from .pipeline import PreprocessingPipeline
+from .motion_detector import AdaptiveFrameSkipper, MotionEvaluationResult
 
 __all__ = [
     "NightVisionEnhancer",
@@ -10,5 +11,7 @@ __all__ = [
     "CLAHEEnhancer",
     "QualityAssessor",
     "FrameQuality",
-    "PreprocessingPipeline"
+    "PreprocessingPipeline",
+    "AdaptiveFrameSkipper",
+    "MotionEvaluationResult"
 ]

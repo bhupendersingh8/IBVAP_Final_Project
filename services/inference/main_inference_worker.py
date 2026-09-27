@@ -39,7 +39,7 @@ from services.anpr.anpr_pipeline import ANPRPipeline
 from services.evidence.hash_chain import HashChainLedger
 from services.evidence.retention_manager import EvidenceRetentionManager
 from services.tracking.remembrance_store import LongTermRemembranceStore
-from services.preprocessing import NightVisionEnhancer, NightEnhancementResult
+from services.preprocessing import NightVisionEnhancer, NightEnhancementResult, AdaptiveFrameSkipper
 from services.rules.temporal_event_engine import (
     TemporalEventEngine,
     TemporalEngineConfig,
@@ -202,6 +202,13 @@ class MainInferenceWorker:
         # Anti-spam cooldown per track: track_id -> timestamp
         self.cooldowns: Dict[int, float] = {}
         self.cooldown_period_sec = 15.0
+
+        # Adaptive Frame Skipping & Motion Gating (Phase 6 Performance Architecture)
+        self.frame_skipper = AdaptiveFrameSkipper(
+            motion_threshold=0.005,
+            pixel_diff_threshold=22,
+            max_consecutive_skips=15
+        )
 
         # Telemetry metrics
         self.frames_received = 0
@@ -724,6 +731,23 @@ class MainInferenceWorker:
                 except Exception as e:
                     logger.debug("Night vision enhancement failed", error=str(e))
 
+
+                # Adaptive Frame Skipping / Motion Gating Check (Phase 6)
+                motion_res = self.frame_skipper.evaluate(frame)
+                if motion_res.should_skip_inference:
+                    # Static scene: skip expensive deep model inference
+                    batch = DetectionBatch(
+                        camera_id=self.camera_id,
+                        frame_id=frame_id,
+                        timestamp=now_ts,
+                        detections=[]
+                    )
+                    tracking_result = self.tracker.update(batch)
+                    t_inference_ms = motion_res.elapsed_ms
+                    self.last_latency_ms = t_inference_ms
+                    await self._broadcast_live_telemetry(tracking_result, batch, t_inference_ms)
+                    await asyncio.sleep(0.01)
+                    continue
 
                 t0 = time.time()
 
