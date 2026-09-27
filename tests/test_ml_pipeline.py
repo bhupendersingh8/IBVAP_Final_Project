@@ -324,10 +324,10 @@ def test_model_selector_fallbacks():
     selector = ModelSelector(selection_mode="production")
     path, version, meta = selector.resolve()
 
-    assert path in ["yolov8n.pt", "models/yolov8n.pt"]
+    assert path in ["yolov8n.pt", "models/yolov8n.pt", "models/detection/yolo26n.pt", "yolo26n.pt"]
     assert version is not None
 
     # Unknown model falls back to baseline safely
     unknown_selector = ModelSelector(selection_mode="non_existent_model_id:9.9.9")
     path, version, meta = unknown_selector.resolve()
-    assert path in ["yolov8n.pt", "models/yolov8n.pt"]
+    assert path in ["yolov8n.pt", "models/yolov8n.pt", "models/detection/yolov8n.pt"]

@@ -182,7 +182,21 @@ models:
   latency_ms_gpu: 45.0
   fallback_target: yolov8n_pretrained_baseline
   license: Commercial/Research
-  notes: Open-vocabulary promptable detector for zero-shot threat recognition.
+- model_id: yolo11n_seg_primary
+  model_version: 1.0.0
+  expert_pool: segmentation
+  hardware_tier: CPU_LIGHTWEIGHT
+  artifact_path: models/segmentation/yolo11n-seg.pt
+  status: PRODUCTION
+  installed: true
+  task: real_time_instance_segmentation
+  parameters_m: 2.8
+  vram_mb: 550
+  latency_ms_cpu: 96.0
+  latency_ms_gpu: 4.2
+  fallback_target: fastsam_edge_baseline
+  license: AGPL-3.0
+  notes: Latest official Ultralytics SOTA instance segmentor. Primary production mask generator.
 - model_id: fast_sam_baseline
   model_version: 1.0.0
   expert_pool: segmentation
@@ -996,17 +1010,38 @@ models:
   fallback_target: clahe_gamma_restoration_baseline
   license: Apache-2.0
   notes: Selective state-space model for rain streak and heavy snow removal.
+- model_id: yolo11n_pose_primary
+  model_version: 1.0.0
+  expert_pool: pose_behavior
+  hardware_tier: CPU_LIGHTWEIGHT
+  artifact_path: models/pose/yolo11n-pose.pt
+  status: PRODUCTION
+  installed: true
+  task: human_keypoint_pose_estimation
+  parameters_m: 3.1
+  vram_mb: 600
+  latency_ms_cpu: 72.2
+  latency_ms_gpu: 3.8
+  classes:
+    0: nose
+    1: left_eye
+    2: right_eye
+    5: left_shoulder
+    6: right_shoulder
+  fallback_target: yolov8n_pose_baseline
+  license: AGPL-3.0
+  notes: Latest official Ultralytics SOTA pose detector. 29% faster on CPU than YOLOv8. Primary production skeleton extractor.
 - model_id: yolov8n_pose_baseline
   model_version: 1.0.0
   expert_pool: pose_behavior
   hardware_tier: CPU_LIGHTWEIGHT
-  artifact_path: yolov8n-pose.pt
-  status: PRODUCTION
+  artifact_path: models/pose/yolov8n-pose.pt
+  status: ACTIVE_BASELINE
   installed: true
   task: human_keypoint_pose_estimation
   parameters_m: 3.3
   vram_mb: 650
-  latency_ms_cpu: 58.0
+  latency_ms_cpu: 101.7
   latency_ms_gpu: 5.2
   classes:
     0: nose
@@ -1016,7 +1051,7 @@ models:
     6: right_shoulder
   fallback_target: null
   license: AGPL-3.0
-  notes: Active production 17-keypoint skeleton detector running on Dell CPU.
+  notes: Backward-compatible fallback 17-keypoint skeleton detector.
 - model_id: rtmpose_m_realtime
   model_version: 1.0.0
   expert_pool: pose_behavior

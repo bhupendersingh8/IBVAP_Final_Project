@@ -122,8 +122,8 @@ class EyeBlinkLivenessDetector:
             gray = cv2.resize(gray, (32, 24))
 
             # Night & Low-Light Adaptive Equalization
-            # If the patch is dark or low contrast (CCTV night/IR conditions), normalize dynamic range
-            if float(np.mean(gray)) < 75.0 or float(np.std(gray)) < 25.0:
+            # If the patch is dark (CCTV night/IR conditions), normalize dynamic range
+            if float(np.mean(gray)) < 75.0:
                 gray = self._eye_clahe.apply(gray)
 
             # Sobel-Y vertical gradient magnitude across the eyelid slit
@@ -247,11 +247,11 @@ class EyeBlinkLivenessDetector:
 
         event, count = state.update(avg_openness)
 
-        if track_id in self.track_blinks:
-            state.blink_count = self.track_blinks[track_id]
-            count = state.blink_count
-        if track_id in self.track_liveness:
-            state.is_live = self.track_liveness[track_id]
+        if track_id in self.track_blinks and count < self.track_blinks[track_id]:
+            count = self.track_blinks[track_id]
+            state.blink_count = count
+        if track_id in self.track_liveness and self.track_liveness[track_id]:
+            state.is_live = True
 
         self.track_blinks[track_id] = count
         self.track_liveness[track_id] = state.is_live
