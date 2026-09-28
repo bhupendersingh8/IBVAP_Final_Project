@@ -70,7 +70,7 @@ Start-Sleep -Seconds 3
 
 # 6. Start Frontend Dashboard
 Write-Host "[5/5] Starting React Operations Dashboard on http://localhost:5173..." -ForegroundColor Yellow
-$frontProc = Start-Process -FilePath "npm" -ArgumentList "run dev" -WorkingDirectory "apps\frontend" -PassThru -NoNewWindow
+$frontProc = Start-Process -FilePath "cmd.exe" -ArgumentList "/c npm run dev" -WorkingDirectory "apps\frontend" -PassThru -NoNewWindow
 Start-Sleep -Seconds 3
 
 # Record PIDs for clean shutdown
