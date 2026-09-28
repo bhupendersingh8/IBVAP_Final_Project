@@ -25,7 +25,7 @@ from services.ingestion.rtsp_source import RTSPSource
 from services.ingestion.webcam_source import WebcamSource
 from services.ingestion.shared_frame_buffer import SharedFrameWriter
 from services.detection.yolo_adapter import YOLOAdapter
-from services.detection.schemas import Detection, BBox
+from services.detection.schemas import Detection, BBox, DetectionBatch
 from services.detection.model_selector import ModelSelector
 from services.detection.model_orchestrator import ModelOrchestrator, HierarchicalObjectRouter
 from services.tracking.bytetrack_adapter import FallbackIoUTracker
