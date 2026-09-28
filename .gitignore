@@ -158,13 +158,16 @@ desktop.ini
 mlruns/
 mlartifacts/
 
-# ── MediaMTX ─────────────────────────────────────────────────────────────────
+# ── MediaMTX & FFmpeg ────────────────────────────────────────────────────────
 # MediaMTX binary (download separately)
 infrastructure/mediamtx/mediamtx.exe
 infrastructure/mediamtx/mediamtx
 # Actual camera config with real IPs/credentials
 infrastructure/mediamtx/mediamtx.yml
 !infrastructure/mediamtx/mediamtx.example.yml
+
+# FFmpeg binaries (large binaries >100MB; install via winget Gyan.FFmpeg or system PATH)
+infrastructure/ffmpeg/bin/*.exe
 
 # ── Benchmark & Reports ──────────────────────────────────────────────────────
 benchmark_results/
