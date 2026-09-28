@@ -1,6 +1,6 @@
 {
   "phone_camera_enabled": false,
-  "phone_camera_url": "",
+  "phone_camera_url": "http://192.168.1.5:8080/video",
   "confidence_threshold": 0.35,
   "iou_threshold": 0.45,
   "face_detection_enabled": true,

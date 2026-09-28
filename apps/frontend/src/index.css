@@ -4,154 +4,151 @@
 
 @layer base {
   :root {
-    --color-accent-glow: rgba(56, 189, 248, 0.25);
-    --bg-grid-color: rgba(255, 255, 255, 0.05);
+    --bg-dark: #050811;
+    --bg-card: rgba(10, 16, 31, 0.75);
+    --border-card: rgba(0, 240, 255, 0.15);
+    --neon-cyan: #00f0ff;
+    --neon-emerald: #00ff9d;
+    --neon-crimson: #ff0055;
+    --neon-amber: #ffb700;
+    --neon-violet: #a855f7;
   }
 
   body {
-    @apply antialiased transition-colors duration-300;
+    background-color: var(--bg-dark);
+    color: #f1f5f9;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    overflow-x: hidden;
+    @apply antialiased select-none;
   }
 
-  /* Custom Sleek Scrollbar */
+  /* Custom Sleek Tactical Scrollbar */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
   }
   ::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgba(5, 8, 17, 0.8);
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(148, 163, 184, 0.3);
+    background: rgba(0, 240, 255, 0.25);
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(148, 163, 184, 0.5);
+    background: rgba(0, 240, 255, 0.5);
+    box-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
   }
 }
 
-/* Background Atmosphere Presets */
-.theme-cyber-aurora {
-  background: radial-gradient(circle at 15% 15%, #0f172a 0%, #070a13 50%, #04070e 100%);
-  color: #f1f5f9;
-}
-.theme-cyber-aurora .cyber-glow-1 {
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.22) 0%, transparent 70%);
-}
-.theme-cyber-aurora .cyber-glow-2 {
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
-}
-.theme-cyber-aurora .cyber-glow-3 {
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, transparent 70%);
-}
-
-.theme-ocean-cobalt {
-  background: radial-gradient(circle at 20% 20%, #0c1a3a 0%, #050d20 50%, #030814 100%);
-  color: #f1f5f9;
-}
-.theme-ocean-cobalt .cyber-glow-1 {
-  background: radial-gradient(circle, rgba(37, 99, 235, 0.28) 0%, transparent 70%);
-}
-.theme-ocean-cobalt .cyber-glow-2 {
-  background: radial-gradient(circle, rgba(14, 165, 233, 0.22) 0%, transparent 70%);
-}
-.theme-ocean-cobalt .cyber-glow-3 {
-  background: radial-gradient(circle, rgba(147, 51, 234, 0.18) 0%, transparent 70%);
-}
-
-.theme-emerald-defense {
-  background: radial-gradient(circle at 15% 15%, #061c16 0%, #030f0b 50%, #020806 100%);
-  color: #f1f5f9;
-}
-.theme-emerald-defense .cyber-glow-1 {
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, transparent 70%);
-}
-.theme-emerald-defense .cyber-glow-2 {
-  background: radial-gradient(circle, rgba(20, 184, 166, 0.22) 0%, transparent 70%);
-}
-.theme-emerald-defense .cyber-glow-3 {
-  background: radial-gradient(circle, rgba(52, 211, 153, 0.18) 0%, transparent 70%);
-}
-
-.theme-sunset-recon {
-  background: radial-gradient(circle at 20% 20%, #1e1022 0%, #110714 50%, #080309 100%);
-  color: #f1f5f9;
-}
-.theme-sunset-recon .cyber-glow-1 {
-  background: radial-gradient(circle, rgba(244, 63, 94, 0.25) 0%, transparent 70%);
-}
-.theme-sunset-recon .cyber-glow-2 {
-  background: radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, transparent 70%);
-}
-.theme-sunset-recon .cyber-glow-3 {
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.20) 0%, transparent 70%);
-}
-
-.theme-radiant-light {
-  background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 35%, #f5f3ff 70%, #ecfdf5 100%);
-  color: #0f172a;
-}
-.theme-radiant-light .cyber-glow-1 {
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, transparent 70%);
-}
-.theme-radiant-light .cyber-glow-2 {
-  background: radial-gradient(circle, rgba(167, 139, 250, 0.22) 0%, transparent 70%);
-}
-.theme-radiant-light .cyber-glow-3 {
-  background: radial-gradient(circle, rgba(52, 211, 153, 0.20) 0%, transparent 70%);
-}
-
-/* High-tech Cyber Grid Texture */
-.cyber-grid {
-  background-size: 32px 32px;
+/* Tactical AI Neon & Cyber Matrix Styling */
+.cyber-matrix-bg {
+  background-color: #050811;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-}
-.theme-radiant-light .cyber-grid {
-  background-image: 
-    linear-gradient(to right, rgba(99, 102, 241, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(99, 102, 241, 0.06) 1px, transparent 1px);
+    radial-gradient(circle at 10% 15%, rgba(0, 240, 255, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 85%, rgba(168, 85, 247, 0.07) 0%, transparent 45%),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
 }
 
-/* Glassmorphism Classes */
-.glass-panel {
-  @apply backdrop-blur-xl transition-all duration-200;
-}
-.dark .glass-panel {
-  background-color: rgba(15, 23, 42, 0.65);
-  border-color: rgba(51, 65, 85, 0.6);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-}
-.theme-radiant-light .glass-panel {
-  background-color: rgba(255, 255, 255, 0.82);
-  border-color: rgba(226, 232, 240, 0.85);
-  box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.08);
+/* Glassmorphic Tactical Panels */
+.tactical-glass {
+  background: rgba(10, 16, 31, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
 }
 
-/* HUD Corner Accents for Video & Panels */
-.hud-corner {
+.tactical-glass-hover {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tactical-glass-hover:hover {
+  border-color: rgba(0, 240, 255, 0.35);
+  box-shadow: 0 0 20px -3px rgba(0, 240, 255, 0.2);
+}
+
+/* AI Neon Glows */
+.neon-glow-cyan {
+  box-shadow: 0 0 16px -2px rgba(0, 240, 255, 0.4), inset 0 0 8px -2px rgba(0, 240, 255, 0.15);
+}
+.neon-glow-emerald {
+  box-shadow: 0 0 16px -2px rgba(0, 255, 157, 0.4), inset 0 0 8px -2px rgba(0, 255, 157, 0.15);
+}
+.neon-glow-crimson {
+  box-shadow: 0 0 20px -1px rgba(255, 0, 85, 0.5), inset 0 0 10px -2px rgba(255, 0, 85, 0.2);
+}
+.neon-glow-amber {
+  box-shadow: 0 0 16px -2px rgba(255, 183, 0, 0.4), inset 0 0 8px -2px rgba(255, 183, 0, 0.15);
+}
+
+.neon-text-cyan {
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+}
+.neon-text-emerald {
+  text-shadow: 0 0 10px rgba(0, 255, 157, 0.6);
+}
+.neon-text-crimson {
+  text-shadow: 0 0 12px rgba(255, 0, 85, 0.7);
+}
+
+/* Military HUD Corner Reticles */
+.hud-box {
   position: relative;
 }
-.hud-corner::before {
+.hud-box::before,
+.hud-box::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 10px;
-  height: 10px;
-  border-top: 2px solid rgba(56, 189, 248, 0.7);
-  border-left: 2px solid rgba(56, 189, 248, 0.7);
+  width: 8px;
+  height: 8px;
   pointer-events: none;
+  border-color: rgba(0, 240, 255, 0.6);
 }
-.hud-corner::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 10px;
-  height: 10px;
-  border-bottom: 2px solid rgba(56, 189, 248, 0.7);
-  border-right: 2px solid rgba(56, 189, 248, 0.7);
-  pointer-events: none;
+.hud-box::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.hud-box::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
 }
 
+/* Radar Pulse Animation */
+@keyframes radar-pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+.animate-radar {
+  animation: radar-pulse 3s infinite ease-in-out;
+}
+
+/* Scanning Line Effect for Video */
+.scanline-effect {
+  position: relative;
+  overflow: hidden;
+}
+.scanline-effect::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 240, 255, 0.03) 50%);
+  background-size: 100% 4px;
+  z-index: 20;
+  pointer-events: none;
+}
