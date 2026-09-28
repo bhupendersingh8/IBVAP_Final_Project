@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { 
   X, ZoomIn, ZoomOut, RotateCcw, Download, 
-  Copy, Check, ShieldCheck, Clock, Camera
+  Copy, Check, ShieldCheck, Clock
 } from 'lucide-react';
 import { playSuccessPing } from '../utils/audioAlerts';
 
 interface EvidenceLightboxModalProps {
   isOpen: boolean;
   onClose: () => void;
-  imageUrl: string;
+  imageUrl?: string;
+  snapshotUrl?: string;
   incidentTitle?: string;
   camera?: string;
+  cameraId?: string;
   timestamp?: string;
   sha256?: string | null;
 }
@@ -19,11 +21,15 @@ export const EvidenceLightboxModal: React.FC<EvidenceLightboxModalProps> = ({
   isOpen,
   onClose,
   imageUrl,
+  snapshotUrl,
   incidentTitle,
   camera,
+  cameraId,
   timestamp,
   sha256,
 }) => {
+  const actualImageUrl = imageUrl || snapshotUrl || '';
+  const actualCamera = camera || cameraId || '';
   const [zoom, setZoom] = useState(1);
   const [copied, setCopied] = useState(false);
 
@@ -39,8 +45,8 @@ export const EvidenceLightboxModal: React.FC<EvidenceLightboxModalProps> = ({
 
   const handleDownload = () => {
     const a = document.createElement('a');
-    a.href = imageUrl;
-    a.download = `evidence_${camera || 'ibvap'}_${Date.now()}.jpg`;
+    a.href = actualImageUrl;
+    a.download = `evidence_${actualCamera || 'ibvap'}_${Date.now()}.jpg`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -57,10 +63,10 @@ export const EvidenceLightboxModal: React.FC<EvidenceLightboxModalProps> = ({
           </div>
           <div>
             <h3 className="text-sm font-bold flex items-center gap-2">
-              {incidentTitle || 'Cryptographic Evidence Inspector'}
-              {camera && (
+              {incidentTitle || 'Evidence Snapshot Inspector'}
+              {actualCamera && (
                 <span className="px-2 py-0.5 rounded bg-slate-800 text-[11px] font-mono font-normal">
-                  {camera}
+                  {actualCamera}
                 </span>
               )}
             </h3>
@@ -122,7 +128,7 @@ export const EvidenceLightboxModal: React.FC<EvidenceLightboxModalProps> = ({
           style={{ transform: `scale(${zoom})` }}
         >
           <img
-            src={imageUrl}
+            src={actualImageUrl}
             alt="Evidence Capture"
             className="max-h-[70vh] max-w-[85vw] object-contain rounded-xl border border-slate-700 shadow-2xl"
           />

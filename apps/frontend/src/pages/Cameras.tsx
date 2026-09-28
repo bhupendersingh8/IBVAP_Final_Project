@@ -1,215 +1,586 @@
-import React, { useState } from 'react';
-import { useQueryClient, useMutation } from '@tanstack/react-query';
+import React, { useState, useEffect, useRef } from 'react';
 import { useCameras } from '../api/hooks';
+import { useWebSocketHub, TelemetryMessage, LiveTrack } from '../api/useWebSocketAlerts';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
 import apiClient from '../api/client';
-import { Video, Plus, Trash2, Shield, Radio, CheckCircle, Wifi, Play, X, Loader2 } from 'lucide-react';
-import { playSuccessPing } from '../utils/audioAlerts';
+import { 
+  Video, Play, Pause, Maximize2, Camera as CameraIcon, 
+  Volume2, VolumeX, Plus, Smartphone, Info, X
+} from 'lucide-react';
+import { playSuccessPing, isAudioMuted, setAudioMuted } from '../utils/audioAlerts';
+import { Zone as ZoneConfig } from '../types';
 
-export const Cameras = () => {
+export const Cameras: React.FC = () => {
   const queryClient = useQueryClient();
   const { data: cameras, isLoading } = useCameras();
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [formData, setFormData] = useState({ id: '', name: '', rtsp_url: '', scenario: 'border_perimeter' });
+  const [selectedCameraId, setSelectedCameraId] = useState<string>(() => {
+    return localStorage.getItem('ibvap_selected_camera') || 'CAM-01';
+  });
 
+  const [isPaused, setIsPaused] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
+  const [showZonesOverlay, setShowZonesOverlay] = useState(true);
+  const [muted, setMuted] = useState(isAudioMuted());
+  const [telemetry, setTelemetry] = useState<TelemetryMessage | null>(null);
+  const [zones, setZones] = useState<ZoneConfig[]>([]);
+
+  // Modals
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showMobileModal, setShowMobileModal] = useState(false);
+  const [mobileUrl, setMobileUrl] = useState('');
+  const [mobileConnecting, setMobileConnecting] = useState(false);
+  const [mobileMsg, setMobileMsg] = useState<string | null>(null);
+  const [newCamData, setNewCamData] = useState({ id: '', name: '', rtsp_url: '', scenario: 'perimeter' });
+
+  const videoContainerRef = useRef<HTMLDivElement>(null);
+
+  // Keep camera selection in sync
+  useEffect(() => {
+    if (cameras && cameras.length > 0 && !cameras.some(c => c.id === selectedCameraId)) {
+      setSelectedCameraId(cameras[0].id);
+    }
+  }, [cameras, selectedCameraId]);
+
+  // Fetch zones for selected camera
+  useEffect(() => {
+    let isMounted = true;
+    const fetchZones = async () => {
+      try {
+        const res = await fetch(`/api/v1/cameras/${selectedCameraId}/zones`);
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted) setZones(data);
+        }
+      } catch {
+        // silent fallback
+      }
+    };
+    fetchZones();
+    return () => { isMounted = false; };
+  }, [selectedCameraId]);
+
+  // Real-time telemetry via WebSocket
+  useWebSocketHub(
+    () => {},
+    (t) => {
+      if (t.camera_id === selectedCameraId || !telemetry) {
+        setTelemetry(t);
+      }
+    },
+    () => {}
+  );
+
+  const activeCamera = cameras?.find(c => c.id === selectedCameraId) || cameras?.[0];
+
+  const handleSelectCamera = (id: string) => {
+    setSelectedCameraId(id);
+    localStorage.setItem('ibvap_selected_camera', id);
+    fetch(`/api/v1/cameras/${id}/activate`, { method: 'POST' }).catch(() => {});
+  };
+
+  const handleFullscreen = () => {
+    if (!videoContainerRef.current) return;
+    if (!document.fullscreenElement) {
+      videoContainerRef.current.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  };
+
+  const handleSnapshot = () => {
+    const url = `/api/v1/cameras/${selectedCameraId}/snapshot?t=${Date.now()}`;
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${selectedCameraId}_snapshot_${Date.now()}.jpg`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    playSuccessPing();
+  };
+
+  const toggleAudio = () => {
+    const next = !muted;
+    setAudioMuted(next);
+    setMuted(next);
+    if (!next) playSuccessPing();
+  };
+
+  // Add Camera Mutation
   const addCameraMutation = useMutation({
-    mutationFn: async (newCamera: any) => {
-      const { data } = await apiClient.post('/cameras/', newCamera);
+    mutationFn: async (cam: typeof newCamData) => {
+      const { data } = await apiClient.post('/cameras/', cam);
       return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cameras'] });
       setShowAddModal(false);
-      setFormData({ id: '', name: '', rtsp_url: '', scenario: 'border_perimeter' });
+      setNewCamData({ id: '', name: '', rtsp_url: '', scenario: 'perimeter' });
       playSuccessPing();
     }
   });
 
-  const deleteCameraMutation = useMutation({
-    mutationFn: async (id: string) => {
-      await apiClient.delete(`/cameras/${id}`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cameras'] });
-      playSuccessPing();
-    }
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
+  // Mobile Connect
+  const handleConnectMobile = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.id.trim()) return;
-    addCameraMutation.mutate(formData);
+    if (!mobileUrl.trim()) return;
+    setMobileConnecting(true);
+    setMobileMsg(null);
+    try {
+      const res = await fetch('/api/v1/cameras/phone/connect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ip_webcam_url: mobileUrl.trim() })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setMobileMsg("Mobile camera stream connected successfully.");
+        playSuccessPing();
+        queryClient.invalidateQueries({ queryKey: ['cameras'] });
+        setTimeout(() => setShowMobileModal(false), 1500);
+      } else {
+        setMobileMsg(`Error: ${data.detail || 'Connection failed'}`);
+      }
+    } catch (err: any) {
+      setMobileMsg(`Connection failed: ${err.message}`);
+    } finally {
+      setMobileConnecting(false);
+    }
   };
 
   return (
-    <div className="space-y-4 max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="tactical-glass p-4 lg:p-5 rounded-2xl border border-cyan-500/20 flex flex-wrap justify-between items-center gap-4 hud-box">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-cyan-950/70 border border-cyan-400/40 text-cyan-400 neon-glow-cyan">
-            <Video size={22} />
-          </div>
-          <div>
-            <h1 className="text-lg lg:text-xl font-black text-white tracking-wide flex items-center gap-2">
-              <span>SURVEILLANCE NODE TOPOLOGY</span>
-              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
-                MEDIAMTX BUS
-              </span>
-            </h1>
-            <p className="text-xs text-slate-400 font-mono mt-0.5">
-              Active RTSP and WebRTC camera nodes connected to the IBVAP inference engine.
-            </p>
+    <div className="flex flex-col lg:flex-row gap-4 h-[calc(100vh-100px)] min-h-[600px]">
+      
+      {/* ======================================================== */}
+      {/* 1. LEFT CAMERA LIST / SELECTOR PANEL                     */}
+      {/* ======================================================== */}
+      <div className="w-full lg:w-80 flex flex-col vms-card overflow-hidden flex-shrink-0">
+        <div className="vms-card-header flex items-center justify-between">
+          <span className="flex items-center gap-1.5 font-semibold text-slate-200">
+            <Video size={14} className="text-blue-400" />
+            Camera Channels ({cameras?.length || 0})
+          </span>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setShowMobileModal(true)}
+              className="vms-btn text-[11px] py-1 px-2"
+              title="Connect mobile device camera"
+            >
+              <Smartphone size={12} /> Mobile
+            </button>
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="vms-btn vms-btn-primary text-[11px] py-1 px-2"
+              title="Add RTSP camera"
+            >
+              <Plus size={12} /> Add
+            </button>
           </div>
         </div>
 
-        <button 
-          onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 px-3.5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-mono font-bold transition-all shadow-lg shadow-cyan-600/30"
-        >
-          <Plus size={14} />
-          <span>Add Camera Node</span>
-        </button>
-      </div>
-
-      {/* Camera Grid Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {isLoading ? (
-          <div className="col-span-full text-center py-12 text-slate-500 font-mono text-xs">
-            Scanning camera topology...
-          </div>
-        ) : !cameras || cameras.length === 0 ? (
-          <div className="col-span-full tactical-glass p-8 text-center rounded-2xl border border-slate-800 text-slate-500 font-mono text-xs">
-            No camera nodes registered. Click "Add Camera Node" to register an RTSP feed.
-          </div>
-        ) : (
-          cameras.map((cam) => (
-            <div key={cam.id} className="tactical-glass p-4 rounded-xl border border-cyan-500/20 space-y-3 hud-box hover:border-cyan-400/40 transition-all">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span className="font-mono font-bold text-sm text-white">{cam.name || cam.id}</span>
-                </div>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
-                  ONLINE
-                </span>
-              </div>
-
-              {/* Stream Preview Snapshot or Icon */}
-              <div className="relative aspect-video rounded-lg overflow-hidden bg-black/80 border border-slate-800 flex items-center justify-center">
-                <iframe
-                  src={`http://127.0.0.1:8889/${cam.id}`}
-                  title={cam.id}
-                  className="w-full h-full border-0 pointer-events-none"
-                />
-                <div className="absolute bottom-2 left-2 text-[10px] font-mono bg-black/70 px-2 py-0.5 rounded text-cyan-300 border border-cyan-500/30">
-                  {cam.id}
-                </div>
-              </div>
-
-              <div className="text-[11px] font-mono text-slate-400 space-y-1">
-                <div className="flex justify-between">
-                  <span>Scenario:</span>
-                  <span className="text-slate-200">{cam.scenario}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Inference:</span>
-                  <span className="text-cyan-300">YOLO26 + ByteTrack</span>
-                </div>
-              </div>
-
-              <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
-                <a
-                  href={`http://127.0.0.1:8889/${cam.id}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
-                >
-                  <Play size={11} />
-                  <span>Open Feed</span>
-                </a>
-                <button
-                  onClick={() => deleteCameraMutation.mutate(cam.id)}
-                  className="p-1.5 rounded text-slate-500 hover:text-rose-400 transition-colors"
-                  title="Remove Camera"
-                >
-                  <Trash2 size={13} />
-                </button>
-              </div>
+        {/* Camera List */}
+        <div className="flex-1 overflow-y-auto p-2 space-y-2">
+          {isLoading ? (
+            <div className="py-8 text-center text-xs text-slate-500">Loading channels...</div>
+          ) : !cameras || cameras.length === 0 ? (
+            <div className="py-8 text-center text-xs text-slate-500 px-4">
+              No surveillance cameras found. Click "Add" to configure an RTSP feed.
             </div>
-          ))
-        )}
+          ) : (
+            cameras.map((cam) => {
+              const isSelected = cam.id === selectedCameraId;
+              const isOnline = cam.enabled !== false;
+              return (
+                <div
+                  key={cam.id}
+                  onClick={() => handleSelectCamera(cam.id)}
+                  className={`p-2.5 rounded-md border cursor-pointer transition-all flex flex-col gap-2 ${
+                    isSelected
+                      ? 'bg-blue-950/40 border-blue-500 text-white'
+                      : 'bg-[#0f172a] border-[#334155] text-slate-300 hover:bg-[#1e293b]'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${isOnline ? 'bg-emerald-500' : 'bg-slate-500'}`} />
+                      <span className="font-semibold text-xs text-slate-100">{cam.name || cam.id}</span>
+                    </div>
+                    <span className="text-[10px] text-slate-400 font-mono uppercase bg-slate-800 px-1.5 py-0.2 rounded border border-slate-700">
+                      {cam.id}
+                    </span>
+                  </div>
+
+                  {/* Thumbnail */}
+                  <div className="aspect-video bg-black/60 rounded border border-slate-800 overflow-hidden relative">
+                    <img
+                      src={`/api/v1/cameras/${cam.id}/snapshot`}
+                      alt={cam.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                    <div className="absolute bottom-1 right-1 text-[9px] font-mono bg-black/80 px-1 rounded text-slate-300">
+                      {isOnline ? 'ONLINE' : 'OFFLINE'}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between text-[11px] text-slate-400">
+                    <span>{cam.scenario || 'Perimeter Sector'}</span>
+                    <span className="text-[10px] font-mono">
+                      {isSelected && telemetry ? `${telemetry.metrics.latency_ms} ms` : 'Live'}
+                    </span>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
       </div>
 
-      {/* Add Camera Modal */}
+      {/* ======================================================== */}
+      {/* 2. MAIN LIVE VIDEO VIEWPORT & CONTROLS                   */}
+      {/* ======================================================== */}
+      <div className="flex-1 flex flex-col vms-card overflow-hidden min-w-0" ref={videoContainerRef}>
+        
+        {/* Viewport Top Header */}
+        <div className="vms-card-header flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span className="font-bold text-sm text-white">{selectedCameraId}</span>
+            <span className="text-slate-500">—</span>
+            <span className="text-xs text-slate-300 font-normal">{activeCamera?.name || 'Primary Surveillance Feed'}</span>
+          </div>
+
+          <div className="flex items-center gap-2 text-xs">
+            <button
+              onClick={() => setShowZonesOverlay(!showZonesOverlay)}
+              className={`px-2 py-1 rounded border text-[11px] font-medium transition ${
+                showZonesOverlay
+                  ? 'bg-blue-600/30 text-blue-300 border-blue-500/50'
+                  : 'bg-slate-800 text-slate-400 border-slate-700'
+              }`}
+            >
+              {showZonesOverlay ? 'Zones: Visible' : 'Zones: Hidden'}
+            </button>
+            <button
+              onClick={() => setShowDetails(!showDetails)}
+              className={`px-2 py-1 rounded border text-[11px] font-medium transition ${
+                showDetails
+                  ? 'bg-slate-700 text-white border-slate-600'
+                  : 'bg-slate-800 text-slate-400 border-slate-700'
+              }`}
+            >
+              <Info size={12} className="inline mr-1" />
+              Details
+            </button>
+          </div>
+        </div>
+
+        {/* Live Video Canvas Area */}
+        <div className="flex-1 bg-black relative flex items-center justify-center overflow-hidden">
+          {!isPaused ? (
+            <img
+              src={
+                selectedCameraId === 'CAM-01'
+                  ? 'http://127.0.0.1:8889/CAM-01'
+                  : `/api/v1/cameras/${selectedCameraId}/stream`
+              }
+              alt="Live Feed"
+              className="w-full h-full object-contain"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = `/api/v1/cameras/${selectedCameraId}/snapshot`;
+              }}
+            />
+          ) : (
+            <div className="flex flex-col items-center justify-center text-slate-500 gap-2">
+              <Pause size={32} />
+              <span className="text-xs">Stream Paused by Operator</span>
+            </div>
+          )}
+
+          {/* SVG Overlay: Restricted Zones & Tracked Objects */}
+          {showZonesOverlay && !isPaused && (
+            <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+              {/* Perimeter Zones */}
+              {zones.map((zone, zIdx) => {
+                if (!zone.points || zone.points.length < 3) return null;
+                const pointsStr = zone.points.map(p => `${p.x * 100},${p.y * 100}`).join(' ');
+                return (
+                  <g key={zone.zone_id || zIdx}>
+                    <polygon
+                      points={pointsStr}
+                      fill="rgba(239, 68, 68, 0.12)"
+                      stroke="#ef4444"
+                      strokeWidth="0.8"
+                      strokeDasharray="2 1"
+                    />
+                    <text
+                      x={zone.points[0].x * 100}
+                      y={zone.points[0].y * 100 - 1.5}
+                      fill="#f87171"
+                      fontSize="2.5"
+                      fontWeight="600"
+                    >
+                      {zone.name || 'Restricted Area'}
+                    </text>
+                  </g>
+                );
+              })}
+
+              {/* Clean Track Bounding Boxes */}
+              {telemetry?.tracks?.map((track: LiveTrack) => {
+                const bx = track.bbox.x1 * 100;
+                const by = track.bbox.y1 * 100;
+                const bw = (track.bbox.x2 - track.bbox.x1) * 100;
+                const bh = (track.bbox.y2 - track.bbox.y1) * 100;
+                const color = '#3b82f6';
+
+                return (
+                  <g key={track.track_id}>
+                    <rect
+                      x={bx}
+                      y={by}
+                      width={bw}
+                      height={bh}
+                      fill="rgba(59, 130, 246, 0.08)"
+                      stroke={color}
+                      strokeWidth="0.75"
+                    />
+                    <rect
+                      x={bx}
+                      y={by - 3.8}
+                      width={Math.max(14, (track.class_name.length + 6) * 1.6)}
+                      height="3.8"
+                      fill="#0f172a"
+                      stroke={color}
+                      strokeWidth="0.4"
+                    />
+                    <text
+                      x={bx + 1}
+                      y={by - 1.2}
+                      fill="#93c5fd"
+                      fontSize="2.2"
+                      fontWeight="500"
+                    >
+                      #{track.track_id} {track.class_name}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+          )}
+
+          {/* Pause Badge */}
+          {isPaused && (
+            <div className="absolute top-4 left-4 bg-amber-950/80 border border-amber-600 text-amber-300 text-xs px-3 py-1.5 rounded font-medium">
+              FEED PAUSED
+            </div>
+          )}
+        </div>
+
+        {/* Optional Collapsible Technical Details Panel */}
+        {showDetails && (
+          <div className="bg-[#0f172a] border-t border-[#334155] p-3 text-xs grid grid-cols-2 sm:grid-cols-4 gap-3 text-slate-300">
+            <div>
+              <span className="text-slate-500 block text-[10px] uppercase">Protocol</span>
+              <span className="font-mono">RTSP / WebRTC (MediaMTX)</span>
+            </div>
+            <div>
+              <span className="text-slate-500 block text-[10px] uppercase">Latency</span>
+              <span className="font-mono">{telemetry ? `${telemetry.metrics.latency_ms} ms` : '< 25 ms'}</span>
+            </div>
+            <div>
+              <span className="text-slate-500 block text-[10px] uppercase">Active Targets</span>
+              <span className="font-mono">{telemetry?.tracks?.length || 0} tracks</span>
+            </div>
+            <div>
+              <span className="text-slate-500 block text-[10px] uppercase">Storage Mode</span>
+              <span className="font-mono">Local Ring Buffer</span>
+            </div>
+          </div>
+        )}
+
+        {/* Bottom Control Bar */}
+        <div className="bg-[#0f172a] px-4 py-3 border-t border-[#1e293b] flex flex-wrap items-center justify-between gap-3">
+          {/* Metadata Information */}
+          <div className="flex items-center gap-4 text-xs text-slate-300">
+            <div>
+              <span className="text-slate-400">Location:</span>{' '}
+              <span className="font-medium text-slate-100">{activeCamera?.scenario || 'North Gate'}</span>
+            </div>
+            <div className="hidden sm:block">
+              <span className="text-slate-400">Resolution:</span>{' '}
+              <span className="font-mono text-slate-200">1920×1080</span>
+            </div>
+            <div className="hidden sm:block">
+              <span className="text-slate-400">FPS:</span>{' '}
+              <span className="font-mono text-slate-200">25.0</span>
+            </div>
+          </div>
+
+          {/* Operational Controls */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsPaused(!isPaused)}
+              className="vms-btn text-xs"
+              title={isPaused ? "Resume video feed" : "Pause video feed"}
+            >
+              {isPaused ? <Play size={14} className="text-emerald-400" /> : <Pause size={14} />}
+              <span>{isPaused ? 'Resume' : 'Pause'}</span>
+            </button>
+
+            <button
+              onClick={handleSnapshot}
+              className="vms-btn text-xs"
+              title="Save current frame snapshot"
+            >
+              <CameraIcon size={14} />
+              <span>Snapshot</span>
+            </button>
+
+            <button
+              onClick={toggleAudio}
+              className="vms-btn text-xs"
+              title={muted ? "Unmute alert tones" : "Mute alert tones"}
+            >
+              {muted ? <VolumeX size={14} className="text-slate-500" /> : <Volume2 size={14} className="text-blue-400" />}
+              <span className="hidden sm:inline">{muted ? 'Muted' : 'Audio'}</span>
+            </button>
+
+            <button
+              onClick={handleFullscreen}
+              className="vms-btn text-xs"
+              title="Enter fullscreen mode"
+            >
+              <Maximize2 size={14} />
+              <span className="hidden sm:inline">Fullscreen</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Modal: Add RTSP Camera */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="tactical-glass max-w-md w-full p-5 rounded-2xl border border-cyan-500/40 shadow-2xl space-y-4 hud-box">
-            <div className="flex items-center justify-between border-b border-cyan-500/20 pb-3">
-              <div className="flex items-center gap-2">
-                <Video className="text-cyan-400" size={18} />
-                <h3 className="font-bold text-sm text-white">Add Surveillance Node</h3>
-              </div>
+        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
+          <div className="bg-[#1e293b] border border-[#334155] rounded-lg max-w-md w-full p-5 space-y-4">
+            <div className="flex items-center justify-between border-b border-[#334155] pb-3">
+              <h3 className="text-sm font-semibold text-white">Register RTSP Camera Channel</h3>
               <button onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-white">
                 <X size={16} />
               </button>
             </div>
-
-            <form onSubmit={handleSubmit} className="space-y-3">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!newCamData.id) return;
+                addCameraMutation.mutate(newCamData);
+              }}
+              className="space-y-3 text-xs"
+            >
               <div>
-                <label className="text-[11px] font-mono text-slate-400">Camera ID (e.g. CAM-03):</label>
+                <label className="block text-slate-400 mb-1">Camera ID (e.g. CAM-05)</label>
                 <input
                   type="text"
                   required
-                  value={formData.id}
-                  onChange={(e) => setFormData({ ...formData, id: e.target.value.toUpperCase() })}
-                  placeholder="CAM-03"
-                  className="w-full mt-1 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400"
+                  value={newCamData.id}
+                  onChange={(e) => setNewCamData({ ...newCamData, id: e.target.value })}
+                  placeholder="CAM-05"
+                  className="w-full bg-[#0f172a] border border-[#334155] rounded px-3 py-2 text-white"
                 />
               </div>
-
               <div>
-                <label className="text-[11px] font-mono text-slate-400">Node Name:</label>
+                <label className="block text-slate-400 mb-1">Display Name</label>
                 <input
                   type="text"
                   required
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="North Watchtower PTZ"
-                  className="w-full mt-1 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-400"
+                  value={newCamData.name}
+                  onChange={(e) => setNewCamData({ ...newCamData, name: e.target.value })}
+                  placeholder="Perimeter Sector West"
+                  className="w-full bg-[#0f172a] border border-[#334155] rounded px-3 py-2 text-white"
                 />
               </div>
-
               <div>
-                <label className="text-[11px] font-mono text-slate-400">RTSP Stream URL:</label>
+                <label className="block text-slate-400 mb-1">RTSP Stream URL</label>
                 <input
                   type="text"
-                  value={formData.rtsp_url}
-                  onChange={(e) => setFormData({ ...formData, rtsp_url: e.target.value })}
-                  placeholder="rtsp://127.0.0.1:8554/CAM-03"
-                  className="w-full mt-1 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-400"
+                  value={newCamData.rtsp_url}
+                  onChange={(e) => setNewCamData({ ...newCamData, rtsp_url: e.target.value })}
+                  placeholder="rtsp://admin:pass@192.168.1.100:554/h264"
+                  className="w-full bg-[#0f172a] border border-[#334155] rounded px-3 py-2 text-white font-mono"
                 />
               </div>
-
-              <div className="flex items-center justify-end gap-2 pt-3">
+              <div className="flex justify-end gap-2 pt-3 border-t border-[#334155]">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-3 py-1.5 rounded-lg text-xs font-mono text-slate-400 hover:text-white"
+                  className="vms-btn"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={addCameraMutation.isPending}
-                  className="px-4 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-mono font-bold flex items-center gap-1.5 shadow-lg shadow-cyan-600/30"
+                  className="vms-btn vms-btn-primary"
                 >
-                  {addCameraMutation.isPending && <Loader2 size={13} className="animate-spin" />}
-                  <span>Register Node</span>
+                  {addCameraMutation.isPending ? 'Connecting...' : 'Save Camera'}
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
+
+      {/* Modal: Connect Mobile Camera */}
+      {showMobileModal && (
+        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
+          <div className="bg-[#1e293b] border border-[#334155] rounded-lg max-w-md w-full p-5 space-y-4">
+            <div className="flex items-center justify-between border-b border-[#334155] pb-3">
+              <h3 className="text-sm font-semibold text-white">Connect Mobile Video Stream</h3>
+              <button onClick={() => setShowMobileModal(false)} className="text-slate-400 hover:text-white">
+                <X size={16} />
+              </button>
+            </div>
+            <form onSubmit={handleConnectMobile} className="space-y-3 text-xs">
+              <p className="text-slate-400">
+                Stream live video from any mobile device running standard IP Webcam (Android/iOS).
+              </p>
+              <div>
+                <label className="block text-slate-400 mb-1">Stream Endpoint URL</label>
+                <input
+                  type="text"
+                  required
+                  value={mobileUrl}
+                  onChange={(e) => setMobileUrl(e.target.value)}
+                  placeholder="http://192.168.1.5:8080/video"
+                  className="w-full bg-[#0f172a] border border-[#334155] rounded px-3 py-2 text-white font-mono"
+                />
+              </div>
+              {mobileMsg && (
+                <div className={`p-2 rounded text-xs ${mobileMsg.startsWith('Error') ? 'bg-red-950/60 text-red-300' : 'bg-emerald-950/60 text-emerald-300'}`}>
+                  {mobileMsg}
+                </div>
+              )}
+              <div className="flex justify-end gap-2 pt-3 border-t border-[#334155]">
+                <button
+                  type="button"
+                  onClick={() => setShowMobileModal(false)}
+                  className="vms-btn"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={mobileConnecting}
+                  className="vms-btn vms-btn-primary"
+                >
+                  {mobileConnecting ? 'Connecting...' : 'Connect Stream'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

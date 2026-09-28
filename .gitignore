@@ -18,7 +18,9 @@ credentials/
 
 # ── Video / Image Data ───────────────────────────────────────────────────────
 # Never commit footage, datasets, or evidence to Git
-data/raw/
+data/raw/*
+!data/raw/README.md
+!data/raw/test_video.mp4
 data/processed/
 data/labeled/
 data/validation/
@@ -40,6 +42,7 @@ data/incidents/
 !apps/frontend/public/**/*.jpg
 !apps/frontend/public/**/*.ico
 !apps/frontend/public/**/*.svg
+!data/raw/test_video.mp4
 
 # ── ML Models & Weights ──────────────────────────────────────────────────────
 *.pt
@@ -174,4 +177,5 @@ temp/
 scratch/
 
 data/raw/*.mp4
+!data/raw/test_video.mp4
 demo_pids.json

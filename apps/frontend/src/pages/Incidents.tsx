@@ -1,29 +1,32 @@
 import React, { useState, useMemo } from 'react';
 import { 
-  useIncidents, useUpdateIncidentStatus, useBatchUpdateIncidentStatus 
+  useIncidents, useUpdateIncidentStatus, useBatchUpdateIncidentStatus, useAcknowledgeIncident 
 } from '../api/hooks';
-import { format } from 'date-fns';
+import { format, formatDistanceToNow } from 'date-fns';
 import { 
-  Search, AlertTriangle, CheckCircle, Clock, 
-  ShieldCheck, Lock, Eye, CheckSquare, 
-  Square, Download, FileText, Check, Filter
+  Search, Eye, Check, X, ShieldCheck
 } from 'lucide-react';
+import { Badge, BadgeVariant } from '../components/ui/Badge';
+import { StatusIndicator } from '../components/ui/StatusIndicator';
 import { EvidenceLightboxModal } from '../components/EvidenceLightboxModal';
 import { LedgerAuditModal } from '../components/LedgerAuditModal';
+import { Incident } from '../types';
 import { playSuccessPing } from '../utils/audioAlerts';
 
-export const Incidents = () => {
+export const Incidents: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [severityFilter, setSeverityFilter] = useState<string>('ALL');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
   const [selectedIncidentIds, setSelectedIncidentIds] = useState<string[]>([]);
   
-  // Modals
+  // Modals & Detail Drawer
+  const [selectedIncident, setSelectedIncident] = useState<Incident | null>(null);
   const [lightboxData, setLightboxData] = useState<{ url: string; title: string; camera: string; time: string; sha256?: string | null } | null>(null);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
 
   const { data: incidents, isLoading } = useIncidents(100, false);
   const { mutate: updateStatus } = useUpdateIncidentStatus();
+  const { mutate: acknowledge } = useAcknowledgeIncident();
   const { mutate: batchUpdateStatus, isPending: isBatchUpdating } = useBatchUpdateIncidentStatus();
 
   // Filtered incidents calculation
@@ -69,205 +72,208 @@ export const Incidents = () => {
     });
   };
 
+  const getSeverityBadgeVariant = (severity: string): BadgeVariant => {
+    switch (severity) {
+      case 'CRITICAL': return 'danger';
+      case 'HIGH': return 'danger';
+      case 'MEDIUM': return 'warning';
+      case 'LOW': return 'info';
+      default: return 'neutral';
+    }
+  };
+
   return (
     <div className="space-y-4 max-w-7xl mx-auto">
-      {/* ── Top Header & Forensic Ledger Status ──────────────────────────────── */}
-      <div className="tactical-glass p-4 lg:p-5 rounded-2xl border border-cyan-500/20 flex flex-wrap justify-between items-center gap-4 hud-box">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-cyan-950/70 border border-cyan-400/40 text-cyan-400 neon-glow-cyan">
-            <ShieldCheck size={22} />
-          </div>
-          <div>
-            <h1 className="text-lg lg:text-xl font-black text-white tracking-wide flex items-center gap-2">
-              <span>FORENSIC INCIDENT LEDGER</span>
-              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/30">
-                SEC 65B COMPLIANT
-              </span>
-            </h1>
-            <p className="text-xs text-slate-400 font-mono mt-0.5">
-              Cryptographically verified incident timeline with immutable SHA-256 Merkle hash chain.
-            </p>
-          </div>
+      
+      {/* ======================================================== */}
+      {/* 1. TOP HEADER & FILTER BAR                               */}
+      {/* ======================================================== */}
+      <div className="vms-card p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-base font-semibold text-white">Incident Management</h2>
+          <p className="text-xs text-slate-400">
+            Review, acknowledge, and audit security alerts logged across border sectors.
+          </p>
         </div>
 
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsAuditModalOpen(true)}
-            className="flex items-center gap-2 px-3.5 py-2 bg-purple-950/60 hover:bg-purple-900/60 text-purple-300 border border-purple-500/40 rounded-xl text-xs font-mono font-bold transition shadow-lg shadow-purple-950/40"
+            className="vms-btn text-xs font-medium"
+            title="Verify evidence integrity hash chain"
           >
-            <Lock size={13} className="text-purple-400" />
-            <span>Audit Hash Ledger</span>
+            <ShieldCheck size={14} className="text-emerald-400" />
+            <span>Verify Evidence Chain</span>
           </button>
         </div>
       </div>
 
-      {/* ── Filter & Search Toolbar ─────────────────────────────────────────── */}
-      <div className="tactical-glass p-3 rounded-xl border border-cyan-500/20 flex flex-wrap items-center justify-between gap-3">
-        {/* Search */}
-        <div className="relative flex-1 min-w-[240px]">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by camera, event type, or keywords..."
-            className="w-full pl-9 pr-3 py-1.5 rounded-lg bg-slate-950/60 border border-slate-700/60 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400"
-          />
+      {/* Filter and Search Controls */}
+      <div className="vms-card p-3 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div className="flex flex-wrap items-center gap-3 flex-1 min-w-[280px]">
+          {/* Search Input */}
+          <div className="relative flex-1 max-w-sm">
+            <Search size={14} className="absolute left-3 top-2.5 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search by camera or incident type..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-[#0f172a] border border-[#334155] rounded-md pl-9 pr-3 py-1.5 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+            />
+          </div>
+
+          {/* Severity Filter */}
+          <select
+            value={severityFilter}
+            onChange={(e) => setSeverityFilter(e.target.value)}
+            className="bg-[#0f172a] border border-[#334155] text-slate-200 rounded px-2.5 py-1.5 focus:outline-none focus:border-blue-500"
+          >
+            <option value="ALL">All Severities</option>
+            <option value="CRITICAL">Critical</option>
+            <option value="HIGH">High</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="LOW">Low</option>
+          </select>
+
+          {/* Status Filter */}
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="bg-[#0f172a] border border-[#334155] text-slate-200 rounded px-2.5 py-1.5 focus:outline-none focus:border-blue-500"
+          >
+            <option value="ALL">All Statuses</option>
+            <option value="NEW">New (Unacknowledged)</option>
+            <option value="ACKNOWLEDGED">Acknowledged</option>
+            <option value="INVESTIGATING">Investigating</option>
+            <option value="RESOLVED">Resolved</option>
+          </select>
         </div>
 
-        {/* Severity Filter */}
-        <div className="flex items-center gap-1.5 text-xs font-mono">
-          <span className="text-slate-500 text-[11px]">Severity:</span>
-          {['ALL', 'CRITICAL', 'HIGH', 'MEDIUM', 'LOW'].map((sev) => (
-            <button
-              key={sev}
-              onClick={() => setSeverityFilter(sev)}
-              className={`px-2 py-1 rounded-md text-[11px] font-bold transition-all ${
-                severityFilter === sev
-                  ? sev === 'CRITICAL'
-                    ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 neon-glow-crimson'
-                    : 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 neon-glow-cyan'
-                  : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
-              }`}
-            >
-              {sev}
-            </button>
-          ))}
-        </div>
-
-        {/* Batch Status Actions */}
+        {/* Batch Actions */}
         {selectedIncidentIds.length > 0 && (
-          <div className="flex items-center gap-2 pl-2 border-l border-slate-700">
-            <span className="text-[11px] font-mono text-cyan-300 font-bold">
-              {selectedIncidentIds.length} Selected:
-            </span>
+          <div className="flex items-center gap-2">
+            <span className="text-slate-400">{selectedIncidentIds.length} selected</span>
             <button
               onClick={() => handleBatchStatus('ACKNOWLEDGED')}
               disabled={isBatchUpdating}
-              className="px-2.5 py-1 rounded bg-blue-950/60 text-blue-300 border border-blue-500/40 text-[11px] font-mono font-bold hover:bg-blue-900/60"
+              className="vms-btn vms-btn-primary"
             >
-              Acknowledge
+              <Check size={12} /> Acknowledge Selected
             </button>
             <button
               onClick={() => handleBatchStatus('RESOLVED')}
               disabled={isBatchUpdating}
-              className="px-2.5 py-1 rounded bg-emerald-950/60 text-emerald-300 border border-emerald-500/40 text-[11px] font-mono font-bold hover:bg-emerald-900/60"
+              className="vms-btn"
             >
-              Resolve
+              Resolve Selected
             </button>
           </div>
         )}
       </div>
 
-      {/* ── Incidents Forensic Table ────────────────────────────────────────── */}
-      <div className="tactical-glass rounded-2xl border border-cyan-500/20 overflow-hidden shadow-2xl">
+      {/* ======================================================== */}
+      {/* 2. ENTERPRISE INCIDENT TABLE                             */}
+      {/* ======================================================== */}
+      <div className="vms-card overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs font-mono">
-            <thead className="bg-slate-950/80 border-b border-cyan-500/20 text-slate-400 text-[11px] uppercase tracking-wider">
-              <tr>
-                <th className="p-3 w-8">
-                  <button onClick={handleSelectAll} className="text-slate-400 hover:text-white">
-                    {selectedIncidentIds.length === filtered.length && filtered.length > 0 ? (
-                      <CheckSquare size={14} className="text-cyan-400" />
-                    ) : (
-                      <Square size={14} />
-                    )}
-                  </button>
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="vms-table-header">
+                <th className="py-2.5 px-3 w-10 text-center">
+                  <input
+                    type="checkbox"
+                    checked={filtered.length > 0 && selectedIncidentIds.length === filtered.length}
+                    onChange={handleSelectAll}
+                    className="rounded bg-slate-900 border-slate-700 text-blue-600 focus:ring-0"
+                  />
                 </th>
-                <th className="p-3">Incident ID & Severity</th>
-                <th className="p-3">Event Type</th>
-                <th className="p-3">Camera / Sector</th>
-                <th className="p-3">Forensic SHA-256 Hash</th>
-                <th className="p-3">Timestamp</th>
-                <th className="p-3 text-right">Actions</th>
+                <th className="py-2.5 px-3">Time</th>
+                <th className="py-2.5 px-3">Camera</th>
+                <th className="py-2.5 px-3">Incident Type</th>
+                <th className="py-2.5 px-3">Location / Detail</th>
+                <th className="py-2.5 px-3">Severity</th>
+                <th className="py-2.5 px-3">Status</th>
+                <th className="py-2.5 px-3 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-[#1e293b] text-xs">
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center text-slate-500 font-mono">
-                    Loading cryptographic ledger records...
+                  <td colSpan={8} className="py-12 text-center text-slate-500">
+                    Loading incident ledger...
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center text-slate-500 font-mono">
-                    No incidents matching selected filters.
+                  <td colSpan={8} className="py-12 text-center text-slate-500">
+                    No incidents match the active filters.
                   </td>
                 </tr>
               ) : (
                 filtered.map((inc) => {
                   const isSelected = selectedIncidentIds.includes(inc.id);
-                  const isCritical = inc.severity === 'CRITICAL' || inc.severity === 'HIGH';
+                  const isAck = inc.acknowledged || inc.status === 'ACKNOWLEDGED' || inc.status === 'RESOLVED';
                   return (
-                    <tr 
+                    <tr
                       key={inc.id}
-                      className={`hover:bg-cyan-950/20 transition-all ${isSelected ? 'bg-cyan-950/30' : ''}`}
+                      className={`vms-table-row ${isSelected ? 'bg-blue-950/20' : ''}`}
                     >
-                      <td className="p-3">
-                        <button onClick={() => handleToggleSelect(inc.id)} className="text-slate-400 hover:text-white">
-                          {isSelected ? (
-                            <CheckSquare size={14} className="text-cyan-400" />
-                          ) : (
-                            <Square size={14} />
-                          )}
-                        </button>
+                      <td className="py-3 px-3 text-center">
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => handleToggleSelect(inc.id)}
+                          className="rounded bg-slate-900 border-slate-700 text-blue-600 focus:ring-0"
+                        />
                       </td>
-                      <td className="p-3">
-                        <div className="flex items-center gap-2">
-                          <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                            isCritical 
-                              ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' 
-                              : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                          }`}>
-                            {inc.severity}
-                          </span>
-                          <span className="font-bold text-slate-200">
-                            {inc.id.slice(0, 8)}
-                          </span>
+                      <td className="py-3 px-3 font-mono text-slate-300 whitespace-nowrap">
+                        <div>{format(new Date(inc.timestamp), 'HH:mm:ss')}</div>
+                        <div className="text-[10px] text-slate-500">
+                          {formatDistanceToNow(new Date(inc.timestamp), { addSuffix: true })}
                         </div>
                       </td>
-                      <td className="p-3 text-cyan-300 font-bold">
-                        {inc.event_type.replace(/_/g, ' ')}
-                      </td>
-                      <td className="p-3 text-slate-300">
+                      <td className="py-3 px-3 font-semibold text-white whitespace-nowrap">
                         {inc.camera_id}
                       </td>
-                      <td className="p-3">
-                        <span className="px-2 py-0.5 rounded bg-black/60 text-purple-300 border border-purple-500/30 font-mono text-[10px]" title={inc.sha256 || 'None'}>
-                          {inc.sha256 ? `${inc.sha256.slice(0, 12)}...` : 'PENDING'}
-                        </span>
+                      <td className="py-3 px-3 text-slate-200 font-medium">
+                        {inc.event_type}
                       </td>
-                      <td className="p-3 text-slate-400 text-[11px]">
-                        {format(new Date(inc.timestamp), 'yyyy-MM-dd HH:mm:ss')}
+                      <td className="py-3 px-3 text-slate-400 max-w-xs truncate">
+                        {inc.explanation || 'Perimeter alert recorded'}
                       </td>
-                      <td className="p-3 text-right">
+                      <td className="py-3 px-3 whitespace-nowrap">
+                        <Badge variant={getSeverityBadgeVariant(inc.severity)}>
+                          {inc.severity}
+                        </Badge>
+                      </td>
+                      <td className="py-3 px-3 whitespace-nowrap">
+                        {inc.status === 'RESOLVED' ? (
+                          <StatusIndicator status="verified" label="Resolved" />
+                        ) : isAck ? (
+                          <StatusIndicator status="online" label="Acknowledged" />
+                        ) : (
+                          <StatusIndicator status="critical" label="Open" />
+                        )}
+                      </td>
+                      <td className="py-3 px-3 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-1.5">
-                          {inc.evidence_reference && (
+                          <button
+                            onClick={() => setSelectedIncident(inc)}
+                            className="vms-btn text-xs"
+                            title="View incident details"
+                          >
+                            <Eye size={12} /> View
+                          </button>
+                          {!isAck && (
                             <button
                               onClick={() => {
-                                const filename = inc.evidence_reference ? inc.evidence_reference.split(/[/\\]/).pop() || '' : '';
-                                setLightboxData({
-                                  url: `/evidence/${filename}`,
-                                  title: `${inc.event_type} (${inc.severity})`,
-                                  camera: inc.camera_id,
-                                  time: new Date(inc.timestamp).toLocaleString(),
-                                  sha256: inc.sha256
-                                });
+                                acknowledge(inc.id);
+                                playSuccessPing();
                               }}
-                              className="px-2 py-1 rounded bg-cyan-950/60 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-500/30 text-[10px] font-bold flex items-center gap-1"
+                              className="vms-btn vms-btn-primary text-xs"
                             >
-                              <Eye size={11} />
-                              <span>View Evidence</span>
-                            </button>
-                          )}
-                          {!inc.acknowledged && (
-                            <button
-                              onClick={() => updateStatus({ incidentId: inc.id, status: 'ACKNOWLEDGED' })}
-                              className="px-2 py-1 rounded bg-emerald-950/60 hover:bg-emerald-900/60 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold flex items-center gap-1"
-                            >
-                              <Check size={11} />
-                              <span>Ack</span>
+                              Acknowledge
                             </button>
                           )}
                         </div>
@@ -281,24 +287,167 @@ export const Incidents = () => {
         </div>
       </div>
 
-      {/* Lightbox Modal */}
+      {/* ======================================================== */}
+      {/* 3. INCIDENT DETAIL MODAL                                 */}
+      {/* ======================================================== */}
+      {selectedIncident && (
+        <div className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4">
+          <div className="bg-[#1e293b] border border-[#334155] rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            {/* Header */}
+            <div className="px-5 py-4 border-b border-[#334155] flex items-center justify-between bg-[#0f172a]">
+              <div>
+                <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+                  <span>Incident Report #{selectedIncident.id.substring(0, 8)}</span>
+                  <Badge variant={getSeverityBadgeVariant(selectedIncident.severity)}>
+                    {selectedIncident.severity}
+                  </Badge>
+                </h3>
+                <span className="text-xs text-slate-400 font-mono">
+                  {format(new Date(selectedIncident.timestamp), 'yyyy-MM-dd HH:mm:ss')} IST
+                </span>
+              </div>
+              <button
+                onClick={() => setSelectedIncident(null)}
+                className="text-slate-400 hover:text-white p-1"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="p-5 space-y-4 text-xs">
+              {/* Information Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#0f172a] p-3 rounded border border-[#334155]">
+                <div>
+                  <span className="text-slate-500 block uppercase text-[10px]">Camera ID</span>
+                  <span className="font-semibold text-white">{selectedIncident.camera_id}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 block uppercase text-[10px]">Event Type</span>
+                  <span className="font-semibold text-slate-200">{selectedIncident.event_type}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 block uppercase text-[10px]">Confidence</span>
+                  <span className="font-mono text-slate-200">
+                    {Math.round((selectedIncident.confidence || 0.85) * 100)}%
+                  </span>
+                </div>
+                <div>
+                  <span className="text-slate-500 block uppercase text-[10px]">Status</span>
+                  <span className="font-semibold text-white">
+                    {selectedIncident.status || (selectedIncident.acknowledged ? 'ACKNOWLEDGED' : 'NEW')}
+                  </span>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="text-slate-400 block mb-1 font-medium">Incident Summary</label>
+                <div className="bg-[#0f172a] p-3 rounded border border-[#334155] text-slate-300">
+                  {selectedIncident.explanation || 'Target motion detected across monitored perimeter boundaries.'}
+                </div>
+              </div>
+
+              {/* Evidence Frame Preview */}
+              <div>
+                <label className="text-slate-400 block mb-1 font-medium">Captured Visual Evidence</label>
+                <div className="aspect-video bg-black rounded border border-[#334155] overflow-hidden relative flex items-center justify-center">
+                  <img
+                    src={`/api/v1/evidence/${selectedIncident.id}/snapshot`}
+                    alt="Evidence Frame"
+                    className="w-full h-full object-contain cursor-pointer"
+                    onClick={() => setLightboxData({
+                      url: `/api/v1/evidence/${selectedIncident.id}/snapshot`,
+                      title: selectedIncident.event_type,
+                      camera: selectedIncident.camera_id,
+                      time: selectedIncident.timestamp,
+                      sha256: selectedIncident.sha256
+                    })}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = `/api/v1/cameras/${selectedIncident.camera_id}/snapshot`;
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Audit & Integrity Information */}
+              {selectedIncident.sha256 && (
+                <div className="bg-[#0f172a] p-3 rounded border border-[#334155] space-y-1">
+                  <div className="flex items-center gap-1.5 text-slate-300 font-medium">
+                    <ShieldCheck size={14} className="text-emerald-400" />
+                    <span>Evidence Integrity Verification</span>
+                  </div>
+                  <div className="font-mono text-[11px] text-slate-400 break-all">
+                    SHA-256: {selectedIncident.sha256}
+                  </div>
+                </div>
+              )}
+
+              {/* Modal Actions */}
+              <div className="flex items-center justify-between pt-3 border-t border-[#334155]">
+                <div className="flex items-center gap-2">
+                  <select
+                    value={selectedIncident.status || (selectedIncident.acknowledged ? 'ACKNOWLEDGED' : 'NEW')}
+                    onChange={(e) => {
+                      updateStatus({ incidentId: selectedIncident.id, status: e.target.value });
+                      setSelectedIncident({ ...selectedIncident, status: e.target.value as any });
+                      playSuccessPing();
+                    }}
+                    className="bg-[#0f172a] border border-[#334155] text-slate-200 rounded px-2.5 py-1 text-xs"
+                  >
+                    <option value="NEW">New</option>
+                    <option value="ACKNOWLEDGED">Acknowledged</option>
+                    <option value="INVESTIGATING">Investigating</option>
+                    <option value="RESOLVED">Resolved</option>
+                  </select>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setSelectedIncident(null)}
+                    className="vms-btn"
+                  >
+                    Close
+                  </button>
+                  {!selectedIncident.acknowledged && (
+                    <button
+                      onClick={() => {
+                        acknowledge(selectedIncident.id);
+                        setSelectedIncident({ ...selectedIncident, acknowledged: true, status: 'ACKNOWLEDGED' });
+                        playSuccessPing();
+                      }}
+                      className="vms-btn vms-btn-primary"
+                    >
+                      Acknowledge Incident
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Evidence Lightbox */}
       {lightboxData && (
         <EvidenceLightboxModal
           isOpen={true}
           onClose={() => setLightboxData(null)}
-          imageUrl={lightboxData.url}
+          snapshotUrl={lightboxData.url}
           incidentTitle={lightboxData.title}
-          camera={lightboxData.camera}
+          cameraId={lightboxData.camera}
           timestamp={lightboxData.time}
           sha256={lightboxData.sha256}
         />
       )}
 
-      {/* Audit Modal */}
-      <LedgerAuditModal
-        isOpen={isAuditModalOpen}
-        onClose={() => setIsAuditModalOpen(false)}
-      />
+      {/* Ledger Audit Modal */}
+      {isAuditModalOpen && (
+        <LedgerAuditModal
+          isOpen={true}
+          onClose={() => setIsAuditModalOpen(false)}
+        />
+      )}
     </div>
   );
 };

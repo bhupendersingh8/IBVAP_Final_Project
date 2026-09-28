@@ -1,0 +1,20 @@
+# IBVAP — NVIDIA GPU (RTX 5050 / RTX 3050 / Ampere / Blackwell) Dependencies
+# Install PyTorch with CUDA support first:
+# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124
+
+# Base backend & API dependencies
+-r requirements/base.txt
+
+# Computer Vision & Inference (GPU-accelerated)
+ultralytics==8.2.100
+opencv-python==4.10.0.84
+numpy>=1.26.0,<2.2.0
+Pillow>=10.4.0
+easyocr>=1.7.1
+scipy>=1.14.0
+scikit-learn>=1.5.0
+lapx>=0.5.9
+psutil>=6.0.0
+
+# Optional GPU Runtime acceleration
+onnxruntime-gpu>=1.19.0

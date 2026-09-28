@@ -44,8 +44,8 @@ export const LedgerAuditModal: React.FC<LedgerAuditModalProps> = ({ isOpen, onCl
               <Lock size={20} />
             </div>
             <div>
-              <h3 className="text-sm font-bold">Cryptographic Ledger Integrity Audit</h3>
-              <p className="text-[11px] text-slate-400">Verifies SHA-256 evidence blockchain sequence</p>
+              <h3 className="text-sm font-bold">Evidence Chain Integrity Audit</h3>
+              <p className="text-[11px] text-slate-400">Verifies tamper-evident evidence sequence</p>
             </div>
           </div>
           <button
@@ -60,9 +60,9 @@ export const LedgerAuditModal: React.FC<LedgerAuditModalProps> = ({ isOpen, onCl
         <div className="p-5 space-y-4 text-xs">
           <div className="p-3.5 bg-slate-800/60 rounded-xl border border-slate-800 space-y-2">
             <p className="text-slate-300 leading-relaxed">
-              The IBVAP platform cryptographically binds every perimeter incident snapshot into a 
-              tamper-evident SHA-256 hash chain ledger (chain of custody). This mathematical verification
-              proves no video evidence frames or incident timestamps have been modified or deleted.
+              The platform cryptographically records every incident snapshot into an immutable 
+              tamper-evident audit sequence (chain of custody). This verification confirms that 
+              no incident records or evidence frames have been modified.
             </p>
           </div>
 
@@ -79,12 +79,12 @@ export const LedgerAuditModal: React.FC<LedgerAuditModalProps> = ({ isOpen, onCl
                 {result.ledger_verified ? (
                   <>
                     <CheckCircle2 size={18} className="text-emerald-400" />
-                    <span>Cryptographic Hash Chain Verified (100% Intact)</span>
+                    <span>Evidence Chain Verified (Intact)</span>
                   </>
                 ) : (
                   <>
                     <AlertTriangle size={18} className="text-red-400" />
-                    <span>Integrity Breach / Sequence Desynchronization</span>
+                    <span>Integrity Warning / Sequence Mismatch</span>
                   </>
                 )}
               </div>
@@ -108,12 +108,12 @@ export const LedgerAuditModal: React.FC<LedgerAuditModalProps> = ({ isOpen, onCl
             {isPending ? (
               <>
                 <RefreshCw size={15} className="animate-spin" />
-                <span>Auditing Cryptographic Hash Chain...</span>
+                <span>Verifying Evidence Hash Sequence...</span>
               </>
             ) : (
               <>
                 <ShieldCheck size={16} />
-                <span>Execute Complete Ledger Audit</span>
+                <span>Run Integrity Verification</span>
               </>
             )}
           </button>

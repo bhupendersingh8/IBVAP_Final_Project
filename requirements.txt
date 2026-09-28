@@ -1,0 +1,5 @@
+# IBVAP — Central Python Dependencies Manifest
+# Default: Base backend + CPU ML inference
+-r requirements/base.txt
+-r requirements/ml.txt
+-r requirements/dev.txt

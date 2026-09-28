@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sliders, Cpu, Shield, Save, CheckCircle, Smartphone, Moon, Database, Eye, Search, Wifi, Loader2, HardDrive, Check } from 'lucide-react';
+import { Save, CheckCircle2 } from 'lucide-react';
 import { playSuccessPing } from '../utils/audioAlerts';
 
 interface SystemSettingsState {
@@ -24,10 +24,10 @@ const defaultSettings: SystemSettingsState = {
   auto_dataset_capture: false,
 };
 
-export const Settings = () => {
+export const Settings: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<'general' | 'cameras' | 'analytics' | 'notifications' | 'evidence'>('general');
   const [settings, setSettings] = useState<SystemSettingsState>(defaultSettings);
   const [saved, setSaved] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -47,11 +47,8 @@ export const Settings = () => {
           loitering_threshold_seconds: data.loitering_threshold_seconds ?? defaultSettings.loitering_threshold_seconds,
           auto_dataset_capture: data.auto_dataset_capture ?? defaultSettings.auto_dataset_capture,
         });
-        setLoading(false);
       })
-      .catch(() => {
-        setLoading(false);
-      });
+      .catch(() => {});
   }, []);
 
   const handleSave = async (e: React.FormEvent) => {
@@ -76,137 +73,303 @@ export const Settings = () => {
   };
 
   return (
-    <div className="space-y-4 max-w-5xl mx-auto">
-      {/* Header */}
-      <div className="tactical-glass p-4 lg:p-5 rounded-2xl border border-cyan-500/20 flex flex-wrap justify-between items-center gap-4 hud-box">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-cyan-950/70 border border-cyan-400/40 text-cyan-400 neon-glow-cyan">
-            <Cpu size={22} />
-          </div>
-          <div>
-            <h1 className="text-lg lg:text-xl font-black text-white tracking-wide flex items-center gap-2">
-              <span>AI INFERENCE & HARDWARE PROFILE</span>
-              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
-                17-LAYER STACK
-              </span>
-            </h1>
-            <p className="text-xs text-slate-400 font-mono mt-0.5">
-              Calibrate detection sensitivity, temporal thresholds, and multi-tier hardware acceleration.
-            </p>
-          </div>
+    <div className="space-y-6 max-w-5xl mx-auto">
+      {/* Top Header */}
+      <div className="vms-card p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-base font-semibold text-white">Platform Settings</h2>
+          <p className="text-xs text-slate-400">
+            Configure camera feeds, video processing sensitivity, notifications, and storage policies.
+          </p>
         </div>
 
         {saved && (
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold neon-glow-emerald animate-pulse">
-            <Check size={14} />
-            <span>Parameters Synchronized</span>
-          </div>
+          <span className="text-xs text-emerald-400 bg-emerald-950/40 border border-emerald-800 px-3 py-1 rounded flex items-center gap-1.5 font-medium">
+            <CheckCircle2 size={14} className="text-emerald-400" />
+            Settings saved successfully
+          </span>
         )}
       </div>
 
+      {/* Settings Navigation Tabs */}
+      <div className="flex border-b border-[#334155] text-xs font-semibold overflow-x-auto">
+        <button
+          onClick={() => setActiveTab('general')}
+          className={`py-2.5 px-4 border-b-2 whitespace-nowrap transition ${
+            activeTab === 'general'
+              ? 'border-blue-500 text-blue-400'
+              : 'border-transparent text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          General
+        </button>
+        <button
+          onClick={() => setActiveTab('cameras')}
+          className={`py-2.5 px-4 border-b-2 whitespace-nowrap transition ${
+            activeTab === 'cameras'
+              ? 'border-blue-500 text-blue-400'
+              : 'border-transparent text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          Cameras
+        </button>
+        <button
+          onClick={() => setActiveTab('analytics')}
+          className={`py-2.5 px-4 border-b-2 whitespace-nowrap transition ${
+            activeTab === 'analytics'
+              ? 'border-blue-500 text-blue-400'
+              : 'border-transparent text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          Analytics & Sensitivity
+        </button>
+        <button
+          onClick={() => setActiveTab('notifications')}
+          className={`py-2.5 px-4 border-b-2 whitespace-nowrap transition ${
+            activeTab === 'notifications'
+              ? 'border-blue-500 text-blue-400'
+              : 'border-transparent text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          Notifications
+        </button>
+        <button
+          onClick={() => setActiveTab('evidence')}
+          className={`py-2.5 px-4 border-b-2 whitespace-nowrap transition ${
+            activeTab === 'evidence'
+              ? 'border-blue-500 text-blue-400'
+              : 'border-transparent text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          Evidence & Archival
+        </button>
+      </div>
+
       {/* Main Settings Form */}
-      <form onSubmit={handleSave} className="space-y-4">
-        {/* Hardware Status Strip */}
-        <div className="tactical-glass p-4 rounded-xl border border-cyan-500/20 grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 space-y-1">
-            <div className="text-[10px] font-mono uppercase text-slate-400">Host Architecture</div>
-            <div className="text-sm font-bold text-slate-200">Intel Core i3-1115G4 (12GB RAM)</div>
-            <div className="text-[10px] font-mono text-cyan-400">Dell Inspiron • CPU Verified (188/188)</div>
-          </div>
-          <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 space-y-1">
-            <div className="text-[10px] font-mono uppercase text-slate-400">Target GPU Deployment</div>
-            <div className="text-sm font-bold text-slate-200">NVIDIA RTX 3050 4GB / 6GB</div>
-            <div className="text-[10px] font-mono text-purple-400">TensorRT Engine & CUDA Profile Ready</div>
-          </div>
-          <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 space-y-1">
-            <div className="text-[10px] font-mono uppercase text-slate-400">Active Primary Detector</div>
-            <div className="text-sm font-bold text-emerald-400">YOLO26n (SOTA Defense Baseline)</div>
-            <div className="text-[10px] font-mono text-slate-400">ByteTrack Multi-Object Tracking</div>
-          </div>
-        </div>
-
-        {/* Inference Sliders */}
-        <div className="tactical-glass p-4 rounded-xl border border-cyan-500/20 space-y-4">
-          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 border-b border-cyan-500/20 pb-2">
-            Inference Sensitivity & Temporal Parameters
-          </h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Confidence Threshold */}
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs font-mono">
-                <span className="text-slate-300">Confidence Threshold:</span>
-                <span className="text-cyan-300 font-bold">{(settings.confidence_threshold * 100).toFixed(0)}%</span>
+      <form onSubmit={handleSave} className="vms-card p-5 space-y-6">
+        
+        {/* TAB 1: GENERAL */}
+        {activeTab === 'general' && (
+          <div className="space-y-4 text-xs">
+            <h3 className="text-sm font-semibold text-white">General Information</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-slate-400 mb-1">Surveillance Site Sector</label>
+                <input
+                  type="text"
+                  defaultValue="North Sector — Outpost 4"
+                  className="w-full bg-[#0f172a] border border-[#334155] rounded px-3 py-2 text-white"
+                />
               </div>
-              <input
-                type="range"
-                min="0.10"
-                max="0.90"
-                step="0.05"
-                value={settings.confidence_threshold}
-                onChange={(e) => setSettings({ ...settings, confidence_threshold: parseFloat(e.target.value) })}
-                className="w-full accent-cyan-400 bg-slate-800 rounded-lg cursor-pointer"
-              />
-              <p className="text-[10px] font-mono text-slate-500">Lower values detect distant border targets; higher values minimize false alerts.</p>
-            </div>
-
-            {/* Loitering Dwell Time */}
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs font-mono">
-                <span className="text-slate-300">Loitering Dwell Threshold:</span>
-                <span className="text-cyan-300 font-bold">{settings.loitering_threshold_seconds}s</span>
+              <div>
+                <label className="block text-slate-400 mb-1">Timezone</label>
+                <input
+                  type="text"
+                  disabled
+                  value="Asia/Kolkata (IST, UTC+05:30)"
+                  className="w-full bg-[#0f172a] border border-[#334155] rounded px-3 py-2 text-slate-400"
+                />
               </div>
-              <input
-                type="range"
-                min="5"
-                max="60"
-                step="5"
-                value={settings.loitering_threshold_seconds}
-                onChange={(e) => setSettings({ ...settings, loitering_threshold_seconds: parseInt(e.target.value) })}
-                className="w-full accent-cyan-400 bg-slate-800 rounded-lg cursor-pointer"
-              />
-              <p className="text-[10px] font-mono text-slate-500">Seconds a target must persist inside perimeter before triggering LOITERING alert.</p>
+              <div>
+                <label className="block text-slate-400 mb-1">Primary Video Mode</label>
+                <select className="w-full bg-[#0f172a] border border-[#334155] rounded px-3 py-2 text-white">
+                  <option>Live Continuous Monitoring</option>
+                  <option>Motion Triggered Only</option>
+                  <option>Scheduled Monitoring</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-slate-400 mb-1">Operator Console Language</label>
+                <select className="w-full bg-[#0f172a] border border-[#334155] rounded px-3 py-2 text-white">
+                  <option>English (India)</option>
+                  <option>Hindi</option>
+                </select>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Feature Switches */}
-        <div className="tactical-glass p-4 rounded-xl border border-cyan-500/20 space-y-3">
-          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 border-b border-cyan-500/20 pb-2">
-            Active Intelligence Modules
-          </h3>
+        {/* TAB 2: CAMERAS */}
+        {activeTab === 'cameras' && (
+          <div className="space-y-4 text-xs">
+            <h3 className="text-sm font-semibold text-white">Camera & Streaming Configuration</h3>
+            <div className="space-y-3">
+              <div>
+                <label className="block text-slate-400 mb-1">Mobile IP Camera Stream URL</label>
+                <input
+                  type="text"
+                  value={settings.phone_camera_url}
+                  onChange={(e) => setSettings({ ...settings, phone_camera_url: e.target.value })}
+                  placeholder="http://192.168.1.5:8080/video"
+                  className="w-full bg-[#0f172a] border border-[#334155] rounded px-3 py-2 text-white font-mono"
+                />
+                <span className="text-[11px] text-slate-500 mt-1 block">
+                  Connects to Android/iOS IP Webcam application streams for rapid field deployment.
+                </span>
+              </div>
+              <div>
+                <label className="block text-slate-400 mb-1">RTSP Ingestion Gateway</label>
+                <input
+                  type="text"
+                  disabled
+                  value="rtsp://127.0.0.1:8554"
+                  className="w-full bg-[#0f172a] border border-[#334155] rounded px-3 py-2 text-slate-400 font-mono"
+                />
+              </div>
+            </div>
+          </div>
+        )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {[
-              { label: 'Face Recognition & Staff Liveness', key: 'face_detection_enabled', desc: 'YuNet + SFace landmark matching' },
-              { label: 'ANPR Indian Plate OCR', key: 'anpr_enabled', desc: 'EasyOCR vehicle plate extraction' },
-              { label: 'Night Vision CLAHE Restoration', key: 'night_enhancement_enabled', desc: 'Dynamic gamma & contrast boost' },
-            ].map((mod) => (
-              <label key={mod.key} className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 flex items-start gap-3 cursor-pointer hover:border-cyan-500/40 transition-all">
+        {/* TAB 3: ANALYTICS */}
+        {activeTab === 'analytics' && (
+          <div className="space-y-4 text-xs">
+            <h3 className="text-sm font-semibold text-white">Detection & Analytic Thresholds</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <div className="flex justify-between mb-1">
+                  <label className="text-slate-400">Confidence Threshold</label>
+                  <span className="font-mono text-blue-400 font-semibold">
+                    {Math.round(settings.confidence_threshold * 100)}%
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="0.10"
+                  max="0.90"
+                  step="0.05"
+                  value={settings.confidence_threshold}
+                  onChange={(e) => setSettings({ ...settings, confidence_threshold: parseFloat(e.target.value) })}
+                  className="w-full accent-blue-600"
+                />
+                <span className="text-[11px] text-slate-500">
+                  Minimum confidence required before logging an intrusion target.
+                </span>
+              </div>
+
+              <div>
+                <div className="flex justify-between mb-1">
+                  <label className="text-slate-400">Loitering Alert Delay (Seconds)</label>
+                  <span className="font-mono text-blue-400 font-semibold">
+                    {settings.loitering_threshold_seconds}s
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="5"
+                  max="60"
+                  step="5"
+                  value={settings.loitering_threshold_seconds}
+                  onChange={(e) => setSettings({ ...settings, loitering_threshold_seconds: parseInt(e.target.value) })}
+                  className="w-full accent-blue-600"
+                />
+                <span className="text-[11px] text-slate-500">
+                  Time a target remains stationary in a zone before generating a loitering incident.
+                </span>
+              </div>
+
+              <div className="pt-2 border-t border-[#334155] space-y-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-slate-200 font-medium">Automated Number Plate Recognition (ANPR)</div>
+                    <div className="text-slate-500 text-[11px]">Extract vehicle license plates on entry gates</div>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={settings.anpr_enabled}
+                    onChange={(e) => setSettings({ ...settings, anpr_enabled: e.target.checked })}
+                    className="rounded bg-slate-900 border-slate-700 text-blue-600 focus:ring-0"
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-slate-200 font-medium">Nighttime Visibility Enhancement</div>
+                    <div className="text-slate-500 text-[11px]">Automatic low-light gamma correction for night CCTV</div>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={settings.night_enhancement_enabled}
+                    onChange={(e) => setSettings({ ...settings, night_enhancement_enabled: e.target.checked })}
+                    className="rounded bg-slate-900 border-slate-700 text-blue-600 focus:ring-0"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 4: NOTIFICATIONS */}
+        {activeTab === 'notifications' && (
+          <div className="space-y-4 text-xs">
+            <h3 className="text-sm font-semibold text-white">Audible & Visual Alarms</h3>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-slate-200 font-medium">Audio Chime on Incident</div>
+                  <div className="text-slate-500 text-[11px]">Play audio tones when an intrusion is detected</div>
+                </div>
                 <input
                   type="checkbox"
-                  checked={(settings as any)[mod.key]}
-                  onChange={(e) => setSettings({ ...settings, [mod.key]: e.target.checked })}
-                  className="mt-1 accent-cyan-400 rounded cursor-pointer"
+                  defaultChecked
+                  className="rounded bg-slate-900 border-slate-700 text-blue-600 focus:ring-0"
                 />
-                <div>
-                  <div className="text-xs font-bold text-slate-200">{mod.label}</div>
-                  <div className="text-[10px] font-mono text-slate-500 mt-0.5">{mod.desc}</div>
-                </div>
-              </label>
-            ))}
-          </div>
-        </div>
+              </div>
 
-        {/* Save Bar */}
-        <div className="flex items-center justify-end gap-3 pt-2">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-slate-200 font-medium">Critical Breach Siren</div>
+                  <div className="text-slate-500 text-[11px]">Distinct tone for high-priority perimeter fence cuts</div>
+                </div>
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  className="rounded bg-slate-900 border-slate-700 text-blue-600 focus:ring-0"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 5: EVIDENCE */}
+        {activeTab === 'evidence' && (
+          <div className="space-y-4 text-xs">
+            <h3 className="text-sm font-semibold text-white">Evidence & Archival Policies</h3>
+            <div className="space-y-3">
+              <div>
+                <label className="block text-slate-400 mb-1">Evidence Storage Directory</label>
+                <input
+                  type="text"
+                  disabled
+                  value="./data/evidence"
+                  className="w-full bg-[#0f172a] border border-[#334155] rounded px-3 py-2 text-slate-400 font-mono"
+                />
+              </div>
+              <div className="flex items-center justify-between pt-2">
+                <div>
+                  <div className="text-slate-200 font-medium">Immutable Hash Generation</div>
+                  <div className="text-slate-500 text-[11px]">Compute Section 65B SHA-256 for all incident snapshots</div>
+                </div>
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  disabled
+                  className="rounded bg-slate-900 border-slate-700 text-blue-600 focus:ring-0"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Form Actions Footer */}
+        <div className="pt-4 border-t border-[#334155] flex justify-end gap-2">
           <button
             type="submit"
             disabled={saving}
-            className="px-6 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-mono font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-600/30 disabled:opacity-50 transition-all"
+            className="vms-btn vms-btn-primary text-xs"
           >
-            {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
-            <span>Save Configuration</span>
+            <Save size={13} />
+            <span>{saving ? 'Saving...' : 'Save Settings'}</span>
           </button>
         </div>
       </form>

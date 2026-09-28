@@ -1,0 +1,68 @@
+{
+  "timestamp": "2026-09-28T06:35:05.764456+00:00",
+  "hostname": "DESKTOP-PHM09AB",
+  "platform": "win32",
+  "python_version": "3.11.9",
+  "gpu_detected": false,
+  "cuda_available": false,
+  "gpu_details": {
+    "torch_version": "2.4.1+cpu",
+    "tensorrt_version": "NOT_INSTALLED",
+    "ort_providers": [
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ]
+  },
+  "pipeline_benchmarks": {
+    "video_source": "RECORDED_VIDEO",
+    "video_path": "C:\\Users\\dell\\Desktop\\p2\\IBVAP_Final_Project\\data\\raw\\test_video.mp4",
+    "frames_processed": 60,
+    "input_resolution": "592x360",
+    "effective_fps": 1.24,
+    "mean_latency_ms": 806.75,
+    "p50_latency_ms": 543.07,
+    "p95_latency_ms": 1439.16,
+    "mean_detect_latency_ms": 778.83,
+    "mean_preprocess_latency_ms": 22.5,
+    "total_detections_logged": 191,
+    "active_tracks_final": 2,
+    "host_ram_used_mb": 365.3,
+    "host_cpu_percent": 0.0,
+    "evidence_sample_sha256": "e6cd4f5d5eef9fc89217d2290437f6256651e5f811f01f74c35b12ca3da68500",
+    "status": "PASS"
+  },
+  "status": "SUCCESS_CPU_FALLBACK",
+  "hardware_profile": {
+    "profile_name": "DELL_CPU",
+    "cpu": {
+      "vendor": "Intel",
+      "model": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+      "logical_cores": 4,
+      "physical_cores": 2,
+      "total_ram_gb": 11.73,
+      "available_ram_gb": 3.42
+    },
+    "gpu": {
+      "nvidia_present": false,
+      "gpu_name": null,
+      "total_vram_mb": 0.0,
+      "free_vram_mb": 0.0,
+      "cuda_available": false,
+      "cuda_version": null,
+      "compute_capability": null
+    },
+    "runtime": {
+      "pytorch_cuda": false,
+      "tensorrt_available": true,
+      "onnx_cuda_provider": false,
+      "fp16_supported": false,
+      "int8_available": true
+    },
+    "vram_budget_mb": 0.0,
+    "ram_budget_mb": 6144.0,
+    "max_streams_recommended": 1,
+    "primary_detection_model": "yolo26n.pt",
+    "primary_runtime": "cpu_fp32"
+  },
+  "pipeline_duration_sec": 48.64
+}
