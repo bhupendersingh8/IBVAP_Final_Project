@@ -22,6 +22,10 @@ class CameraStats:
     dropped_frames: int
     reconnect_count: int
     error_message: Optional[str] = None
+    capture_latency_ms: float = 0.0
+    inference_latency_ms: float = 0.0
+    queue_depth: int = 0
+    reconnect_time_seconds: float = 0.0
 
 class CameraSource(ABC):
     """Abstract interface for all video ingestion sources (RTSP, Mock, Video File)."""

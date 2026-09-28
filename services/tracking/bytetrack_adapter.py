@@ -117,6 +117,7 @@ class FallbackIoUTracker(MultiObjectTracker):
                     track.subclass = det.subclass
                 self.unmatched_age[best_tid] = 0
                 
+                track.confidence = det.confidence
                 track.confidence_history.append(det.confidence)
                 if len(track.confidence_history) > self.max_trajectory:
                     track.confidence_history.pop(0)
@@ -125,6 +126,24 @@ class FallbackIoUTracker(MultiObjectTracker):
                 track.trajectory.append(tp)
                 if len(track.trajectory) > self.max_trajectory:
                     track.trajectory.pop(0)
+
+                # Compute velocity estimate (normalized distance / dt)
+                if len(track.trajectory) >= 2:
+                    p1 = track.trajectory[-2]
+                    p2 = track.trajectory[-1]
+                    dt = max(0.01, (p2.timestamp - p1.timestamp).total_seconds())
+                    dist = ((p2.center_x - p1.center_x)**2 + (p2.center_y - p1.center_y)**2)**0.5
+                    track.velocity_estimate = round(dist / dt, 3)
+
+                # Advance lifecycle state
+                if track.age_frames == 1:
+                    track.lifecycle_state = "DETECTED"
+                elif track.age_frames <= 5:
+                    track.lifecycle_state = "TENTATIVE"
+                elif track.age_frames <= 15:
+                    track.lifecycle_state = "STABLE"
+                else:
+                    track.lifecycle_state = "VERIFIED"
                     
         # Process unmatched detections (create new tracks)
         for det_idx, det in enumerate(detections):

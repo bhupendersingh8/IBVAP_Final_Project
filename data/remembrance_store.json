@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-09-28T01:33:43.235736+00:00",
-  "total_profiles": 339,
+  "updated_at": "2026-09-28T02:06:44.802102+00:00",
+  "total_profiles": 414,
   "profiles": [
     {
       "global_id": "REID-P001",
@@ -27,22 +27,22 @@
     {
       "global_id": "REID-O001",
       "entity_type": "object",
-      "subclass": "vehicle",
+      "subclass": "gun",
       "license_plate": null,
       "plate_confidence": null,
-      "first_seen": "2026-09-28T01:22:18.275625+00:00",
-      "last_seen": "2026-09-28T01:26:38.167577+00:00",
-      "total_sightings": 167,
-      "active_track_id": 233,
+      "first_seen": "2026-09-28T01:58:22.402110+00:00",
+      "last_seen": "2026-09-28T01:58:24.101920+00:00",
+      "total_sightings": 3,
+      "active_track_id": 2,
       "cameras_seen": [
         "CAM-01"
       ],
-      "confidence_avg": 0.42,
+      "confidence_avg": 0.32,
       "last_bbox": {
-        "x1": 0.9010704755783081,
-        "y1": 0.5257368087768555,
-        "x2": 0.9278256297111511,
-        "y2": 0.561371922492981
+        "x1": 0.2081,
+        "y1": 0.6801,
+        "x2": 0.47,
+        "y2": 0.909
       },
       "metadata": {}
     },
@@ -74,19 +74,19 @@
       "subclass": "vehicle",
       "license_plate": null,
       "plate_confidence": null,
-      "first_seen": "2026-09-28T01:22:36.165329+00:00",
-      "last_seen": "2026-09-28T01:23:26.614067+00:00",
-      "total_sightings": 5,
-      "active_track_id": 4,
+      "first_seen": "2026-09-28T01:58:24.103928+00:00",
+      "last_seen": "2026-09-28T01:59:17.991601+00:00",
+      "total_sightings": 43,
+      "active_track_id": 75,
       "cameras_seen": [
         "CAM-01"
       ],
       "confidence_avg": 0.41,
       "last_bbox": {
-        "x1": 0.7297,
-        "y1": 0.4612,
-        "x2": 0.7584,
-        "y2": 0.501
+        "x1": 0.4679,
+        "y1": 0.385,
+        "x2": 0.5541,
+        "y2": 0.4913
       },
       "metadata": {}
     },
@@ -162,19 +162,19 @@
       "subclass": "vehicle",
       "license_plate": null,
       "plate_confidence": null,
-      "first_seen": "2026-09-28T01:22:36.166533+00:00",
-      "last_seen": "2026-09-28T01:24:41.256178+00:00",
-      "total_sightings": 53,
-      "active_track_id": 75,
+      "first_seen": "2026-09-28T01:58:29.947838+00:00",
+      "last_seen": "2026-09-28T01:58:36.953870+00:00",
+      "total_sightings": 8,
+      "active_track_id": 31,
       "cameras_seen": [
         "CAM-01"
       ],
-      "confidence_avg": 0.39,
+      "confidence_avg": 0.41,
       "last_bbox": {
-        "x1": 0.4696,
-        "y1": 0.3834,
-        "x2": 0.5562,
-        "y2": 0.4689
+        "x1": 0.3087,
+        "y1": 0.4431,
+        "x2": 0.3495,
+        "y2": 0.4844
       },
       "metadata": {}
     },
@@ -184,41 +184,41 @@
       "subclass": "vehicle",
       "license_plate": null,
       "plate_confidence": null,
-      "first_seen": "2026-09-28T01:22:48.671397+00:00",
-      "last_seen": "2026-09-28T01:22:53.846063+00:00",
-      "total_sightings": 2,
-      "active_track_id": 9,
+      "first_seen": "2026-09-28T01:58:30.516116+00:00",
+      "last_seen": "2026-09-28T01:59:12.199249+00:00",
+      "total_sightings": 41,
+      "active_track_id": 71,
       "cameras_seen": [
         "CAM-01"
       ],
-      "confidence_avg": 0.37,
+      "confidence_avg": 0.4,
       "last_bbox": {
-        "x1": 0.0431,
-        "y1": 0.5806,
-        "x2": 0.481,
-        "y2": 0.952
+        "x1": 0.6059181690216064,
+        "y1": 0.3621322214603424,
+        "x2": 0.6650274395942688,
+        "y2": 0.40669432282447815
       },
       "metadata": {}
     },
     {
       "global_id": "REID-O005",
       "entity_type": "object",
-      "subclass": "vehicle",
+      "subclass": "tv",
       "license_plate": null,
       "plate_confidence": null,
-      "first_seen": "2026-09-28T01:22:53.846063+00:00",
-      "last_seen": "2026-09-28T01:22:53.846063+00:00",
-      "total_sightings": 1,
-      "active_track_id": 10,
+      "first_seen": "2026-09-28T01:58:32.032525+00:00",
+      "last_seen": "2026-09-28T01:58:38.523297+00:00",
+      "total_sightings": 3,
+      "active_track_id": 37,
       "cameras_seen": [
         "CAM-01"
       ],
-      "confidence_avg": 0.44,
+      "confidence_avg": 0.43,
       "last_bbox": {
-        "x1": 0.05178932100534439,
-        "y1": 0.5726222991943359,
-        "x2": 0.10678333044052124,
-        "y2": 0.6606066226959229
+        "x1": 0.034084632992744446,
+        "y1": 0.03990170732140541,
+        "x2": 0.1525435596704483,
+        "y2": 0.3219938576221466
       },
       "metadata": {}
     },
@@ -269,22 +269,22 @@
     {
       "global_id": "REID-O006",
       "entity_type": "object",
-      "subclass": "tv",
+      "subclass": "signal",
       "license_plate": null,
       "plate_confidence": null,
-      "first_seen": "2026-09-28T01:23:03.324213+00:00",
-      "last_seen": "2026-09-28T01:23:03.324213+00:00",
-      "total_sightings": 1,
-      "active_track_id": 14,
+      "first_seen": "2026-09-28T01:58:34.893201+00:00",
+      "last_seen": "2026-09-28T01:58:36.586855+00:00",
+      "total_sightings": 2,
+      "active_track_id": 28,
       "cameras_seen": [
         "CAM-01"
       ],
-      "confidence_avg": 0.47,
+      "confidence_avg": 0.38,
       "last_bbox": {
-        "x1": 0.043383728712797165,
-        "y1": 0.05739867314696312,
-        "x2": 0.15853416919708252,
-        "y2": 0.34184202551841736
+        "x1": 0.1665,
+        "y1": 0.3663,
+        "x2": 0.1921,
+        "y2": 0.4363
       },
       "metadata": {}
     },
@@ -294,41 +294,41 @@
       "subclass": "vehicle",
       "license_plate": null,
       "plate_confidence": null,
-      "first_seen": "2026-09-28T01:23:21.676802+00:00",
-      "last_seen": "2026-09-28T01:23:21.676802+00:00",
-      "total_sightings": 1,
-      "active_track_id": 18,
+      "first_seen": "2026-09-28T01:58:36.956598+00:00",
+      "last_seen": "2026-09-28T01:58:45.362267+00:00",
+      "total_sightings": 4,
+      "active_track_id": 49,
       "cameras_seen": [
         "CAM-01"
       ],
       "confidence_avg": 0.36,
       "last_bbox": {
-        "x1": 0.8945608139038086,
-        "y1": 0.4811570346355438,
-        "x2": 0.9766730070114136,
-        "y2": 0.5429979562759399
+        "x1": 0.28691673278808594,
+        "y1": 0.6545353531837463,
+        "x2": 0.33158254623413086,
+        "y2": 0.7019820809364319
       },
       "metadata": {}
     },
     {
       "global_id": "REID-O008",
       "entity_type": "object",
-      "subclass": "vehicle",
+      "subclass": "gun",
       "license_plate": null,
       "plate_confidence": null,
-      "first_seen": "2026-09-28T01:23:24.574568+00:00",
-      "last_seen": "2026-09-28T01:23:24.574568+00:00",
-      "total_sightings": 1,
-      "active_track_id": 19,
+      "first_seen": "2026-09-28T01:58:38.261935+00:00",
+      "last_seen": "2026-09-28T01:58:38.899849+00:00",
+      "total_sightings": 2,
+      "active_track_id": 35,
       "cameras_seen": [
         "CAM-01"
       ],
-      "confidence_avg": 0.4,
+      "confidence_avg": 0.29,
       "last_bbox": {
-        "x1": 0.15058614313602448,
-        "y1": 0.5077282786369324,
-        "x2": 0.26860302686691284,
-        "y2": 0.6050814986228943
+        "x1": 0.7245,
+        "y1": 0.3828,
+        "x2": 0.8646,
+        "y2": 0.5556
       },
       "metadata": {}
     },
@@ -338,19 +338,19 @@
       "subclass": "vehicle",
       "license_plate": null,
       "plate_confidence": null,
-      "first_seen": "2026-09-28T01:23:46.599954+00:00",
-      "last_seen": "2026-09-28T01:25:04.898444+00:00",
-      "total_sightings": 12,
-      "active_track_id": 129,
+      "first_seen": "2026-09-28T01:58:40.858188+00:00",
+      "last_seen": "2026-09-28T01:58:43.605876+00:00",
+      "total_sightings": 2,
+      "active_track_id": 48,
       "cameras_seen": [
         "CAM-01"
       ],
-      "confidence_avg": 0.38,
+      "confidence_avg": 0.42,
       "last_bbox": {
-        "x1": 0.023409271612763405,
-        "y1": 0.5641710758209229,
-        "x2": 0.46385377645492554,
-        "y2": 0.9449073076248169
+        "x1": 0.5131505131721497,
+        "y1": 0.7171879410743713,
+        "x2": 0.5505400896072388,
+        "y2": 0.7528379559516907
       },
       "metadata": {}
     },
@@ -382,63 +382,63 @@
       "subclass": "vehicle",
       "license_plate": null,
       "plate_confidence": null,
-      "first_seen": "2026-09-28T01:23:51.983907+00:00",
-      "last_seen": "2026-09-28T01:23:53.131182+00:00",
-      "total_sightings": 2,
-      "active_track_id": 31,
+      "first_seen": "2026-09-28T01:58:55.111924+00:00",
+      "last_seen": "2026-09-28T01:58:55.111924+00:00",
+      "total_sightings": 1,
+      "active_track_id": 53,
       "cameras_seen": [
         "CAM-01"
       ],
       "confidence_avg": 0.37,
       "last_bbox": {
-        "x1": 0.3266,
-        "y1": 0.5382,
-        "x2": 0.3618,
-        "y2": 0.5802
+        "x1": 0.6371222734451294,
+        "y1": 0.48548710346221924,
+        "x2": 0.6876519918441772,
+        "y2": 0.5514487624168396
       },
       "metadata": {}
     },
     {
       "global_id": "REID-O011",
       "entity_type": "object",
-      "subclass": "gun",
+      "subclass": "explosive",
       "license_plate": null,
       "plate_confidence": null,
-      "first_seen": "2026-09-28T01:24:00.170367+00:00",
-      "last_seen": "2026-09-28T01:24:00.170367+00:00",
+      "first_seen": "2026-09-28T01:59:10.281878+00:00",
+      "last_seen": "2026-09-28T01:59:10.281878+00:00",
       "total_sightings": 1,
-      "active_track_id": 37,
+      "active_track_id": 70,
       "cameras_seen": [
         "CAM-01"
       ],
-      "confidence_avg": 0.27,
+      "confidence_avg": 0.38,
       "last_bbox": {
-        "x1": 0.04697594791650772,
-        "y1": 0.5047504901885986,
-        "x2": 0.4810149669647217,
-        "y2": 0.8576136231422424
+        "x1": 0.7815622687339783,
+        "y1": 0.31825119256973267,
+        "x2": 0.9620466232299805,
+        "y2": 0.5857009887695312
       },
       "metadata": {}
     },
     {
       "global_id": "REID-O012",
       "entity_type": "object",
-      "subclass": "gun",
+      "subclass": "vehicle",
       "license_plate": null,
       "plate_confidence": null,
-      "first_seen": "2026-09-28T01:24:05.835819+00:00",
-      "last_seen": "2026-09-28T01:24:06.505197+00:00",
-      "total_sightings": 2,
-      "active_track_id": 45,
+      "first_seen": "2026-09-28T01:59:15.821711+00:00",
+      "last_seen": "2026-09-28T01:59:16.064981+00:00",
+      "total_sightings": 3,
+      "active_track_id": 78,
       "cameras_seen": [
         "CAM-01"
       ],
-      "confidence_avg": 0.29,
+      "confidence_avg": 0.41,
       "last_bbox": {
-        "x1": 0.722,
-        "y1": 0.3906,
-        "x2": 0.8697,
-        "y2": 0.5515
+        "x1": 0.4956,
+        "y1": 0.7155,
+        "x2": 0.5333,
+        "y2": 0.7477
       },
       "metadata": {}
     },
@@ -448,41 +448,41 @@
       "subclass": "vehicle",
       "license_plate": null,
       "plate_confidence": null,
-      "first_seen": "2026-09-28T01:24:06.824708+00:00",
-      "last_seen": "2026-09-28T01:24:06.824708+00:00",
+      "first_seen": "2026-09-28T01:41:24.228867+00:00",
+      "last_seen": "2026-09-28T01:41:24.228867+00:00",
       "total_sightings": 1,
-      "active_track_id": 48,
+      "active_track_id": 45,
       "cameras_seen": [
         "CAM-01"
       ],
-      "confidence_avg": 0.38,
+      "confidence_avg": 0.41,
       "last_bbox": {
-        "x1": 0.5381795167922974,
-        "y1": 0.6543759107589722,
-        "x2": 0.5671729445457458,
-        "y2": 0.6835318803787231
+        "x1": 0.24689622223377228,
+        "y1": 0.4820658266544342,
+        "x2": 0.3661780059337616,
+        "y2": 0.579622745513916
       },
       "metadata": {}
     },
     {
       "global_id": "REID-O014",
       "entity_type": "object",
-      "subclass": "vehicle",
+      "subclass": "gun",
       "license_plate": null,
       "plate_confidence": null,
-      "first_seen": "2026-09-28T01:24:24.333236+00:00",
-      "last_seen": "2026-09-28T01:25:45.039203+00:00",
-      "total_sightings": 60,
-      "active_track_id": 172,
+      "first_seen": "2026-09-28T01:41:26.421044+00:00",
+      "last_seen": "2026-09-28T01:41:26.421044+00:00",
+      "total_sightings": 1,
+      "active_track_id": 49,
       "cameras_seen": [
         "CAM-01"
       ],
-      "confidence_avg": 0.41,
+      "confidence_avg": 0.32,
       "last_bbox": {
-        "x1": 0.4710412323474884,
-        "y1": 0.3869164288043976,
-        "x2": 0.5548483729362488,
-        "y2": 0.46209588646888733
+        "x1": 0.20227251946926117,
+        "y1": 0.6829696297645569,
+        "x2": 0.47241565585136414,
+        "y2": 0.9019392132759094
       },
       "metadata": {}
     },
@@ -2011,18 +2011,18 @@
       "license_plate": null,
       "plate_confidence": null,
       "first_seen": "2026-09-28T01:22:12.598327+00:00",
-      "last_seen": "2026-09-28T01:33:41.797063+00:00",
-      "total_sightings": 1153,
-      "active_track_id": 710,
+      "last_seen": "2026-09-28T01:35:16.545365+00:00",
+      "total_sightings": 1330,
+      "active_track_id": 844,
       "cameras_seen": [
         "CAM-01"
       ],
-      "confidence_avg": 0.44,
+      "confidence_avg": 0.42,
       "last_bbox": {
-        "x1": 0.6901,
-        "y1": 0.6104,
-        "x2": 0.7242,
-        "y2": 0.7325
+        "x1": 0.6846,
+        "y1": 0.6289,
+        "x2": 0.721,
+        "y2": 0.7515
       },
       "metadata": {}
     },
@@ -5927,18 +5927,18 @@
       "license_plate": null,
       "plate_confidence": null,
       "first_seen": "2026-09-28T01:31:01.863259+00:00",
-      "last_seen": "2026-09-28T01:33:42.186355+00:00",
-      "total_sightings": 189,
-      "active_track_id": 761,
+      "last_seen": "2026-09-28T01:34:10.006449+00:00",
+      "total_sightings": 210,
+      "active_track_id": 803,
       "cameras_seen": [
         "CAM-01"
       ],
-      "confidence_avg": 0.42,
+      "confidence_avg": 0.38,
       "last_bbox": {
-        "x1": 0.7560150623321533,
-        "y1": 0.4470180869102478,
-        "x2": 0.7873324751853943,
-        "y2": 0.4863188564777374
+        "x1": 0.47411882877349854,
+        "y1": 0.39071956276893616,
+        "x2": 0.5601246356964111,
+        "y2": 0.4675323963165283
       },
       "metadata": {}
     },
@@ -6367,18 +6367,18 @@
       "license_plate": null,
       "plate_confidence": null,
       "first_seen": "2026-09-28T01:31:59.411504+00:00",
-      "last_seen": "2026-09-28T01:33:43.235736+00:00",
-      "total_sightings": 89,
-      "active_track_id": 760,
+      "last_seen": "2026-09-28T01:35:11.943166+00:00",
+      "total_sightings": 150,
+      "active_track_id": 878,
       "cameras_seen": [
         "CAM-01"
       ],
       "confidence_avg": 0.4,
       "last_bbox": {
-        "x1": 0.4685,
-        "y1": 0.3961,
-        "x2": 0.5556,
-        "y2": 0.5056
+        "x1": 0.4686,
+        "y1": 0.3875,
+        "x2": 0.5554,
+        "y2": 0.4938
       },
       "metadata": {}
     },
@@ -7445,18 +7445,1668 @@
       "license_plate": null,
       "plate_confidence": null,
       "first_seen": "2026-09-28T01:33:42.186355+00:00",
-      "last_seen": "2026-09-28T01:33:42.186355+00:00",
-      "total_sightings": 1,
-      "active_track_id": 762,
+      "last_seen": "2026-09-28T01:33:48.611328+00:00",
+      "total_sightings": 2,
+      "active_track_id": 770,
       "cameras_seen": [
         "CAM-01"
       ],
       "confidence_avg": 0.37,
       "last_bbox": {
-        "x1": 0.6482620239257812,
-        "y1": 0.364865243434906,
-        "x2": 0.6716614961624146,
-        "y2": 0.44077613949775696
+        "x1": 0.7816981673240662,
+        "y1": 0.3251224756240845,
+        "x2": 0.7970492839813232,
+        "y2": 0.39277347922325134
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O120",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:33:48.611328+00:00",
+      "last_seen": "2026-09-28T01:33:48.611328+00:00",
+      "total_sightings": 1,
+      "active_track_id": 769,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.37,
+      "last_bbox": {
+        "x1": 0.0382850207388401,
+        "y1": 0.5857720971107483,
+        "x2": 0.4686679244041443,
+        "y2": 0.9480843544006348
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O121",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:33:50.361956+00:00",
+      "last_seen": "2026-09-28T01:33:50.725196+00:00",
+      "total_sightings": 2,
+      "active_track_id": 771,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.44,
+      "last_bbox": {
+        "x1": 0.0485,
+        "y1": 0.5751,
+        "x2": 0.1228,
+        "y2": 0.662
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O122",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:33:53.832747+00:00",
+      "last_seen": "2026-09-28T01:33:55.367368+00:00",
+      "total_sightings": 3,
+      "active_track_id": 775,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.4,
+      "last_bbox": {
+        "x1": 0.3771801292896271,
+        "y1": 0.5114819407463074,
+        "x2": 0.4326247572898865,
+        "y2": 0.5550177097320557
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V115",
+      "entity_type": "vehicle",
+      "subclass": "bus",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:33:55.041487+00:00",
+      "last_seen": "2026-09-28T01:33:55.041487+00:00",
+      "total_sightings": 1,
+      "active_track_id": 774,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.47,
+      "last_bbox": {
+        "x1": 0.266759991645813,
+        "y1": 0.4754125773906708,
+        "x2": 0.37108591198921204,
+        "y2": 0.5755568146705627
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P107",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:33:55.983267+00:00",
+      "last_seen": "2026-09-28T01:33:55.983267+00:00",
+      "total_sightings": 1,
+      "active_track_id": 778,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.36,
+      "last_bbox": {
+        "x1": 0.5121634602546692,
+        "y1": 0.445661336183548,
+        "x2": 0.5303179621696472,
+        "y2": 0.5121268630027771
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O123",
+      "entity_type": "object",
+      "subclass": "gun",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:33:57.778305+00:00",
+      "last_seen": "2026-09-28T01:33:58.843901+00:00",
+      "total_sightings": 2,
+      "active_track_id": 782,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.34,
+      "last_bbox": {
+        "x1": 0.196,
+        "y1": 0.6878,
+        "x2": 0.4721,
+        "y2": 0.9094
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O124",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:00.911250+00:00",
+      "last_seen": "2026-09-28T01:35:15.617931+00:00",
+      "total_sightings": 71,
+      "active_track_id": 898,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.4,
+      "last_bbox": {
+        "x1": 0.7352,
+        "y1": 0.3424,
+        "x2": 0.7728,
+        "y2": 0.3765
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O125",
+      "entity_type": "object",
+      "subclass": "tv",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:01.734086+00:00",
+      "last_seen": "2026-09-28T01:34:01.734086+00:00",
+      "total_sightings": 1,
+      "active_track_id": 789,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.43,
+      "last_bbox": {
+        "x1": 0.04180271178483963,
+        "y1": 0.05284086987376213,
+        "x2": 0.15828028321266174,
+        "y2": 0.3416960537433624
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V116",
+      "entity_type": "vehicle",
+      "subclass": "car",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:01.871930+00:00",
+      "last_seen": "2026-09-28T01:34:06.455984+00:00",
+      "total_sightings": 17,
+      "active_track_id": 791,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.51,
+      "last_bbox": {
+        "x1": 0.4767,
+        "y1": 0.4038,
+        "x2": 0.5608,
+        "y2": 0.5157
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V117",
+      "entity_type": "vehicle",
+      "subclass": "bus",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:06.856119+00:00",
+      "last_seen": "2026-09-28T01:34:15.268486+00:00",
+      "total_sightings": 3,
+      "active_track_id": 805,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.5,
+      "last_bbox": {
+        "x1": 0.46815186738967896,
+        "y1": 0.3915994465351105,
+        "x2": 0.5552526116371155,
+        "y2": 0.5028098821640015
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P108",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:08.693210+00:00",
+      "last_seen": "2026-09-28T01:34:08.693210+00:00",
+      "total_sightings": 1,
+      "active_track_id": 799,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.45,
+      "last_bbox": {
+        "x1": 0.82891446352005,
+        "y1": 0.5357770323753357,
+        "x2": 0.8398939371109009,
+        "y2": 0.5802102088928223
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O126",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:09.541050+00:00",
+      "last_seen": "2026-09-28T01:34:09.691021+00:00",
+      "total_sightings": 3,
+      "active_track_id": 802,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.39,
+      "last_bbox": {
+        "x1": 0.5021756291389465,
+        "y1": 0.7135554552078247,
+        "x2": 0.538905680179596,
+        "y2": 0.7436307072639465
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O127",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:16.486025+00:00",
+      "last_seen": "2026-09-28T01:34:17.117217+00:00",
+      "total_sightings": 3,
+      "active_track_id": 809,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.4,
+      "last_bbox": {
+        "x1": 0.7393728494644165,
+        "y1": 0.3413386046886444,
+        "x2": 0.7778992056846619,
+        "y2": 0.3754073679447174
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O128",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:16.741163+00:00",
+      "last_seen": "2026-09-28T01:34:17.797930+00:00",
+      "total_sightings": 2,
+      "active_track_id": 808,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.39,
+      "last_bbox": {
+        "x1": 0.371,
+        "y1": 0.5179,
+        "x2": 0.4169,
+        "y2": 0.5605
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O129",
+      "entity_type": "object",
+      "subclass": "gun",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:18.641666+00:00",
+      "last_seen": "2026-09-28T01:34:18.641666+00:00",
+      "total_sightings": 1,
+      "active_track_id": 810,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.3,
+      "last_bbox": {
+        "x1": 0.7161242365837097,
+        "y1": 0.4226035177707672,
+        "x2": 0.8840941190719604,
+        "y2": 0.5536778569221497
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V118",
+      "entity_type": "vehicle",
+      "subclass": "bus",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:24.980347+00:00",
+      "last_seen": "2026-09-28T01:34:25.216839+00:00",
+      "total_sightings": 2,
+      "active_track_id": 812,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.54,
+      "last_bbox": {
+        "x1": 0.2426,
+        "y1": 0.4814,
+        "x2": 0.3613,
+        "y2": 0.5794
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O130",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:25.837636+00:00",
+      "last_seen": "2026-09-28T01:34:34.049061+00:00",
+      "total_sightings": 7,
+      "active_track_id": 827,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.38,
+      "last_bbox": {
+        "x1": 0.875,
+        "y1": 0.4524,
+        "x2": 0.9457,
+        "y2": 0.526
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V119",
+      "entity_type": "vehicle",
+      "subclass": "car",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:26.824685+00:00",
+      "last_seen": "2026-09-28T01:34:36.226166+00:00",
+      "total_sightings": 8,
+      "active_track_id": 829,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.57,
+      "last_bbox": {
+        "x1": 0.4736,
+        "y1": 0.3922,
+        "x2": 0.5577,
+        "y2": 0.4954
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O131",
+      "entity_type": "object",
+      "subclass": "gun",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:27.602557+00:00",
+      "last_seen": "2026-09-28T01:34:28.226304+00:00",
+      "total_sightings": 2,
+      "active_track_id": 820,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.3,
+      "last_bbox": {
+        "x1": 0.0372,
+        "y1": 0.792,
+        "x2": 0.5135,
+        "y2": 0.9951
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P109",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:28.731448+00:00",
+      "last_seen": "2026-09-28T01:34:28.971662+00:00",
+      "total_sightings": 2,
+      "active_track_id": 825,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.45,
+      "last_bbox": {
+        "x1": 0.8151929378509521,
+        "y1": 0.8221082091331482,
+        "x2": 0.8305081725120544,
+        "y2": 0.8899287581443787
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O132",
+      "entity_type": "object",
+      "subclass": "tv",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:35.231522+00:00",
+      "last_seen": "2026-09-28T01:34:35.231522+00:00",
+      "total_sightings": 1,
+      "active_track_id": 828,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.39,
+      "last_bbox": {
+        "x1": 0.03792329132556915,
+        "y1": 0.03563183173537254,
+        "x2": 0.15568384528160095,
+        "y2": 0.3178746700286865
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O133",
+      "entity_type": "object",
+      "subclass": "explosive",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:35.467542+00:00",
+      "last_seen": "2026-09-28T01:34:35.467542+00:00",
+      "total_sightings": 1,
+      "active_track_id": 831,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.25,
+      "last_bbox": {
+        "x1": 0.06591589748859406,
+        "y1": 0.5458986759185791,
+        "x2": 0.2696886658668518,
+        "y2": 0.8674493432044983
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O134",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:36.975869+00:00",
+      "last_seen": "2026-09-28T01:34:43.117083+00:00",
+      "total_sightings": 9,
+      "active_track_id": 848,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.38,
+      "last_bbox": {
+        "x1": 0.5388995409011841,
+        "y1": 0.6548362374305725,
+        "x2": 0.568487286567688,
+        "y2": 0.682309091091156
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O135",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:37.933207+00:00",
+      "last_seen": "2026-09-28T01:34:37.933207+00:00",
+      "total_sightings": 1,
+      "active_track_id": 838,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.37,
+      "last_bbox": {
+        "x1": 0.6455993056297302,
+        "y1": 0.6105680465698242,
+        "x2": 0.6732858419418335,
+        "y2": 0.6601267457008362
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O136",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:38.326587+00:00",
+      "last_seen": "2026-09-28T01:34:55.518922+00:00",
+      "total_sightings": 14,
+      "active_track_id": 871,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.39,
+      "last_bbox": {
+        "x1": 0.3381170928478241,
+        "y1": 0.4449829161167145,
+        "x2": 0.4409458637237549,
+        "y2": 0.5192460417747498
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V120",
+      "entity_type": "vehicle",
+      "subclass": "bus",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:43.117083+00:00",
+      "last_seen": "2026-09-28T01:34:43.117083+00:00",
+      "total_sightings": 1,
+      "active_track_id": 847,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.5,
+      "last_bbox": {
+        "x1": 0.4676430821418762,
+        "y1": 0.3880389332771301,
+        "x2": 0.5552106499671936,
+        "y2": 0.4924449920654297
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O137",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:43.655256+00:00",
+      "last_seen": "2026-09-28T01:34:45.121271+00:00",
+      "total_sightings": 2,
+      "active_track_id": 849,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.41,
+      "last_bbox": {
+        "x1": 0.0304,
+        "y1": 0.5837,
+        "x2": 0.4685,
+        "y2": 0.9491
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P110",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:47.003405+00:00",
+      "last_seen": "2026-09-28T01:34:57.151078+00:00",
+      "total_sightings": 2,
+      "active_track_id": 874,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.41,
+      "last_bbox": {
+        "x1": 0.4766697287559509,
+        "y1": 0.7597486972808838,
+        "x2": 0.49739915132522583,
+        "y2": 0.8304435014724731
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O138",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:48.579815+00:00",
+      "last_seen": "2026-09-28T01:34:49.807109+00:00",
+      "total_sightings": 3,
+      "active_track_id": 859,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.42,
+      "last_bbox": {
+        "x1": 0.08703336864709854,
+        "y1": 0.5273917317390442,
+        "x2": 0.21511021256446838,
+        "y2": 0.6315104365348816
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V121",
+      "entity_type": "vehicle",
+      "subclass": "car",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:49.259634+00:00",
+      "last_seen": "2026-09-28T01:34:49.259634+00:00",
+      "total_sightings": 1,
+      "active_track_id": 857,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.5,
+      "last_bbox": {
+        "x1": 0.04600370302796364,
+        "y1": 0.572005569934845,
+        "x2": 0.12125378847122192,
+        "y2": 0.6679311394691467
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V122",
+      "entity_type": "vehicle",
+      "subclass": "bus",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:49.527666+00:00",
+      "last_seen": "2026-09-28T01:34:49.527666+00:00",
+      "total_sightings": 1,
+      "active_track_id": 858,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.52,
+      "last_bbox": {
+        "x1": 0.08237720280885696,
+        "y1": 0.5265055894851685,
+        "x2": 0.2102026492357254,
+        "y2": 0.6279613375663757
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O139",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:51.173057+00:00",
+      "last_seen": "2026-09-28T01:34:51.173057+00:00",
+      "total_sightings": 1,
+      "active_track_id": 864,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.38,
+      "last_bbox": {
+        "x1": 0.5631490349769592,
+        "y1": 0.7856864929199219,
+        "x2": 0.6810063719749451,
+        "y2": 0.9041561484336853
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V123",
+      "entity_type": "vehicle",
+      "subclass": "bus",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:52.552883+00:00",
+      "last_seen": "2026-09-28T01:34:52.552883+00:00",
+      "total_sightings": 1,
+      "active_track_id": 867,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.62,
+      "last_bbox": {
+        "x1": 0.24438698589801788,
+        "y1": 0.4816637337207794,
+        "x2": 0.3583860695362091,
+        "y2": 0.5793569087982178
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P111",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:57.152093+00:00",
+      "last_seen": "2026-09-28T01:34:58.059368+00:00",
+      "total_sightings": 2,
+      "active_track_id": 877,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.39,
+      "last_bbox": {
+        "x1": 0.839341402053833,
+        "y1": 0.8053178787231445,
+        "x2": 0.8571022748947144,
+        "y2": 0.8675194382667542
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O140",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:34:57.152093+00:00",
+      "last_seen": "2026-09-28T01:35:02.706685+00:00",
+      "total_sightings": 11,
+      "active_track_id": 885,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.45,
+      "last_bbox": {
+        "x1": 0.8478,
+        "y1": 0.4571,
+        "x2": 0.9387,
+        "y2": 0.525
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O141",
+      "entity_type": "object",
+      "subclass": "tv",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:35:00.540407+00:00",
+      "last_seen": "2026-09-28T01:35:03.743025+00:00",
+      "total_sightings": 2,
+      "active_track_id": 889,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.39,
+      "last_bbox": {
+        "x1": 0.03777337446808815,
+        "y1": 0.03829658776521683,
+        "x2": 0.15537415444850922,
+        "y2": 0.31457090377807617
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V124",
+      "entity_type": "vehicle",
+      "subclass": "bus",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:35:01.457190+00:00",
+      "last_seen": "2026-09-28T01:35:09.472488+00:00",
+      "total_sightings": 6,
+      "active_track_id": 892,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.53,
+      "last_bbox": {
+        "x1": 0.47,
+        "y1": 0.3841,
+        "x2": 0.5565,
+        "y2": 0.493
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V125",
+      "entity_type": "vehicle",
+      "subclass": "car",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:35:03.007099+00:00",
+      "last_seen": "2026-09-28T01:35:05.257246+00:00",
+      "total_sightings": 5,
+      "active_track_id": 886,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.5,
+      "last_bbox": {
+        "x1": 0.4798,
+        "y1": 0.4027,
+        "x2": 0.5628,
+        "y2": 0.5102
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O142",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:35:03.500946+00:00",
+      "last_seen": "2026-09-28T01:35:12.638878+00:00",
+      "total_sightings": 2,
+      "active_track_id": 897,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.39,
+      "last_bbox": {
+        "x1": 0.01706228405237198,
+        "y1": 0.5638079643249512,
+        "x2": 0.4605303108692169,
+        "y2": 0.9453962445259094
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O143",
+      "entity_type": "object",
+      "subclass": "gun",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:35:03.501965+00:00",
+      "last_seen": "2026-09-28T01:35:03.501965+00:00",
+      "total_sightings": 1,
+      "active_track_id": 888,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.32,
+      "last_bbox": {
+        "x1": 0.7375326752662659,
+        "y1": 0.3824934959411621,
+        "x2": 0.8699712753295898,
+        "y2": 0.5574103593826294
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O144",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:35:06.311123+00:00",
+      "last_seen": "2026-09-28T01:35:11.375353+00:00",
+      "total_sightings": 5,
+      "active_track_id": 890,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.37,
+      "last_bbox": {
+        "x1": 0.5409,
+        "y1": 0.6531,
+        "x2": 0.5687,
+        "y2": 0.6821
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O145",
+      "entity_type": "object",
+      "subclass": "signal",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:35:08.102182+00:00",
+      "last_seen": "2026-09-28T01:35:08.102182+00:00",
+      "total_sightings": 1,
+      "active_track_id": 891,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.36,
+      "last_bbox": {
+        "x1": 0.1554444134235382,
+        "y1": 0.3556629717350006,
+        "x2": 0.17868982255458832,
+        "y2": 0.4159166216850281
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V126",
+      "entity_type": "vehicle",
+      "subclass": "truck",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:35:11.944168+00:00",
+      "last_seen": "2026-09-28T01:35:12.277616+00:00",
+      "total_sightings": 2,
+      "active_track_id": 895,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.58,
+      "last_bbox": {
+        "x1": 0.0198,
+        "y1": 0.5711,
+        "x2": 0.464,
+        "y2": 0.9433
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-O146",
+      "entity_type": "object",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:35:13.718453+00:00",
+      "last_seen": "2026-09-28T01:35:13.718453+00:00",
+      "total_sightings": 1,
+      "active_track_id": 899,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.38,
+      "last_bbox": {
+        "x1": 0.36893802881240845,
+        "y1": 0.5130648612976074,
+        "x2": 0.41307541728019714,
+        "y2": 0.5553486943244934
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P112",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:39:11.505903+00:00",
+      "last_seen": "2026-09-28T01:39:14.457725+00:00",
+      "total_sightings": 3,
+      "active_track_id": 1,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.55,
+      "last_bbox": {
+        "x1": 0.6973,
+        "y1": 0.6243,
+        "x2": 0.7325,
+        "y2": 0.7448
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P113",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:39:12.240538+00:00",
+      "last_seen": "2026-09-28T01:39:12.240538+00:00",
+      "total_sightings": 1,
+      "active_track_id": 2,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.38,
+      "last_bbox": {
+        "x1": 0.5371905565261841,
+        "y1": 0.714023768901825,
+        "x2": 0.5553199052810669,
+        "y2": 0.7839815616607666
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V127",
+      "entity_type": "vehicle",
+      "subclass": "bus",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:39:14.802948+00:00",
+      "last_seen": "2026-09-28T01:39:14.802948+00:00",
+      "total_sightings": 1,
+      "active_track_id": 3,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.48,
+      "last_bbox": {
+        "x1": 0.12968598306179047,
+        "y1": 0.5122351050376892,
+        "x2": 0.2548603117465973,
+        "y2": 0.6110379695892334
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P114",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:39:57.864724+00:00",
+      "last_seen": "2026-09-28T01:41:26.859151+00:00",
+      "total_sightings": 67,
+      "active_track_id": 1,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.43,
+      "last_bbox": {
+        "x1": 0.6941,
+        "y1": 0.6332,
+        "x2": 0.7289,
+        "y2": 0.7502
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V128",
+      "entity_type": "vehicle",
+      "subclass": "truck",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:40:06.664403+00:00",
+      "last_seen": "2026-09-28T01:40:06.664403+00:00",
+      "total_sightings": 1,
+      "active_track_id": 6,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.68,
+      "last_bbox": {
+        "x1": 0.019548989832401276,
+        "y1": 0.5707826018333435,
+        "x2": 0.4649187922477722,
+        "y2": 0.9429706335067749
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P115",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:40:16.541042+00:00",
+      "last_seen": "2026-09-28T01:40:16.541042+00:00",
+      "total_sightings": 1,
+      "active_track_id": 7,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.41,
+      "last_bbox": {
+        "x1": 0.4868033528327942,
+        "y1": 0.7586333155632019,
+        "x2": 0.5058034062385559,
+        "y2": 0.8350319862365723
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P116",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:40:17.077566+00:00",
+      "last_seen": "2026-09-28T01:40:22.398799+00:00",
+      "total_sightings": 2,
+      "active_track_id": 8,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.42,
+      "last_bbox": {
+        "x1": 0.7866,
+        "y1": 0.3295,
+        "x2": 0.8011,
+        "y2": 0.3975
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V129",
+      "entity_type": "vehicle",
+      "subclass": "motorcycle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:40:22.399853+00:00",
+      "last_seen": "2026-09-28T01:40:22.399853+00:00",
+      "total_sightings": 1,
+      "active_track_id": 13,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.48,
+      "last_bbox": {
+        "x1": 0.5073858499526978,
+        "y1": 0.6507898569107056,
+        "x2": 0.5873567461967468,
+        "y2": 0.7606858015060425
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V130",
+      "entity_type": "vehicle",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:40:45.152160+00:00",
+      "last_seen": "2026-09-28T01:40:45.152160+00:00",
+      "total_sightings": 1,
+      "active_track_id": 16,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.53,
+      "last_bbox": {
+        "x1": 0.7540901303291321,
+        "y1": 0.4381159543991089,
+        "x2": 0.7859737873077393,
+        "y2": 0.4798726439476013
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V131",
+      "entity_type": "vehicle",
+      "subclass": "car",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:40:49.370565+00:00",
+      "last_seen": "2026-09-28T01:40:49.370565+00:00",
+      "total_sightings": 1,
+      "active_track_id": 20,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.49,
+      "last_bbox": {
+        "x1": 0.04644758999347687,
+        "y1": 0.5684188008308411,
+        "x2": 0.1247415766119957,
+        "y2": 0.660116970539093
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P117",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:40:57.316601+00:00",
+      "last_seen": "2026-09-28T01:40:57.316601+00:00",
+      "total_sightings": 1,
+      "active_track_id": 28,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.36,
+      "last_bbox": {
+        "x1": 0.8131382465362549,
+        "y1": 0.8240240216255188,
+        "x2": 0.8290547132492065,
+        "y2": 0.8901200890541077
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V132",
+      "entity_type": "vehicle",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:41:03.265815+00:00",
+      "last_seen": "2026-09-28T01:41:03.265815+00:00",
+      "total_sightings": 1,
+      "active_track_id": 35,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.47,
+      "last_bbox": {
+        "x1": 0.22775642573833466,
+        "y1": 0.47477367520332336,
+        "x2": 0.27805203199386597,
+        "y2": 0.5180425643920898
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P118",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:41:27.414929+00:00",
+      "last_seen": "2026-09-28T01:41:27.414929+00:00",
+      "total_sightings": 1,
+      "active_track_id": 50,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.43,
+      "last_bbox": {
+        "x1": 0.8023576736450195,
+        "y1": 0.8279657363891602,
+        "x2": 0.820722758769989,
+        "y2": 0.8991448283195496
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P119",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:42:01.550877+00:00",
+      "last_seen": "2026-09-28T01:42:13.674111+00:00",
+      "total_sightings": 14,
+      "active_track_id": 1,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.48,
+      "last_bbox": {
+        "x1": 0.6925,
+        "y1": 0.6315,
+        "x2": 0.7289,
+        "y2": 0.7499
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V133",
+      "entity_type": "vehicle",
+      "subclass": "truck",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:42:04.242824+00:00",
+      "last_seen": "2026-09-28T01:42:08.537199+00:00",
+      "total_sightings": 2,
+      "active_track_id": 2,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.6,
+      "last_bbox": {
+        "x1": 0.0332,
+        "y1": 0.5771,
+        "x2": 0.4677,
+        "y2": 0.9485
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V134",
+      "entity_type": "vehicle",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:42:08.537199+00:00",
+      "last_seen": "2026-09-28T01:42:08.956899+00:00",
+      "total_sightings": 2,
+      "active_track_id": 5,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.46,
+      "last_bbox": {
+        "x1": 0.7387815713882446,
+        "y1": 0.3426676094532013,
+        "x2": 0.7758462429046631,
+        "y2": 0.3755917549133301
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P120",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:42:13.278996+00:00",
+      "last_seen": "2026-09-28T01:42:13.278996+00:00",
+      "total_sightings": 1,
+      "active_track_id": 7,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.41,
+      "last_bbox": {
+        "x1": 0.4868033528327942,
+        "y1": 0.7586333155632019,
+        "x2": 0.5058034062385559,
+        "y2": 0.8350319862365723
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P121",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:58:21.739892+00:00",
+      "last_seen": "2026-09-28T02:06:44.800562+00:00",
+      "total_sightings": 98,
+      "active_track_id": 55,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.44,
+      "last_bbox": {
+        "x1": 0.6885,
+        "y1": 0.625,
+        "x2": 0.7245,
+        "y2": 0.7439
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V135",
+      "entity_type": "vehicle",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:58:24.103928+00:00",
+      "last_seen": "2026-09-28T01:58:24.103928+00:00",
+      "total_sightings": 1,
+      "active_track_id": 3,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.49,
+      "last_bbox": {
+        "x1": 0.3748054802417755,
+        "y1": 0.4407661557197571,
+        "x2": 0.4665655195713043,
+        "y2": 0.5137795209884644
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P122",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:58:27.118419+00:00",
+      "last_seen": "2026-09-28T01:58:28.077491+00:00",
+      "total_sightings": 4,
+      "active_track_id": 13,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.44,
+      "last_bbox": {
+        "x1": 0.8493672013282776,
+        "y1": 0.802722692489624,
+        "x2": 0.8637108206748962,
+        "y2": 0.8705432415008545
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P123",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:58:27.405397+00:00",
+      "last_seen": "2026-09-28T01:58:29.609771+00:00",
+      "total_sightings": 5,
+      "active_track_id": 15,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.43,
+      "last_bbox": {
+        "x1": 0.5131,
+        "y1": 0.6611,
+        "x2": 0.5291,
+        "y2": 0.7287
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P124",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:58:28.769955+00:00",
+      "last_seen": "2026-09-28T01:58:29.029854+00:00",
+      "total_sightings": 2,
+      "active_track_id": 14,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.36,
+      "last_bbox": {
+        "x1": 0.7779,
+        "y1": 0.519,
+        "x2": 0.7925,
+        "y2": 0.5741
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V136",
+      "entity_type": "vehicle",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:58:32.264771+00:00",
+      "last_seen": "2026-09-28T01:58:34.736766+00:00",
+      "total_sightings": 7,
+      "active_track_id": 23,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.53,
+      "last_bbox": {
+        "x1": 0.8598,
+        "y1": 0.4635,
+        "x2": 0.9372,
+        "y2": 0.5204
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P125",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:58:34.333764+00:00",
+      "last_seen": "2026-09-28T01:58:34.333764+00:00",
+      "total_sightings": 1,
+      "active_track_id": 24,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.36,
+      "last_bbox": {
+        "x1": 0.4449189305305481,
+        "y1": 0.48710933327674866,
+        "x2": 0.45802414417266846,
+        "y2": 0.529022216796875
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V137",
+      "entity_type": "vehicle",
+      "subclass": "bus",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:58:36.229835+00:00",
+      "last_seen": "2026-09-28T01:58:41.033726+00:00",
+      "total_sightings": 4,
+      "active_track_id": 30,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.52,
+      "last_bbox": {
+        "x1": 0.4718,
+        "y1": 0.3896,
+        "x2": 0.5545,
+        "y2": 0.4938
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V138",
+      "entity_type": "vehicle",
+      "subclass": "car",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:58:38.261935+00:00",
+      "last_seen": "2026-09-28T01:58:40.257727+00:00",
+      "total_sightings": 2,
+      "active_track_id": 34,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.55,
+      "last_bbox": {
+        "x1": 0.4771,
+        "y1": 0.3927,
+        "x2": 0.5604,
+        "y2": 0.4978
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P126",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:59:01.373068+00:00",
+      "last_seen": "2026-09-28T01:59:01.373068+00:00",
+      "total_sightings": 1,
+      "active_track_id": 54,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.62,
+      "last_bbox": {
+        "x1": 0.9108400940895081,
+        "y1": 0.5965880751609802,
+        "x2": 0.9794145822525024,
+        "y2": 0.8419557213783264
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-P127",
+      "entity_type": "person",
+      "subclass": "person",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:59:06.113470+00:00",
+      "last_seen": "2026-09-28T01:59:06.113470+00:00",
+      "total_sightings": 1,
+      "active_track_id": 63,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.36,
+      "last_bbox": {
+        "x1": 0.8267441391944885,
+        "y1": 0.8154071569442749,
+        "x2": 0.84227454662323,
+        "y2": 0.8821477293968201
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V139",
+      "entity_type": "vehicle",
+      "subclass": "vehicle",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:59:07.804952+00:00",
+      "last_seen": "2026-09-28T01:59:14.436586+00:00",
+      "total_sightings": 11,
+      "active_track_id": 72,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.43,
+      "last_bbox": {
+        "x1": 0.7545,
+        "y1": 0.4482,
+        "x2": 0.7848,
+        "y2": 0.4867
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V140",
+      "entity_type": "vehicle",
+      "subclass": "bus",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:59:08.805489+00:00",
+      "last_seen": "2026-09-28T01:59:20.368112+00:00",
+      "total_sightings": 2,
+      "active_track_id": 80,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.51,
+      "last_bbox": {
+        "x1": 0.46826085448265076,
+        "y1": 0.3934020698070526,
+        "x2": 0.5559419393539429,
+        "y2": 0.5041455030441284
+      },
+      "metadata": {}
+    },
+    {
+      "global_id": "REID-V141",
+      "entity_type": "vehicle",
+      "subclass": "car",
+      "license_plate": null,
+      "plate_confidence": null,
+      "first_seen": "2026-09-28T01:59:15.073986+00:00",
+      "last_seen": "2026-09-28T01:59:15.671329+00:00",
+      "total_sightings": 3,
+      "active_track_id": 76,
+      "cameras_seen": [
+        "CAM-01"
+      ],
+      "confidence_avg": 0.5,
+      "last_bbox": {
+        "x1": 0.466,
+        "y1": 0.3879,
+        "x2": 0.5501,
+        "y2": 0.4957
       },
       "metadata": {}
     }

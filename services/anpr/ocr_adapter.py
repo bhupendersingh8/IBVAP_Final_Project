@@ -187,6 +187,75 @@ class EasyOCREngine(OCREngine):
             status=status
         )
 
+
+class PaddleOCREngine(OCREngine):
+    """
+    PaddleOCR Engine (Apache-2.0).
+    Permissive, high-performance multilingual optical character recognition.
+    Falls back gracefully to EasyOCR or unreadable status if paddleocr is not installed.
+    """
+    def __init__(
+        self,
+        min_confidence: float = 0.50,
+        blur_threshold: float = 12.0,
+        lang: str = "en"
+    ):
+        self.min_confidence = min_confidence
+        self.blur_threshold = blur_threshold
+        self.lang = lang
+        self._ocr = None
+        self._fallback = EasyOCREngine(min_confidence=min_confidence, blur_threshold=blur_threshold)
+
+    def _ensure_ocr(self):
+        if self._ocr is None:
+            try:
+                from paddleocr import PaddleOCR
+                self._ocr = PaddleOCR(use_angle_cls=True, lang=self.lang, show_log=False)
+                logger.info("PaddleOCR engine initialized successfully (Apache-2.0).")
+            except (ImportError, Exception) as e:
+                logger.debug("PaddleOCR not available; using EasyOCR fallback", error=str(e))
+                self._ocr = False
+
+    def read_plate(self, plate_crop: np.ndarray) -> OCRResult:
+        t0 = time.time()
+        if plate_crop is None or plate_crop.size == 0:
+            return OCRResult(raw_text="", normalized_text="", confidence=0.0, processing_time_ms=0.0, status="UNREADABLE")
+
+        self._ensure_ocr()
+        if self._ocr is False:
+            return self._fallback.read_plate(plate_crop)
+
+        # Check blur
+        gray = cv2.cvtColor(plate_crop, cv2.COLOR_BGR2GRAY) if len(plate_crop.shape) == 3 else plate_crop
+        if cv2.Laplacian(gray, cv2.CV_64F).var() < self.blur_threshold:
+            return OCRResult(raw_text="", normalized_text="", confidence=0.0, processing_time_ms=round((time.time() - t0) * 1000, 2), status="UNREADABLE")
+
+        try:
+            results = self._ocr.ocr(plate_crop, cls=True)
+            if not results or not results[0]:
+                return OCRResult(raw_text="", normalized_text="", confidence=0.0, processing_time_ms=round((time.time() - t0) * 1000, 2), status="UNREADABLE")
+
+            texts = []
+            confs = []
+            for line in results[0]:
+                text_info = line[1]
+                texts.append(text_info[0])
+                confs.append(float(text_info[1]))
+
+            raw = " ".join(texts)
+            normalized = normalize_plate_text(raw)
+            avg_conf = sum(confs) / max(1, len(confs))
+            t_ms = round((time.time() - t0) * 1000, 2)
+
+            if not normalized or avg_conf < self.min_confidence:
+                return OCRResult(raw_text=raw, normalized_text="UNKNOWN", confidence=avg_conf, processing_time_ms=t_ms, status="LOW_CONFIDENCE")
+
+            return OCRResult(raw_text=raw, normalized_text=normalized, confidence=avg_conf, processing_time_ms=t_ms, status="SUCCESS")
+        except Exception as e:
+            logger.warning("PaddleOCR read error, falling back to EasyOCR", error=str(e))
+            return self._fallback.read_plate(plate_crop)
+
+
 class MockOCREngine(OCREngine):
     """
     Deterministic mock OCR engine for automated testing and edge case simulation.

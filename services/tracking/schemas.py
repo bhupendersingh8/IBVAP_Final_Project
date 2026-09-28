@@ -22,6 +22,15 @@ class TrackPoint:
         if self.timestamp.tzinfo is None:
             raise ValueError("TrackPoint timestamp must be timezone-aware (UTC).")
 
+class LifecycleTrackState(str, Enum):
+    DETECTED = "DETECTED"
+    TENTATIVE = "TENTATIVE"
+    STABLE = "STABLE"
+    VERIFIED = "VERIFIED"
+    ALERT_ELIGIBLE = "ALERT_ELIGIBLE"
+    EXPIRED = "EXPIRED"
+    CLEARED = "CLEARED"
+
 @dataclass
 class Track:
     track_id: int
@@ -37,6 +46,12 @@ class Track:
     confidence_history: List[float] = field(default_factory=list)
     trajectory: List[TrackPoint] = field(default_factory=list)
     age_frames: int = 0
+    velocity_estimate: float = 0.0
+    zone_state: str = "MONITORING"
+    identity_state: str = "UNKNOWN"
+    quality: float = 1.0
+    lifecycle_state: str = "DETECTED"
+    confidence: float = 0.90
 
     def __post_init__(self):
         if self.first_seen.tzinfo is None or self.last_seen.tzinfo is None:

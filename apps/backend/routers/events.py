@@ -6,7 +6,14 @@ from datetime import datetime, timezone
 
 from ..database.connection import get_db
 from ..database.models import Incident, Event, Feedback
-from ..schemas.event import IncidentResponse, EventResponse, FeedbackCreate, IncidentStatusUpdate
+from ..schemas.event import (
+    IncidentResponse,
+    EventResponse,
+    FeedbackCreate,
+    IncidentStatusUpdate,
+    EvidenceVerifyRequest,
+    EvidenceVerifyResponse,
+)
 from ..schemas.common import SuccessResponse
 from ..auth.jwt_auth import require_auth, require_permission
 from ..auth.rbac import Role, Permission
@@ -189,6 +196,90 @@ async def verify_evidence_hash_chain(
         "audit_message": message,
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
+
+@router.post("/evidence/verify", response_model=EvidenceVerifyResponse)
+async def verify_evidence_asset(
+    payload: EvidenceVerifyRequest,
+    db: AsyncSession = Depends(get_db),
+    user: dict = Depends(require_permission(Permission.VERIFY_EVIDENCE))
+):
+    """
+    Validates evidence integrity against the cryptographic SHA-256 register.
+    Termed strictly as TAMPER-EVIDENT and INTEGRITY-VERIFIABLE.
+    Fails verification if the physical evidence file has been modified or altered.
+    """
+    import os
+    import hashlib
+
+    incident = None
+    target_path = payload.file_path
+    recorded_sha = payload.expected_sha256 or ""
+
+    if payload.incident_id:
+        incident = await db.get(Incident, payload.incident_id)
+        if not incident:
+            return EvidenceVerifyResponse(
+                incident_id=payload.incident_id,
+                file_path=target_path,
+                recorded_sha256="",
+                computed_sha256="",
+                integrity_verified=False,
+                status="INCIDENT_NOT_FOUND",
+                message=f"Incident '{payload.incident_id}' not found in database.",
+            )
+        target_path = incident.evidence_reference
+        recorded_sha = incident.sha256 or ""
+
+    if not target_path or not os.path.exists(target_path):
+        return EvidenceVerifyResponse(
+            incident_id=payload.incident_id,
+            file_path=target_path,
+            recorded_sha256=recorded_sha,
+            computed_sha256="",
+            integrity_verified=False,
+            status="FILE_NOT_FOUND",
+            message=f"Evidence file '{target_path}' does not exist on disk.",
+        )
+
+    # Compute actual SHA-256 of the on-disk file
+    hasher = hashlib.sha256()
+    try:
+        with open(target_path, "rb") as f:
+            while chunk := f.read(65536):
+                hasher.update(chunk)
+        computed_sha = hasher.hexdigest()
+    except Exception as e:
+        return EvidenceVerifyResponse(
+            incident_id=payload.incident_id,
+            file_path=target_path,
+            recorded_sha256=recorded_sha,
+            computed_sha256="",
+            integrity_verified=False,
+            status="READ_ERROR",
+            message=f"Error reading file: {str(e)}",
+        )
+
+    is_verified = (computed_sha.lower() == recorded_sha.lower())
+    if is_verified:
+        return EvidenceVerifyResponse(
+            incident_id=payload.incident_id,
+            file_path=target_path,
+            recorded_sha256=recorded_sha,
+            computed_sha256=computed_sha,
+            integrity_verified=True,
+            status="TAMPER_EVIDENT_VALID",
+            message="Evidence integrity verified. SHA-256 matches Section 65B cryptographic register.",
+        )
+    else:
+        return EvidenceVerifyResponse(
+            incident_id=payload.incident_id,
+            file_path=target_path,
+            recorded_sha256=recorded_sha,
+            computed_sha256=computed_sha,
+            integrity_verified=False,
+            status="TAMPER_DETECTED",
+            message="Integrity violation! Physical file hash differs from recorded Section 65B ledger digest.",
+        )
 
 @router.post("/feedback", response_model=SuccessResponse)
 @router.post("/events/feedback", response_model=SuccessResponse)

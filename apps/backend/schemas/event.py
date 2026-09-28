@@ -39,3 +39,17 @@ class FeedbackCreate(BaseModel):
     incident_id: str
     label: str  # TRUE_INTRUSION, FALSE_ALARM, UNSURE
     notes: Optional[str] = None
+
+class EvidenceVerifyRequest(BaseModel):
+    incident_id: Optional[str] = None
+    file_path: Optional[str] = None
+    expected_sha256: Optional[str] = None
+
+class EvidenceVerifyResponse(BaseModel):
+    incident_id: Optional[str] = None
+    file_path: Optional[str] = None
+    recorded_sha256: str
+    computed_sha256: str
+    integrity_verified: bool
+    status: str  # TAMPER_EVIDENT_VALID, TAMPER_DETECTED, FILE_NOT_FOUND, INCIDENT_NOT_FOUND
+    message: str

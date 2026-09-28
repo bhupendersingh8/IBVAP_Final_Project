@@ -64,6 +64,9 @@ class ANPRObservation:
     model_version: str = "1.0.0"
     ocr_engine: str = "easyocr"
     consistent_readings: int = 1
+    observation_count: int = 1
+    best_frame: Optional[str] = None
+    temporal_consistency: float = 1.0
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -80,7 +83,10 @@ class ANPRObservation:
             "evidence_sha256": self.evidence_sha256,
             "model_version": self.model_version,
             "ocr_engine": self.ocr_engine,
-            "consistent_readings": self.consistent_readings
+            "consistent_readings": self.consistent_readings,
+            "observation_count": self.observation_count or self.consistent_readings,
+            "best_frame": self.best_frame,
+            "temporal_consistency": round(self.temporal_consistency, 2),
         }
 
 @dataclass

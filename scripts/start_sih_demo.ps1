@@ -8,6 +8,10 @@
     5. React Operations Dashboard
 #>
 
+param(
+    [switch]$KeepAlive
+)
+
 $ErrorActionPreference = "Continue"
 
 Write-Host "==========================================================" -ForegroundColor Cyan
@@ -88,3 +92,12 @@ Write-Host " IBVAP LIVE DEMO IS FULLY ACTIVE AND STREAMING!" -ForegroundColor Gr
 Write-Host " Open URL in Browser: http://localhost:5173" -ForegroundColor Cyan
 Write-Host " Stop with: powershell scripts\stop_sih_demo.ps1" -ForegroundColor Gray
 Write-Host "==========================================================" -ForegroundColor Green
+
+if ($KeepAlive) {
+    Write-Host "Keeping demo session alive (PID monitor active)..." -ForegroundColor Cyan
+    try {
+        Wait-Process -Id $backProc.Id -ErrorAction SilentlyContinue
+    } catch {
+        # graceful exit
+    }
+}

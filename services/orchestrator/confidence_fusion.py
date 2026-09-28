@@ -30,6 +30,11 @@ class FusedTargetRecord:
     disagreements: List[str] = field(default_factory=list)
     alert_eligible: bool = False
     notes: str = ""
+    event_score: float = 0.0
+    supporting_signals: List[str] = field(default_factory=list)
+    missing_signals: List[str] = field(default_factory=list)
+    uncertainty: float = 0.10
+    decision_state: str = "NORMAL"  # NORMAL, OBSERVE, REVIEW, CONFIRMED_EVENT
 
 
 class ConfidenceFusionEngine:
@@ -121,6 +126,39 @@ class ConfidenceFusionEngine:
             # High hazard perimeter rapid response shortcut
             is_alert_eligible = True
 
+        # 5. Supporting & Missing Signals Analysis (Phase 13)
+        supporting: List[str] = [f"Primary detector ({final_class}: {primary_conf:.2f})"]
+        missing: List[str] = []
+
+        if temporal_frame_count >= 15:
+            supporting.append(f"Temporal persistence: {temporal_frame_count} frames ({temporal_state})")
+        else:
+            missing.append(f"Immature track history ({temporal_frame_count} frames)")
+
+        if zone_hazard_score > 0.5:
+            supporting.append(f"Zone hazard rating: {zone_hazard_score:.2f} ({zone_name})")
+
+        if identity_state in ("UNAUTHORIZED", "AUTHORIZED"):
+            supporting.append(f"Identity state: {identity_state}")
+        else:
+            missing.append("Unconfirmed identity (UNKNOWN)")
+
+        for spec_k, spec_v in spec_attrs.items():
+            supporting.append(f"Specialist confirmation: {spec_k}")
+
+        uncertainty = round(max(0.01, 1.0 - fused_conf), 3)
+        event_score = round(fused_conf * (0.4 + 0.6 * max(0.1, zone_hazard_score)), 3)
+
+        # Decision State derivation
+        if is_alert_eligible and fused_conf >= 0.65:
+            decision_state = "CONFIRMED_EVENT"
+        elif is_alert_eligible or zone_hazard_score >= 0.70:
+            decision_state = "REVIEW"
+        elif temporal_frame_count >= 5 or fused_conf >= 0.45:
+            decision_state = "OBSERVE"
+        else:
+            decision_state = "NORMAL"
+
         return FusedTargetRecord(
             target_id=str(target_id),
             camera_id=camera_id,
@@ -136,5 +174,10 @@ class ConfidenceFusionEngine:
             specialist_attributes=spec_attrs,
             disagreements=disagreements,
             alert_eligible=is_alert_eligible,
-            notes=f"Temporal maturity: {temporal_frame_count} frames, State: {temporal_state}"
+            notes=f"Temporal maturity: {temporal_frame_count} frames, State: {temporal_state}",
+            event_score=event_score,
+            supporting_signals=supporting,
+            missing_signals=missing,
+            uncertainty=uncertainty,
+            decision_state=decision_state,
         )

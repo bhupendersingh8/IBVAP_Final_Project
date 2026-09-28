@@ -37,6 +37,8 @@ class RTSPSource(CameraSource):
         self._error_msg: Optional[str] = None
         self._fps_measured = 0.0
         self._frame_times = []  # For rolling FPS calculation
+        self._last_capture_latency_ms = 0.0
+        self._total_reconnect_time_sec = 0.0
 
     def start(self) -> None:
         if self._thread is not None and self._thread.is_alive():
@@ -70,7 +72,10 @@ class RTSPSource(CameraSource):
             total_frames=self._total_frames,
             dropped_frames=self.buffer.dropped_count,
             reconnect_count=self._reconnect_count,
-            error_message=self._error_msg
+            error_message=self._error_msg,
+            capture_latency_ms=round(self._last_capture_latency_ms, 2),
+            queue_depth=self.buffer.size(),
+            reconnect_time_seconds=round(self._total_reconnect_time_sec, 2)
         )
 
     def is_alive(self) -> bool:
@@ -159,6 +164,7 @@ class RTSPSource(CameraSource):
                         width=w,
                         height=h
                     )
+                    self._last_capture_latency_ms = (time.time() - loop_start) * 1000.0
                     self.buffer.put(cam_frame)
                     
                     # Sleep only if rate-limiting is explicitly configured and not a live phone stream
@@ -185,5 +191,6 @@ class RTSPSource(CameraSource):
                     break
                 
                 backoff = min(self.reconnect_delay * (1.2 ** min(self._reconnect_count - 1, 5)), 5.0)
+                self._total_reconnect_time_sec += backoff
                 logger.info(f"Reconnecting in {backoff:.1f}s...", camera_id=self.camera_id)
                 time.sleep(backoff)
