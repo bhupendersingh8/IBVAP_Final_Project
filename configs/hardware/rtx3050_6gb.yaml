@@ -1,0 +1,91 @@
+# ==============================================================================
+# IBVAP Hardware Profile: RTX3050_6GB
+# Optimized for NVIDIA GeForce RTX 3050 6GB GDDR6 (Expanded Memory Budget)
+# 5000 MB VRAM Budget Supporting 4 Concurrent 1080p Streams & Cached Specialists
+# ==============================================================================
+
+profile_name: "RTX3050_6GB"
+device: "cuda:0"
+precision: "fp16"
+
+compute:
+  vram_budget_mb: 5000
+  ram_budget_mb: 12288
+  target_fps: 30
+  max_concurrent_streams: 4
+  capture_queue_size: 16
+  batch_size: 4
+  drop_stale_frames: true
+  stale_frame_threshold_sec: 0.06
+  pinned_memory: true
+  async_transfer: true
+
+models:
+  primary_detector:
+    name: "YOLO26s"
+    weights: "yolo26n.pt"  # Can upgrade to yolo26s if available
+    device: "cuda:0"
+    half: true
+    input_size: [640, 640]
+    conf_threshold: 0.25
+    iou_threshold: 0.45
+    vram_allocation_mb: 650
+  
+  high_accuracy_specialist:
+    name: "RT-DETR-L"
+    weights: "rtdetr-l.pt"
+    device: "cuda:0"
+    half: true
+    policy: "on_threat_alarm"  # Spin up on confirmed high-priority perimeter breach
+    vram_allocation_mb: 1200
+
+  pose_estimator:
+    name: "YOLO11n-Pose"
+    weights: "yolo11n-pose.pt"
+    device: "cuda:0"
+    half: true
+    policy: "cached"  # Kept in VRAM for instant keypoint reaction
+    vram_allocation_mb: 500
+
+  segmentation:
+    name: "YOLO11n-Seg"
+    weights: "yolo11n-seg.pt"
+    device: "cuda:0"
+    half: true
+    policy: "cached"
+    vram_allocation_mb: 550
+
+  reid:
+    name: "OSNet-x0.25"
+    weights: "ml/weights/reid/osnet_x0_25_msmt17.pt"
+    device: "cuda:0"
+    half: true
+    vram_allocation_mb: 200
+
+  anpr:
+    engine: "easyocr"
+    device: "cuda:0"
+    policy: "roi_driven"
+    vram_allocation_mb: 700
+
+memory_management:
+  vram_guard:
+    unload_on_idle_sec: 30.0
+    pressure_threshold_pct: 0.90
+    fallback_to_cpu_on_oom: true
+
+preprocessing:
+  motion_gater:
+    enabled: true
+    algorithm: "adaptive_frame_skipping"
+    motion_threshold: 0.005
+    pixel_diff_threshold: 22
+    max_consecutive_skips: 10
+    downsample_size: [320, 240]
+
+  night_enhancer:
+    enabled: true
+    algorithm: "clahe"
+    clip_limit: 2.0
+    tile_grid_size: [8, 8]
+    luma_threshold: 30.0

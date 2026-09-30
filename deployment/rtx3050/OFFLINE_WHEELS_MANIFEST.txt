@@ -1,0 +1,46 @@
+# IBVAP NVIDIA RTX 3050 (Windows 11) Offline Wheel Manifest
+# SIH PS-26187 | Intelligent Border Video Analytics Platform
+# Target: Windows 11 x64 | CUDA 12.4 / 12.1 | Python 3.11
+
+# Core PyTorch with CUDA 12.4 acceleration
+--extra-index-url https://download.pytorch.org/whl/cu124
+torch==2.4.1+cu124
+torchvision==0.19.1+cu124
+torchaudio==2.4.1+cu124
+
+# ONNX Runtime with CUDA 12.x Execution Provider
+onnxruntime-gpu==1.19.2
+
+# Vision & Detection Models
+ultralytics==8.3.163
+lapx==0.5.11
+filterpy==1.4.5
+opencv-python-headless==4.10.0.84
+
+# Optical Character Recognition (ANPR)
+paddlepaddle-gpu==2.6.2; sys_platform == 'win32'
+paddleocr>=2.7.3
+easyocr==1.7.2
+
+# Preprocessing & Scientific Compute
+numpy>=1.26.0,<2.0.0
+scipy>=1.13.0
+scikit-learn>=1.5.0
+numba>=0.60.0
+
+# Backend Web & Streaming
+fastapi==0.115.11
+uvicorn[standard]==0.34.0
+websockets==14.2
+pydantic==2.10.6
+pydantic-settings==2.8.1
+sqlalchemy==2.0.38
+aiosqlite==0.21.0
+
+# Security & Telemetry
+cryptography==44.0.2
+python-jose[cryptography]==3.4.0
+passlib[bcrypt]==1.7.4
+structlog==25.1.0
+psutil==6.1.1
+pyyaml==6.0.2

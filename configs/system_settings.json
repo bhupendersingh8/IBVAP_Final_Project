@@ -1,0 +1,11 @@
+{
+  "phone_camera_enabled": false,
+  "phone_camera_url": "http://100.100.15.82:8080/video",
+  "confidence_threshold": 0.35,
+  "iou_threshold": 0.45,
+  "face_detection_enabled": true,
+  "anpr_enabled": true,
+  "night_enhancement_enabled": true,
+  "loitering_threshold_seconds": 15,
+  "auto_dataset_capture": true
+}

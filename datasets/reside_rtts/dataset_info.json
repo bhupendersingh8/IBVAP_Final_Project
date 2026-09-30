@@ -1,0 +1,12 @@
+{
+  "dataset_name": "RESIDE-RTTS",
+  "purpose": "Mountain border fog, mist, and atmospheric haze dehazing validation",
+  "categories": [
+    "person",
+    "bicycle",
+    "car",
+    "bus",
+    "motorbike"
+  ],
+  "status": "INITIALIZED"
+}

@@ -1,0 +1,8 @@
+{
+  "onnx_path": "C:\\Users\\dell\\Desktop\\p2\\IBVAP_Final_Project\\artifacts\\rtx3050_4gb\\yolo26n.onnx",
+  "engine_path": "C:\\Users\\dell\\Desktop\\p2\\IBVAP_Final_Project\\artifacts\\rtx3050_4gb\\yolo26n.engine",
+  "fp16_enabled": true,
+  "max_vram_mb": 3200,
+  "status": "PROFILE_READY_NOT_PHYSICALLY_VERIFIED",
+  "reason": "Host is Intel CPU (no physical NVIDIA CUDA GPU). Build recipe generated."
+}

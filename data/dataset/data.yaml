@@ -1,0 +1,19 @@
+# IBVAP Border Surveillance Dataset Specification
+path: C:\Users\anmol\.gemini\antigravity\scratch\IBVAP_Final_Project\data\dataset
+train: images/train
+val: images/val
+test: images/test
+
+names:
+  0: person
+  1: bicycle
+  2: car
+  3: motorcycle
+  5: bus
+  7: truck
+  14: bird
+  15: cat
+  16: dog
+  17: horse
+  18: sheep
+  19: cow

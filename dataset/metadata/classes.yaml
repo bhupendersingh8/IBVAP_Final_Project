@@ -1,0 +1,15 @@
+version: 1.0.0
+dataset_name: IBVAP_Border_Surveillance
+classes:
+  0: person
+  1: car
+  2: motorcycle
+  3: truck
+  4: bus
+description: Standard 5-class target taxonomy for IBVAP border video analytics.
+coco_mapping:
+  0: 0
+  2: 1
+  3: 2
+  7: 3
+  5: 4

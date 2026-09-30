@@ -1,0 +1,95 @@
+{
+  "platform_profile": "DELL_CPU",
+  "timestamp": "2026-09-28 02:51:17",
+  "scenarios": {
+    "A": {
+      "scenario": "A_AUTHORIZED_STAFF_ENTRY",
+      "camera_id": "CAM-01-BOP-ENTRY",
+      "blink_liveness_verified": true,
+      "identity_status": "AUTHORIZED",
+      "access_decision": "PERMITTED",
+      "evidence": "EVID-SCENARIO-A-001.jpg"
+    },
+    "B": {
+      "scenario": "B_RESTRICTED_PERIMETER_LOITERING",
+      "track_id": 101,
+      "camera_id": "CAM-04-PERIMETER-EAST",
+      "event_type": "LOITERING",
+      "severity": "MEDIUM",
+      "alert_emitted": true
+    },
+    "C": {
+      "scenario": "C_VEHICLE_CLASSIFICATION",
+      "classified_types": [
+        "CAR",
+        "TRUCK",
+        "BUS",
+        "MOTORCYCLE"
+      ],
+      "all_vehicles_valid": true
+    },
+    "D": {
+      "scenario": "D_ANPR_HONEST_DEGRADATION",
+      "input_crop_shape": [
+        30,
+        80,
+        3
+      ],
+      "plate_text": "",
+      "confidence": 0.0,
+      "status": "UNREADABLE_DEGRADED",
+      "is_hallucinated": false
+    },
+    "E": {
+      "scenario": "E_NIGHT_MOVEMENT_RESTORATION",
+      "luma_before": 20.0,
+      "luma_after": 23.0,
+      "restoration_applied": true
+    },
+    "F": {
+      "scenario": "F_VIRTUAL_FENCE_DIRECTIONAL_CROSSING",
+      "outside_point": [
+        50,
+        200
+      ],
+      "inside_point": [
+        200,
+        200
+      ],
+      "containment_crossing_verified": true,
+      "alert_severity": "CRITICAL"
+    },
+    "G": {
+      "scenario": "G_MULTICAMERA_REID_HANDOFF",
+      "p1_global_id": "REID-P037",
+      "p2_global_id": "REID-P037",
+      "cameras_tracked": [
+        "CAM-01-BOP-ENTRY",
+        "CAM-02-CHECK-POST"
+      ],
+      "cross_camera_continuity_verified": true
+    },
+    "H": {
+      "scenario": "H_CAMERA_DISCONNECT_RECOVERY",
+      "camera_id": "CAM-PERIMETER-04",
+      "initial_state": "ONLINE",
+      "reconnect_state_transition": true,
+      "fault_recovery_resilience_verified": true
+    },
+    "I": {
+      "scenario": "I_ADAPTIVE_FRAME_SKIPPING",
+      "frame1_inference_required": true,
+      "frame2_zero_motion_skipped": true,
+      "motion_score": 0.0,
+      "compute_saved": true
+    },
+    "J": {
+      "scenario": "J_EVIDENCE_LEDGER_TAMPER_EVIDENT",
+      "block1_hash": "aef8ae1ce9191d3be1b47a894a29a1fd96324c77be41709bc77b3354b056fbda",
+      "block2_hash": "d689af81891637a6f369219cffcbbedac3736cf257731cb56e7e8dcf7ac1c333",
+      "hash_length": 64,
+      "tamper_detected_on_data_alteration": true,
+      "ledger_type": "TAMPER-EVIDENT (Non-Repudiation)"
+    }
+  }
+}

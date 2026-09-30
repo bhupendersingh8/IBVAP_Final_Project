@@ -1,0 +1,12 @@
+{
+  "status": "fallback_simulator",
+  "physical_cctv_detected": false,
+  "camera_id": "CAM-01",
+  "brand": "IBVAP Simulator",
+  "host": "127.0.0.1",
+  "port": 8554,
+  "masked_url": "rtsp://127.0.0.1:8554/CAM-01",
+  "resolution": "1920x1080",
+  "message": "No physical CCTV detected on Ethernet switch. Active stream: CAM-01 simulator.",
+  "timestamp": 1790786047.1799698
+}

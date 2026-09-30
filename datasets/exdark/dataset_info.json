@@ -1,0 +1,29 @@
+{
+  "dataset_name": "ExDark (Exclusively Dark)",
+  "purpose": "Low-light and zero-lux object detection fine-tuning for border sentry",
+  "classes": [
+    "Bicycle",
+    "Boat",
+    "Bottle",
+    "Bus",
+    "Car",
+    "Cat",
+    "Chair",
+    "Cup",
+    "Dog",
+    "Motorbike",
+    "People",
+    "Table"
+  ],
+  "illumination_types": [
+    "Low",
+    "Ambient",
+    "Object",
+    "Single",
+    "Weak",
+    "Strong",
+    "None"
+  ],
+  "status": "INITIALIZED",
+  "target_classes_count": 12
+}

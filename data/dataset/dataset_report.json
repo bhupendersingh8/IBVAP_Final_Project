@@ -1,0 +1,25 @@
+{
+  "dataset_version": "1.0.0-finale",
+  "total_images": 162,
+  "total_annotations": 1182,
+  "split_distribution": {
+    "train": 113,
+    "val": 24,
+    "test": 25
+  },
+  "split_ratios": {
+    "train_pct": 69.8,
+    "val_pct": 14.8,
+    "test_pct": 15.4
+  },
+  "class_distribution": {
+    "person": 277,
+    "car": 763,
+    "class_9": 86,
+    "class_8": 3,
+    "bus": 52,
+    "class_4": 1
+  },
+  "leakage_prevention": "Strict chronological temporal partitioning (Contiguous block split)",
+  "yolo_config": "data\\dataset\\data.yaml"
+}

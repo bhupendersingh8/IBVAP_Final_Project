@@ -1,0 +1,59 @@
+# cameras.yaml
+# Configuration for local RTSP cameras (MediaMTX)
+# NEVER commit the real production version of this file if it contains sensitive RTSP URLs
+
+cameras:
+
+  - id: CAM-01
+    name: "Border Outpost 1 - Simulation"
+    rtsp_url: "rtsp://127.0.0.1:8554/CAM-01"
+    scenario: cctv_simulation
+    enabled: true
+    fps_limit: 30
+    reconnect_delay_seconds: 2
+    max_reconnect_attempts: 20
+
+  - id: CAM-02
+    name: "Perimeter East - Night"
+    rtsp_url: "rtsp://localhost:8554/cam02"
+    scenario: night
+    enabled: true
+    fps_limit: 10
+    reconnect_delay_seconds: 5
+    max_reconnect_attempts: 10
+
+  - id: CAM-03
+    name: "Restricted Zone West"
+    rtsp_url: "rtsp://localhost:8554/cam03"
+    scenario: zone_intrusion
+    enabled: true
+    fps_limit: 10
+    reconnect_delay_seconds: 5
+    max_reconnect_attempts: 10
+
+  - id: CAM-04
+    name: "Vehicle Entry South"
+    rtsp_url: "rtsp://localhost:8554/cam04"
+    scenario: vehicle_anpr
+    enabled: true
+    fps_limit: 10
+    reconnect_delay_seconds: 5
+    max_reconnect_attempts: 10
+
+  - id: WEBCAM-01
+    name: "Laptop Webcam Adapter"
+    rtsp_url: "webcam:0"
+    scenario: webcam_test
+    enabled: true
+    fps_limit: 10
+    reconnect_delay_seconds: 3
+    max_reconnect_attempts: 15
+
+  - id: PHONE-CAM-01
+    name: "User Mobile Camera"
+    rtsp_url: ""
+    scenario: anpr
+    enabled: false
+    fps_limit: 10
+    reconnect_delay_seconds: 5
+    max_reconnect_attempts: 10

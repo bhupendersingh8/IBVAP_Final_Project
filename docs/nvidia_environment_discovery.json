@@ -1,0 +1,30 @@
+{
+  "nvidia_smi_available": true,
+  "gpu_name": "NVIDIA GeForce RTX 2050",
+  "vram_total_mb": 4096.0,
+  "vram_used_mb": 0.0,
+  "driver_version": "610.74",
+  "gpu_util_percent": 0.0,
+  "memory_util_percent": 0.0,
+  "temp_c": 40,
+  "power_w": 2.11,
+  "torch_version": "2.14.0+cu126",
+  "torch_cuda_version": "12.6",
+  "torch_cuda_available": true,
+  "torch_device_name": "NVIDIA GeForce RTX 2050",
+  "torch_compute_capability": [
+    8,
+    6
+  ],
+  "cudnn_version": 91002,
+  "cudnn_available": true,
+  "tensorrt_available": false,
+  "tensorrt_version": null,
+  "onnxruntime_available": false,
+  "nvcc_path": null,
+  "ffmpeg_path": null,
+  "docker_path": null,
+  "gstreamer_path": null,
+  "mediamtx_path": true,
+  "nvidia_container_toolkit": null
+}

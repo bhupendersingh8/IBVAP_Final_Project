@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+.venv_gpu/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# Databases & local ledger runtime files
+*.sqlite3
+*.duckdb
+evidence_clips/*.mp4
+data/cache/
+
+# Node & Frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+apps/frontend/node_modules/
+apps/frontend/dist/
+
+# Operating System
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+
+# IDE & Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.agents/
+.gemini/

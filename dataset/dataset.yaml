@@ -1,0 +1,10 @@
+names:
+  0: person
+  1: car
+  2: motorcycle
+  3: truck
+  4: bus
+path: C:\Users\anmol\.gemini\antigravity\scratch\IBVAP_Final_Project\dataset
+test: images/test
+train: images/train
+val: images/val

@@ -1,0 +1,37 @@
+{
+  "hardware": {
+    "device": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "cuda_available": true,
+    "engine": "TensorRT FP16",
+    "vram_allocated_mb": 7.38,
+    "cpu_percent": 97.6
+  },
+  "frames_processed": 100,
+  "wall_time_seconds": 2.478,
+  "end_to_end_fps": 40.35,
+  "latency_percentiles_ms": {
+    "p50": 23.33,
+    "p95": 35.9,
+    "p99": 38.12,
+    "mean": 24.78,
+    "min": 12.56,
+    "max": 60.63
+  },
+  "subsystem_latencies_mean_ms": {
+    "1_frame_ingestion": 0.61,
+    "2_detection_orchestration": 22.65,
+    "3_multi_object_tracking": 0.18,
+    "4_specialist_anpr": 0.01,
+    "5_spatial_temporal_rules": 0.01,
+    "6_evidence_cryptographic_hash": 0.05,
+    "7_seqlock_ram_bus_publishing": 1.25
+  },
+  "detections_summary": {
+    "total_detected_objects": 542,
+    "average_objects_per_frame": 5.42
+  },
+  "tamper_evident_ledger": {
+    "total_blocks_recorded": 20,
+    "integrity_verified": true
+  }
+}

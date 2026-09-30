@@ -1,0 +1,6 @@
+{
+  "dataset_name": "LLVIP (Low-Light Visible-Infrared Paired)",
+  "purpose": "Dual-sensor thermal & visible fusion validation for SSB night patrols",
+  "sensor_pairing": "Strictly aligned visible and thermal long-wave IR (LWIR) frames",
+  "status": "INITIALIZED"
+}

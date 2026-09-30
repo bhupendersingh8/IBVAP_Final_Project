@@ -1,0 +1,36 @@
+# IBVAP Restricted Zones Configuration
+# Normalized coordinates (0.0 to 1.0) relative to frame width and height
+
+zones:
+
+  - zone_id: "WEBCAM_RESTRICTED_01"
+    name: "Webcam Test Restricted Zone"
+    camera_id: "WEBCAM-01"
+    zone_type: "RESTRICTED_ZONE"
+    enabled: true
+    color: "#EF4444"
+    points:
+      - x: 0.20
+        y: 0.20
+      - x: 0.80
+        y: 0.20
+      - x: 0.80
+        y: 0.80
+      - x: 0.20
+        y: 0.80
+
+  - zone_id: "PHONE_RESTRICTED_01"
+    name: "Phone Surveillance Restricted Zone"
+    camera_id: "PHONE-CAM-01"
+    zone_type: "RESTRICTED_ZONE"
+    enabled: true
+    color: "#EF4444"
+    points:
+      - x: 0.15
+        y: 0.15
+      - x: 0.85
+        y: 0.15
+      - x: 0.85
+        y: 0.85
+      - x: 0.15
+        y: 0.85

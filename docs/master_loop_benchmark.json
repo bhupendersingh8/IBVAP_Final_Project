@@ -1,0 +1,127 @@
+{
+  "profile": {
+    "profile_name": "DELL_CPU",
+    "cpu": {
+      "vendor": "Intel",
+      "model": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+      "logical_cores": 4,
+      "physical_cores": 2,
+      "total_ram_gb": 11.73,
+      "available_ram_gb": 2.9
+    },
+    "gpu": {
+      "nvidia_present": false,
+      "gpu_name": null,
+      "total_vram_mb": 0.0,
+      "free_vram_mb": 0.0,
+      "cuda_available": false,
+      "cuda_version": null,
+      "compute_capability": null
+    },
+    "runtime": {
+      "pytorch_cuda": false,
+      "tensorrt_available": false,
+      "onnx_cuda_provider": false,
+      "fp16_supported": false,
+      "int8_available": false
+    },
+    "vram_budget_mb": 0.0,
+    "ram_budget_mb": 6144.0,
+    "max_streams_recommended": 1,
+    "primary_detection_model": "yolo26n.pt",
+    "primary_runtime": "cpu_fp32"
+  },
+  "timestamp": "2026-09-27 22:51:38",
+  "benchmarks": {
+    "motion_gater": {
+      "component": "Motion Gater (AdaptiveFrameSkipper)",
+      "runs": 15,
+      "mean_ms": 0.67,
+      "p50_ms": 0.67,
+      "p95_ms": 0.72,
+      "fps": 1488.43,
+      "rss_mb": 203.94,
+      "memory_delta_mb": 0.01
+    },
+    "clahe_restoration": {
+      "component": "Low-Light CLAHE Enhancer",
+      "runs": 15,
+      "mean_ms": 0.04,
+      "p50_ms": 0.04,
+      "p95_ms": 0.06,
+      "fps": 23768.02,
+      "rss_mb": 204.7,
+      "memory_delta_mb": 0.01
+    },
+    "yolo26n_primary": {
+      "component": "Primary Detection (YOLO26n)",
+      "runs": 15,
+      "mean_ms": 78.56,
+      "p50_ms": 78.64,
+      "p95_ms": 81.15,
+      "fps": 12.73,
+      "rss_mb": 388.48,
+      "memory_delta_mb": 4.03
+    },
+    "yolov8n_fallback": {
+      "component": "Fallback Detection (YOLOv8n)",
+      "runs": 15,
+      "mean_ms": 91.83,
+      "p50_ms": 91.26,
+      "p95_ms": 97.03,
+      "fps": 10.89,
+      "rss_mb": 420.2,
+      "memory_delta_mb": -0.07
+    },
+    "yolo11n_pose": {
+      "component": "Pose Keypoints (YOLO11n-Pose)",
+      "runs": 15,
+      "mean_ms": 93.22,
+      "p50_ms": 93.59,
+      "p95_ms": 99.7,
+      "fps": 10.73,
+      "rss_mb": 454.04,
+      "memory_delta_mb": -0.02
+    },
+    "yolo11n_seg": {
+      "component": "Instance Segmentation (YOLO11n-Seg)",
+      "runs": 15,
+      "mean_ms": 130.35,
+      "p50_ms": 117.68,
+      "p95_ms": 186.96,
+      "fps": 7.67,
+      "rss_mb": 491.2,
+      "memory_delta_mb": 0.0
+    },
+    "osnet_reid": {
+      "component": "Person Re-ID (OSNet-x0.25)",
+      "runs": 15,
+      "mean_ms": 22.74,
+      "p50_ms": 20.59,
+      "p95_ms": 32.91,
+      "fps": 43.98,
+      "rss_mb": 498.17,
+      "memory_delta_mb": -0.01
+    }
+  },
+  "multi_camera_simulation": {
+    "1_streams": {
+      "elapsed_sec": 0.0,
+      "effective_fps_per_stream": 1337.69,
+      "total_throughput_fps": 1337.69,
+      "rss_mb": 498.27
+    },
+    "2_streams": {
+      "elapsed_sec": 0.1,
+      "effective_fps_per_stream": 95.34,
+      "total_throughput_fps": 95.34,
+      "rss_mb": 497.85
+    },
+    "4_streams": {
+      "elapsed_sec": 0.1,
+      "effective_fps_per_stream": 195.55,
+      "total_throughput_fps": 195.55,
+      "rss_mb": 497.93
+    }
+  }
+}

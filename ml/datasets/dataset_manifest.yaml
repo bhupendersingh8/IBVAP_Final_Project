@@ -1,0 +1,47 @@
+version: 1
+dataset_name: ibvap_border_surveillance
+created: "2026-09-05"
+status: NOT_DONE  # No labeled data collected yet
+
+description: |
+  Dataset for training IBVAP domain-specific detection model.
+  Frames captured from authorized IBVAP cameras (CAM-01, PHONE-CAM-01).
+  Use scripts/collect_dataset_frames.py to begin frame capture.
+
+classes:
+  - id: 0
+    name: person
+  - id: 1
+    name: car
+  - id: 2
+    name: truck
+  - id: 3
+    name: bus
+  - id: 4
+    name: motorcycle
+
+extension_classes:  # Future — do not use in training until architecture validated
+  - plate
+  - face
+
+splits:
+  train: ml/datasets/train/      # 70% of labeled data
+  val: ml/datasets/val/          # 15% — used for hyperparameter tuning
+  test: ml/datasets/test/        # 15% — NEVER used during training
+
+test_set_policy: |
+  The test split MUST remain completely separate from training.
+  Never train on test data. Never tune hyperparameters on test data.
+  Test set is used ONLY for final evaluation reporting.
+
+collection_protocol: |
+  1. Run: python scripts/collect_dataset_frames.py
+  2. Minimum quality filters: Laplacian sharpness > 100, brightness 30-240
+  3. Label with CVAT or Label Studio
+  4. Export as YOLO format (.txt per image)
+  5. Verify class balance before training
+
+license: Internal use only — authorized IBVAP cameras only
+  No public distribution.
+  No copyrighted footage.
+  No unauthorized recording.

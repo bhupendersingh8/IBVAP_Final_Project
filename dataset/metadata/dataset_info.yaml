@@ -1,0 +1,13 @@
+dataset_version: v1.0.0-unpopulated
+created_at: '2026-09-06T03:15:00Z'
+status: AWAITING_DOMAIN_DATA
+license: Internal / Defense Operational Use Only
+splits:
+  train_ratio: 0.7
+  val_ratio: 0.15
+  test_ratio: 0.15
+guidelines:
+- Do NOT download unauthorized or copyrighted internet streams.
+- Do NOT fabricate synthetic bounding boxes or labels.
+- Extract frames from authorized field CCTV recordings (e.g. data/raw/test_video.mp4).
+- Maintain strict class definitions matching classes.yaml.

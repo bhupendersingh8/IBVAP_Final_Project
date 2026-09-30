@@ -1,0 +1,814 @@
+{
+  "YOLOv8n PyTorch CUDA": {
+    "pipeline_name": "YOLOv8n PyTorch CUDA",
+    "target_device": "cuda:0",
+    "success": true,
+    "error": null,
+    "model_load_time_ms": 3127.02,
+    "warmup_time_ms": 1509.92,
+    "total_frames_evaluated": 100,
+    "dropped_frames": 0,
+    "total_detections": 452,
+    "avg_fps": 115.74,
+    "avg_latency_ms": 8.64,
+    "p50_latency_ms": 7.37,
+    "p95_latency_ms": 10.84,
+    "min_latency_ms": 6.63,
+    "max_latency_ms": 69.24,
+    "cpu_util_percent": 26.4,
+    "gpu_util_percent": 21.2,
+    "vram_used_mb": 194.0,
+    "vram_total_mb": 8151.0,
+    "gpu_temp_c": 65,
+    "detections_per_frame_sample": [
+      5,
+      4,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5
+    ],
+    "sample_detections": [
+      {
+        "frame": 0,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.582,
+            "xyxy": [
+              406.3,
+              224.3,
+              424.3,
+              267.7
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.443,
+            "xyxy": [
+              419.3,
+              125.8,
+              438.9,
+              140.4
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.383,
+            "xyxy": [
+              458.4,
+              166.0,
+              496.8,
+              187.9
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 1,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.58,
+            "xyxy": [
+              406.8,
+              226.5,
+              423.3,
+              268.2
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.422,
+            "xyxy": [
+              419.7,
+              125.9,
+              439.3,
+              140.1
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.365,
+            "xyxy": [
+              529.9,
+              192.3,
+              542.7,
+              204.6
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 2,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.592,
+            "xyxy": [
+              407.0,
+              226.3,
+              424.5,
+              268.5
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.402,
+            "xyxy": [
+              530.3,
+              192.3,
+              543.1,
+              204.4
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.383,
+            "xyxy": [
+              420.6,
+              126.0,
+              440.3,
+              140.0
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 3,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.597,
+            "xyxy": [
+              407.1,
+              226.6,
+              425.6,
+              268.9
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.383,
+            "xyxy": [
+              421.1,
+              125.8,
+              441.0,
+              140.0
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.352,
+            "xyxy": [
+              531.2,
+              192.2,
+              543.2,
+              205.0
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 4,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.609,
+            "xyxy": [
+              407.2,
+              226.3,
+              425.5,
+              268.9
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.397,
+            "xyxy": [
+              421.4,
+              125.8,
+              441.3,
+              139.7
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.355,
+            "xyxy": [
+              447.3,
+              165.9,
+              497.8,
+              188.6
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 5,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.597,
+            "xyxy": [
+              407.2,
+              226.5,
+              425.8,
+              268.8
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.425,
+            "xyxy": [
+              421.6,
+              125.5,
+              441.3,
+              139.6
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.361,
+            "xyxy": [
+              447.4,
+              165.9,
+              497.8,
+              188.6
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 6,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.584,
+            "xyxy": [
+              406.8,
+              226.8,
+              425.1,
+              268.9
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.4,
+            "xyxy": [
+              421.6,
+              125.1,
+              443.0,
+              139.7
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.386,
+            "xyxy": [
+              447.2,
+              165.9,
+              497.1,
+              188.4
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 7,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.596,
+            "xyxy": [
+              406.4,
+              226.2,
+              425.9,
+              269.0
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.397,
+            "xyxy": [
+              447.3,
+              165.5,
+              497.0,
+              188.1
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.39,
+            "xyxy": [
+              421.2,
+              124.5,
+              442.8,
+              139.8
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 8,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.614,
+            "xyxy": [
+              406.4,
+              225.2,
+              424.9,
+              269.0
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.405,
+            "xyxy": [
+              421.3,
+              124.7,
+              443.3,
+              138.9
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.375,
+            "xyxy": [
+              447.2,
+              165.6,
+              496.7,
+              187.7
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 9,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.604,
+            "xyxy": [
+              406.2,
+              225.5,
+              426.2,
+              269.0
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.387,
+            "xyxy": [
+              422.2,
+              124.7,
+              443.7,
+              138.7
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.381,
+            "xyxy": [
+              447.1,
+              165.6,
+              496.8,
+              187.8
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "YOLOv8n PyTorch CPU": {
+    "pipeline_name": "YOLOv8n PyTorch CPU",
+    "target_device": "cpu",
+    "success": true,
+    "error": null,
+    "model_load_time_ms": 22.26,
+    "warmup_time_ms": 283.14,
+    "total_frames_evaluated": 100,
+    "dropped_frames": 0,
+    "total_detections": 452,
+    "avg_fps": 29.09,
+    "avg_latency_ms": 34.38,
+    "p50_latency_ms": 33.84,
+    "p95_latency_ms": 37.83,
+    "min_latency_ms": 31.1,
+    "max_latency_ms": 51.28,
+    "cpu_util_percent": 67.9,
+    "gpu_util_percent": 0.0,
+    "vram_used_mb": 194.0,
+    "vram_total_mb": 8151.0,
+    "gpu_temp_c": 60,
+    "detections_per_frame_sample": [
+      5,
+      4,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5
+    ],
+    "sample_detections": [
+      {
+        "frame": 0,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.582,
+            "xyxy": [
+              406.3,
+              224.3,
+              424.3,
+              267.7
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.442,
+            "xyxy": [
+              419.3,
+              125.8,
+              438.9,
+              140.4
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.382,
+            "xyxy": [
+              458.4,
+              166.0,
+              496.8,
+              187.9
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 1,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.58,
+            "xyxy": [
+              406.8,
+              226.5,
+              423.3,
+              268.2
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.421,
+            "xyxy": [
+              419.7,
+              125.9,
+              439.3,
+              140.1
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.365,
+            "xyxy": [
+              529.9,
+              192.3,
+              542.7,
+              204.6
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 2,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.592,
+            "xyxy": [
+              407.0,
+              226.3,
+              424.5,
+              268.5
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.402,
+            "xyxy": [
+              530.3,
+              192.3,
+              543.1,
+              204.4
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.383,
+            "xyxy": [
+              420.6,
+              126.0,
+              440.3,
+              140.0
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 3,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.598,
+            "xyxy": [
+              407.1,
+              226.6,
+              425.6,
+              268.9
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.383,
+            "xyxy": [
+              421.1,
+              125.8,
+              441.0,
+              140.0
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.352,
+            "xyxy": [
+              531.2,
+              192.2,
+              543.2,
+              205.0
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 4,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.609,
+            "xyxy": [
+              407.2,
+              226.4,
+              425.5,
+              268.9
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.397,
+            "xyxy": [
+              421.4,
+              125.8,
+              441.3,
+              139.7
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.355,
+            "xyxy": [
+              447.3,
+              165.9,
+              497.8,
+              188.6
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 5,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.597,
+            "xyxy": [
+              407.2,
+              226.5,
+              425.8,
+              268.8
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.424,
+            "xyxy": [
+              421.6,
+              125.5,
+              441.3,
+              139.6
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.361,
+            "xyxy": [
+              447.4,
+              165.9,
+              497.8,
+              188.6
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 6,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.584,
+            "xyxy": [
+              406.8,
+              226.8,
+              425.1,
+              268.9
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.4,
+            "xyxy": [
+              421.6,
+              125.1,
+              443.0,
+              139.7
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.385,
+            "xyxy": [
+              447.2,
+              165.9,
+              497.1,
+              188.4
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 7,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.596,
+            "xyxy": [
+              406.4,
+              226.2,
+              425.9,
+              268.9
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.397,
+            "xyxy": [
+              447.3,
+              165.5,
+              497.0,
+              188.1
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.39,
+            "xyxy": [
+              421.2,
+              124.5,
+              442.8,
+              139.8
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 8,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.614,
+            "xyxy": [
+              406.4,
+              225.2,
+              424.9,
+              269.0
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.405,
+            "xyxy": [
+              421.3,
+              124.7,
+              443.3,
+              138.9
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.374,
+            "xyxy": [
+              447.2,
+              165.6,
+              496.7,
+              187.7
+            ]
+          }
+        ]
+      },
+      {
+        "frame": 9,
+        "boxes": [
+          {
+            "cls": 0,
+            "conf": 0.604,
+            "xyxy": [
+              406.2,
+              225.5,
+              426.2,
+              269.0
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.387,
+            "xyxy": [
+              422.2,
+              124.7,
+              443.7,
+              138.7
+            ]
+          },
+          {
+            "cls": 2,
+            "conf": 0.381,
+            "xyxy": [
+              447.1,
+              165.6,
+              496.8,
+              187.8
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "YOLOv8n TensorRT FP16": {
+    "pipeline_name": "YOLOv8n TensorRT FP16",
+    "target_device": "tensorrt_fp16",
+    "success": false,
+    "error": "TensorRT engine file not found: models/yolov8n.engine",
+    "model_load_time_ms": 0.3,
+    "warmup_time_ms": 0.0,
+    "total_frames_evaluated": 0,
+    "dropped_frames": 0,
+    "total_detections": 0,
+    "avg_fps": 0.0,
+    "avg_latency_ms": 0.0,
+    "p50_latency_ms": 0.0,
+    "p95_latency_ms": 0.0,
+    "min_latency_ms": 0.0,
+    "max_latency_ms": 0.0,
+    "cpu_util_percent": 0.0,
+    "gpu_util_percent": 0.0,
+    "vram_used_mb": 0.0,
+    "vram_total_mb": 0.0,
+    "gpu_temp_c": 0,
+    "detections_per_frame_sample": [],
+    "sample_detections": []
+  },
+  "detection_consistency_audit": {
+    "cpu_vs_cuda_detection_diff": 0,
+    "cuda_vs_trt_detection_diff": "N/A",
+    "cpu_total_detections": 452,
+    "cuda_total_detections": 452,
+    "trt_total_detections": 0,
+    "sample_bbox_iou_cuda_trt": []
+  },
+  "performance_summary": {
+    "cpu_fps": 29.09,
+    "cuda_fps": 115.74,
+    "trt_fps": 0.0,
+    "cuda_speedup_vs_cpu": 3.98,
+    "trt_speedup_vs_cpu": 0.0,
+    "trt_speedup_vs_cuda": 0.0
+  }
+}

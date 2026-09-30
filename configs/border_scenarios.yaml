@@ -1,0 +1,268 @@
+# ==============================================================================
+# IBVAP REAL-WORLD BORDER SURVEILLANCE DEPLOYMENT SCENARIOS (SIH PS 26187)
+# Target: Ministry of Home Affairs / Sashastra Seema Bal (SSB) Border Deployment
+# ==============================================================================
+# Defines 10 realistic operational border zones across Checkposts, BOPs, and Zero-Line:
+# Zone A: BOP Entry / Primary Gate
+# Zone B: Check Post & Vehicle Sentry
+# Zone C: Border Road & Patrol Route
+# Zone D: Restricted Perimeter / Zero-Line Buffer
+# Zone E: Virtual Fence / Linear Barrier Tripwire
+# Zone F: Forward Observation Post Area
+# Zone G: Vehicle Inspection & ANPR Bay
+# Zone H: Low-Light / Night Infrared Sector
+# Zone I: Multi-Camera Overlapping Coverage (Handoff Zone)
+# Zone J: Camera Blind-Spot & Occlusion Buffer Zone
+
+sites:
+  - site_id: "BOP_SECTOR_ALPHA"
+    name: "Border Outpost Sector Alpha - SSB Forward Base"
+    location: "Indo-Nepal Border Strategic Axis, Sonauli Corridor"
+    elevation_m: 110
+    timezone: "Asia/Kolkata"
+
+cameras:
+  - id: "CAM-BOP-GATE-01"
+    name: "Zone A: BOP Primary Sentry Gate"
+    site_id: "BOP_SECTOR_ALPHA"
+    rtsp_url: "rtsp://127.0.0.1:8554/bop_gate"
+    role: "entry_exit_access_control"
+    resolution: "1920x1080"
+    fps_limit: 25
+    has_ir: true
+    reconnect_delay_seconds: 2.0
+
+  - id: "CAM-CHECKPOST-02"
+    name: "Zone B & G: Vehicle Inspection & Check Post Bay"
+    site_id: "BOP_SECTOR_ALPHA"
+    rtsp_url: "rtsp://127.0.0.1:8554/checkpost"
+    role: "vehicle_anpr_inspection"
+    resolution: "1920x1080"
+    fps_limit: 20
+    has_ir: true
+    reconnect_delay_seconds: 2.0
+
+  - id: "CAM-ROAD-03"
+    name: "Zone C: Border Lateral Highway Road"
+    site_id: "BOP_SECTOR_ALPHA"
+    rtsp_url: "rtsp://127.0.0.1:8554/border_road"
+    role: "speed_and_traffic_monitoring"
+    resolution: "1920x1080"
+    fps_limit: 25
+    has_ir: true
+    reconnect_delay_seconds: 3.0
+
+  - id: "CAM-PERIMETER-04"
+    name: "Zone D & E: Zero-Line Perimeter & Virtual Fence"
+    site_id: "BOP_SECTOR_ALPHA"
+    rtsp_url: "rtsp://127.0.0.1:8554/perimeter_fence"
+    role: "anti_intrusion_virtual_fence"
+    resolution: "1920x1080"
+    fps_limit: 15
+    has_ir: true
+    reconnect_delay_seconds: 2.0
+
+  - id: "CAM-NIGHT-05"
+    name: "Zone H: Low-Light Forest Flank / Night Sentry"
+    site_id: "BOP_SECTOR_ALPHA"
+    rtsp_url: "rtsp://127.0.0.1:8554/night_flank"
+    role: "night_movement_detection"
+    resolution: "1280x720"
+    fps_limit: 15
+    has_ir: true
+    reconnect_delay_seconds: 2.0
+
+zones:
+  # Zone A: BOP Entry / Gate
+  - zone_id: "ZONE_A_BOP_GATE"
+    name: "BOP Access Control Gate Entry"
+    camera_id: "CAM-BOP-GATE-01"
+    zone_type: "ENTRY_GATE"
+    enabled: true
+    color: "#3B82F6"
+    direction: "INWARD_ONLY"
+    allowed_classes: ["person", "car", "motorcycle"]
+    allowed_personnel: ["AUTH-001", "AUTH-002", "AUTH-003", "AUTH-004", "AUTH-005"]
+    alert_severity: "MEDIUM"
+    loitering_threshold_sec: 12.0
+    schedule: "24x7"
+    points:
+      - { x: 0.25, y: 0.40 }
+      - { x: 0.75, y: 0.40 }
+      - { x: 0.85, y: 0.95 }
+      - { x: 0.15, y: 0.95 }
+
+  # Zone B: Check Post
+  - zone_id: "ZONE_B_CHECK_POST"
+    name: "Check Post Sentry Clearance Area"
+    camera_id: "CAM-CHECKPOST-02"
+    zone_type: "CHECK_POST"
+    enabled: true
+    color: "#EAB308"
+    direction: "BIDIRECTIONAL"
+    allowed_classes: ["person", "car", "truck", "bus"]
+    allowed_personnel: ["*"]
+    alert_severity: "LOW"
+    loitering_threshold_sec: 45.0
+    schedule: "24x7"
+    points:
+      - { x: 0.20, y: 0.30 }
+      - { x: 0.80, y: 0.30 }
+      - { x: 0.85, y: 0.85 }
+      - { x: 0.15, y: 0.85 }
+
+  # Zone C: Border Road
+  - zone_id: "ZONE_C_BORDER_ROAD"
+    name: "Lateral Border Patrol Road Transit"
+    camera_id: "CAM-ROAD-03"
+    zone_type: "BORDER_ROAD"
+    enabled: true
+    color: "#10B981"
+    direction: "BIDIRECTIONAL"
+    allowed_classes: ["car", "truck", "bus", "motorcycle"]
+    allowed_personnel: []
+    alert_severity: "LOW"
+    max_speed_kmh: 60.0
+    min_speed_kmh: 5.0
+    stoppage_threshold_sec: 15.0
+    schedule: "24x7"
+    points:
+      - { x: 0.05, y: 0.20 }
+      - { x: 0.95, y: 0.20 }
+      - { x: 0.95, y: 0.80 }
+      - { x: 0.05, y: 0.80 }
+
+  # Zone D: Restricted Perimeter (Zero Tolerance)
+  - zone_id: "ZONE_D_RESTRICTED_PERIMETER"
+    name: "150m Zero-Line Buffer Security Strip"
+    camera_id: "CAM-PERIMETER-04"
+    zone_type: "RESTRICTED_ZONE"
+    enabled: true
+    color: "#DC2626"
+    direction: "BIDIRECTIONAL"
+    allowed_classes: []  # Absolutely no unauthorized entities allowed
+    allowed_personnel: ["AUTH-001", "AUTH-002"] # Armed QRF patrol only
+    alert_severity: "CRITICAL"
+    loitering_threshold_sec: 2.0
+    schedule: "24x7"
+    points:
+      - { x: 0.10, y: 0.15 }
+      - { x: 0.90, y: 0.15 }
+      - { x: 0.90, y: 0.60 }
+      - { x: 0.10, y: 0.60 }
+
+  # Zone E: Virtual Fence / Tripwire
+  - zone_id: "ZONE_E_VIRTUAL_FENCE"
+    name: "Zero-Line Virtual Electronic Tripwire"
+    camera_id: "CAM-PERIMETER-04"
+    zone_type: "VIRTUAL_FENCE"
+    enabled: true
+    color: "#EF4444"
+    direction: "INWARD_ONLY" # Crossing from foreign territory toward border
+    allowed_classes: []
+    allowed_personnel: []
+    alert_severity: "CRITICAL"
+    virtual_fence_line:
+      start: { x: 0.05, y: 0.50 }
+      end: { x: 0.95, y: 0.50 }
+      normal_vector: { dx: 0.0, dy: 1.0 } # Direction vector pointing inward
+    points:
+      - { x: 0.05, y: 0.48 }
+      - { x: 0.95, y: 0.48 }
+      - { x: 0.95, y: 0.52 }
+      - { x: 0.05, y: 0.52 }
+
+  # Zone F: Forward Observation Area
+  - zone_id: "ZONE_F_OBSERVATION_AREA"
+    name: "Observation Post Overwatch Field"
+    camera_id: "CAM-PERIMETER-04"
+    zone_type: "OBSERVATION_AREA"
+    enabled: true
+    color: "#8B5CF6"
+    direction: "BIDIRECTIONAL"
+    allowed_classes: ["person"]
+    allowed_personnel: ["AUTH-001", "AUTH-002", "AUTH-003"]
+    alert_severity: "MEDIUM"
+    loitering_threshold_sec: 60.0
+    schedule: "24x7"
+    points:
+      - { x: 0.30, y: 0.05 }
+      - { x: 0.70, y: 0.05 }
+      - { x: 0.70, y: 0.30 }
+      - { x: 0.30, y: 0.30 }
+
+  # Zone G: Vehicle Inspection & ANPR Bay
+  - zone_id: "ZONE_G_VEHICLE_CHECK"
+    name: "ANPR Plate Capture & Vehicle Inspection Bay"
+    camera_id: "CAM-CHECKPOST-02"
+    zone_type: "VEHICLE_CHECK_AREA"
+    enabled: true
+    color: "#06B6D4"
+    direction: "INWARD_ONLY"
+    allowed_classes: ["car", "truck", "motorcycle", "bus"]
+    allowed_personnel: []
+    anpr_mandatory: true
+    alert_severity: "HIGH"
+    schedule: "24x7"
+    points:
+      - { x: 0.25, y: 0.50 }
+      - { x: 0.75, y: 0.50 }
+      - { x: 0.80, y: 0.90 }
+      - { x: 0.20, y: 0.90 }
+
+  # Zone H: Low-Light / Night Sector
+  - zone_id: "ZONE_H_NIGHT_SECTOR"
+    name: "Forested Flank Night Surveillance Corridor"
+    camera_id: "CAM-NIGHT-05"
+    zone_type: "LOW_LIGHT_ZONE"
+    enabled: true
+    color: "#F97316"
+    direction: "BIDIRECTIONAL"
+    allowed_classes: []
+    allowed_personnel: []
+    alert_severity: "HIGH"
+    clahe_enhancement_mandatory: true
+    schedule: "night_only" # 18:00 to 06:00 IST
+    points:
+      - { x: 0.10, y: 0.10 }
+      - { x: 0.90, y: 0.10 }
+      - { x: 0.90, y: 0.90 }
+      - { x: 0.10, y: 0.90 }
+
+  # Zone I: Multi-Camera Overlapping Coverage (Handoff Buffer)
+  - zone_id: "ZONE_I_CAMERA_HANDOFF"
+    name: "Gate-to-Checkpost Inter-Camera Tracking Corridor"
+    camera_id: "CAM-BOP-GATE-01"
+    secondary_camera_id: "CAM-CHECKPOST-02"
+    zone_type: "OVERLAPPING_COVERAGE"
+    enabled: true
+    color: "#6366F1"
+    direction: "OUTWARD_ONLY"
+    allowed_classes: ["person", "car"]
+    allowed_personnel: []
+    alert_severity: "LOW"
+    schedule: "24x7"
+    points:
+      - { x: 0.60, y: 0.60 }
+      - { x: 0.95, y: 0.60 }
+      - { x: 0.95, y: 0.95 }
+      - { x: 0.60, y: 0.95 }
+
+  # Zone J: Camera Blind-Spot & Occlusion Buffer
+  - zone_id: "ZONE_J_OCCLUSION_BUFFER"
+    name: "Culvert & Tree Canopy Blind-Spot Extrapolation Zone"
+    camera_id: "CAM-ROAD-03"
+    zone_type: "BLIND_SPOT_ZONE"
+    enabled: true
+    color: "#64748B"
+    direction: "BIDIRECTIONAL"
+    allowed_classes: ["person"]
+    allowed_personnel: []
+    alert_severity: "MEDIUM"
+    max_occlusion_cooldown_sec: 10.0
+    schedule: "24x7"
+    points:
+      - { x: 0.70, y: 0.20 }
+      - { x: 0.90, y: 0.20 }
+      - { x: 0.90, y: 0.50 }
+      - { x: 0.70, y: 0.50 }
