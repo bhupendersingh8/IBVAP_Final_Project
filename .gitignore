@@ -16,6 +16,7 @@ build/
 # Databases & local ledger runtime files
 *.sqlite3
 *.duckdb
+*.duckdb.wal
 evidence_clips/*.mp4
 data/cache/
 

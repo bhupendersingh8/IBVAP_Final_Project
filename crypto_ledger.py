@@ -1395,14 +1395,13 @@ class CryptoEvidenceLedger:
 
     def export_audit_certificate(self, output_path: Optional[Union[str, Path]] = None, verify_clips: bool = True) -> Dict[str, Any]:
         """
-        Generates Section 65B Indian Evidence Act compliant forensic certificate,
-        incorporating dual-layer frame and video clip cryptographic proofs,
-        augmented with post-quantum hybrid cryptographic readiness verification.
+        Generates Cryptographically Verifiable Technical Evidence Certificate,
+        incorporating dual-layer frame and video clip cryptographic proofs.
         """
         audit = self.verify_chain_integrity(verify_clips=verify_clips)
         cert = {
-            "title": "CERTIFICATE UNDER SECTION 65B OF INDIAN EVIDENCE ACT, 1872",
-            "statutory_mandate": "Admissibility of Electronic Records (Sec 65B IEA / Sec 63 BSA 2023)",
+            "title": "Cryptographically Verifiable Technical Evidence Certificate",
+            "description": "IBVAP generates technically verifiable electronic evidence designed to support evidence and audit workflows under applicable provisions of the Bharatiya Sakshya Adhiniyam, 2023.",
             "system_name": "IBVAP - Intelligent Border Video Analytics Platform",
             "deploying_agency": "Sashastra Seema Bal / Ministry of Home Affairs",
             "cryptographic_algorithm": "SHA-256 Merkle Hash Chaining + File Content Hashing",
@@ -1428,6 +1427,53 @@ class CryptoEvidenceLedger:
             with open(out_p, "w", encoding="utf-8") as f:
                 json.dump(cert, f, indent=2)
         return cert
+
+    def export_ledger_ndjson(self) -> str:
+        """
+        Exports the entire sequential tamper-evident ledger as canonical NDJSON (newline-delimited JSON).
+        Suitable for cold archival and external SIEM ingestion.
+        """
+        with self._lock:
+            conn = self._get_connection()
+            if self.use_sqlite:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "SELECT sequence_id, timestamp, timestamp_epoch, camera_id, event_type, "
+                    "severity, frame_hash, previous_hash, block_hash, merkle_root, metadata_json "
+                    "FROM evidence_ledger ORDER BY sequence_id ASC"
+                )
+                rows = cursor.fetchall()
+                conn.close()
+            else:
+                rows = conn.execute(
+                    "SELECT sequence_id, timestamp, timestamp_epoch, camera_id, event_type, "
+                    "severity, frame_hash, previous_hash, block_hash, merkle_root, metadata_json "
+                    "FROM evidence_ledger ORDER BY sequence_id ASC"
+                ).fetchall()
+
+        lines = []
+        for r in rows:
+            meta = {}
+            if r[10]:
+                try:
+                    meta = json.loads(r[10]) if isinstance(r[10], str) else r[10]
+                except Exception:
+                    meta = {"raw": str(r[10])}
+            block_record = {
+                "sequence_id": r[0],
+                "timestamp": r[1],
+                "timestamp_epoch": r[2],
+                "camera_id": r[3],
+                "event_type": r[4],
+                "severity": r[5],
+                "frame_hash": r[6],
+                "previous_hash": r[7],
+                "block_hash": r[8],
+                "merkle_root": r[9],
+                "metadata": meta
+            }
+            lines.append(json.dumps(block_record, sort_keys=True))
+        return "\n".join(lines) + ("\n" if lines else "")
 
 
 # Global Default Singleton

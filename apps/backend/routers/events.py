@@ -286,6 +286,55 @@ async def update_evidence_disposition(
         
     return {"success": True, "sequence_id": sequence_id, "disposition": payload.disposition}
 
+@router.get("/evidence/export")
+async def export_evidence_ledger_dump(
+    user: dict = Depends(require_permission(Permission.VIEW_EVIDENCE))
+):
+    """
+    Exports the entire sequential tamper-evident ledger as canonical NDJSON.
+    """
+    import sys
+    from pathlib import Path
+    from fastapi.responses import Response
+    project_root = str(Path(__file__).resolve().parents[3])
+    if project_root not in sys.path:
+        sys.path.append(project_root)
+
+    from crypto_ledger import get_ledger
+    ledger = get_ledger()
+    ndjson_content = ledger.export_ledger_ndjson()
+    return Response(
+        content=ndjson_content,
+        media_type="application/x-ndjson",
+        headers={"Content-Disposition": "attachment; filename=evidence_ledger.ndjson"}
+    )
+
+@router.get("/evidence/certificate/{certificate_id}")
+async def get_evidence_certificate(
+    certificate_id: str,
+    user: dict = Depends(require_permission(Permission.VIEW_EVIDENCE))
+):
+    """
+    Retrieves or generates a Cryptographically Verifiable Technical Evidence Certificate in JSON-LD format.
+    """
+    import sys
+    from pathlib import Path
+    project_root = str(Path(__file__).resolve().parents[3])
+    if project_root not in sys.path:
+        sys.path.append(project_root)
+
+    from crypto_ledger import get_ledger
+    ledger = get_ledger()
+    cert = ledger.export_audit_certificate()
+    cert["title"] = "Cryptographically Verifiable Technical Evidence Certificate"
+    cert["description"] = (
+        "IBVAP generates technically verifiable electronic evidence designed to support "
+        "evidence and audit workflows under applicable provisions of the Bharatiya Sakshya Adhiniyam, 2023."
+    )
+    cert["@context"] = "https://www.w3.org/2018/credentials/v1"
+    cert["id"] = f"urn:ibvap:evidence:certificate:{certificate_id}"
+    return cert
+
 @router.post("/evidence/verify", response_model=EvidenceVerifyResponse)
 async def verify_evidence_asset(
     payload: EvidenceVerifyRequest,
@@ -357,7 +406,7 @@ async def verify_evidence_asset(
             computed_sha256=computed_sha,
             integrity_verified=True,
             status="TAMPER_EVIDENT_VALID",
-            message="Evidence integrity verified. SHA-256 matches Section 65B cryptographic register.",
+            message="Evidence integrity verified. SHA-256 matches technical evidence ledger register.",
         )
     else:
         return EvidenceVerifyResponse(
@@ -367,7 +416,7 @@ async def verify_evidence_asset(
             computed_sha256=computed_sha,
             integrity_verified=False,
             status="TAMPER_DETECTED",
-            message="Integrity violation! Physical file hash differs from recorded Section 65B ledger digest.",
+            message="Integrity violation! Physical file hash differs from recorded technical evidence ledger digest.",
         )
 
 @router.post("/feedback", response_model=SuccessResponse)

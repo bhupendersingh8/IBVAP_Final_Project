@@ -1,14 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { api } from '../api/client';
 
 export const Admin: React.FC = () => {
   const [activeTab, setActiveTab] = useState('users');
   const [showAttestationModal, setShowAttestationModal] = useState(false);
   const [showProvisionDrawer, setShowProvisionDrawer] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [loadingUser, setLoadingUser] = useState<boolean>(true);
 
   // Form states for provisioning
   const [provisionEmail, setProvisionEmail] = useState('');
   const [provisionRole, setProvisionRole] = useState('Auditor / Security Reviewer');
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchUser = async () => {
+      try {
+        const u = await api.getCurrentUser();
+        if (mounted) setCurrentUser(u);
+      } catch {
+        if (mounted) setCurrentUser(null);
+      } finally {
+        if (mounted) setLoadingUser(false);
+      }
+    };
+    fetchUser();
+    return () => { mounted = false; };
+  }, []);
 
   const handleConfirmProvision = () => {
     alert(`Operator access provisioned for: ${provisionEmail} (${provisionRole})\nEvent logged in append-only audit trail.`);
@@ -26,7 +45,7 @@ export const Admin: React.FC = () => {
             <span>/</span>
             <span>ADMINISTRATION & SECURITY CONTROL</span>
             <span>/</span>
-            <span className="text-secondary font-medium">PROTECTED AREA (ROLE: LEAD AUDITOR)</span>
+            <span className="text-secondary font-medium">PROTECTED AREA {currentUser?.role ? `(ROLE: ${currentUser.role})` : '(SESSION AUTH REQUIRED)'}</span>
           </div>
           <div className="flex items-center gap-space-md flex-wrap mt-0.5">
             <h1 className="font-headline-lg text-headline-lg text-primary tracking-tight">Security & Governance Matrix</h1>
@@ -168,34 +187,50 @@ export const Admin: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-surface-container">
-                    <tr>
-                      <td className="py-3 px-3">
-                        <div className="flex flex-col">
-                          <span className="font-semibold text-primary font-body-sm">Lead Auditor</span>
-                          <span className="font-label-mono-sm text-label-mono-sm text-on-surface-variant">auditor@team-trinetra.in</span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-3 font-label-mono-sm text-label-mono-sm">JWT Bearer Token</td>
-                      <td className="py-3 px-3">
-                        <span className="px-2 py-0.5 rounded bg-primary text-on-primary font-label-mono-sm text-label-mono-sm font-semibold">
-                          AUDITOR / REVIEWER
-                        </span>
-                      </td>
-                      <td className="py-3 px-3">
-                        <span className="inline-flex items-center gap-1 font-label-mono-sm text-label-mono-sm text-emerald-700">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Active
-                        </span>
-                      </td>
-                      <td className="py-3 px-3 font-label-mono-sm text-label-mono-sm text-on-surface-variant">Just now</td>
-                      <td className="py-3 px-3 text-right">
-                        <button className="text-secondary font-label-mono-sm text-label-mono-sm hover:underline">Manage</button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colSpan={6} className="py-6 text-center text-on-surface-variant font-label-mono-sm">
-                        Showing 1 active session. Additional operators provisionable via the &quot;Provision Operator&quot; drawer.
-                      </td>
-                    </tr>
+                    {currentUser ? (
+                      <>
+                        <tr>
+                          <td className="py-3 px-3">
+                            <div className="flex flex-col">
+                              <span className="font-semibold text-primary font-body-sm">
+                                {currentUser.full_name || currentUser.username || 'Authenticated Operator'}
+                              </span>
+                              <span className="font-label-mono-sm text-label-mono-sm text-on-surface-variant">
+                                {currentUser.email || currentUser.username}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="py-3 px-3 font-label-mono-sm text-label-mono-sm">JWT Bearer Token</td>
+                          <td className="py-3 px-3">
+                            <span className="px-2 py-0.5 rounded bg-primary text-on-primary font-label-mono-sm text-label-mono-sm font-semibold">
+                              {currentUser.role || 'OPERATOR'}
+                            </span>
+                          </td>
+                          <td className="py-3 px-3">
+                            <span className="inline-flex items-center gap-1 font-label-mono-sm text-label-mono-sm text-emerald-700">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Active
+                            </span>
+                          </td>
+                          <td className="py-3 px-3 font-label-mono-sm text-label-mono-sm text-on-surface-variant">Active Session</td>
+                          <td className="py-3 px-3 text-right">
+                            <span className="text-on-surface-variant font-label-mono-sm text-label-mono-sm">Current Node</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colSpan={6} className="py-4 text-center text-on-surface-variant font-label-mono-sm">
+                            Showing active authenticated operator session. Additional operators provisionable via the &quot;Provision Operator&quot; drawer.
+                          </td>
+                        </tr>
+                      </>
+                    ) : (
+                      <tr>
+                        <td colSpan={6} className="py-8 text-center text-on-surface-variant font-label-mono-sm">
+                          {loadingUser
+                            ? 'Querying authenticated session (/api/v1/auth/me)...'
+                            : 'No active authenticated operator session. Sign in via /api/v1/auth/login to manage access control.'}
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -382,7 +417,7 @@ export const Admin: React.FC = () => {
                   value={provisionEmail}
                   onChange={(e) => setProvisionEmail(e.target.value)}
                   className="bg-surface-container-low p-2 rounded-lg text-primary text-body-md font-body-md focus:outline-none border border-surface-container"
-                  placeholder="e.g. auditor@team-trinetra.in"
+                  placeholder="e.g. analyst@agency.gov.in"
                   type="email"
                 />
               </div>

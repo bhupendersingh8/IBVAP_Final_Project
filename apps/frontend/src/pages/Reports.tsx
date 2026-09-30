@@ -34,10 +34,10 @@ export const Reports: React.FC = () => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `ibvap_bsa2023_technical_evidence_${Date.now()}.json`;
+        a.download = `ibvap_technical_evidence_certificate_${Date.now()}.json`;
         a.click();
         window.URL.revokeObjectURL(url);
-        setDownloadMsg('BSA 2023 technical evidence report downloaded successfully.');
+        setDownloadMsg('Cryptographically verifiable technical evidence report downloaded successfully.');
       }
     } catch (err: any) {
       console.error('Export failed:', err);
@@ -132,15 +132,15 @@ export const Reports: React.FC = () => {
           </button>
         </div>
 
-        {/* Export 3: BSA 2023 Technical Evidence */}
+        {/* Export 3: Technical Evidence Certificate */}
         <div className="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm border border-surface-container flex flex-col justify-between gap-space-md">
           <div className="flex flex-col gap-2">
             <div className="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center">
               <span className="material-symbols-outlined text-secondary text-[22px]">gavel</span>
             </div>
-            <h3 className="font-headline-sm text-headline-sm text-primary">BSA 2023 Technical Evidence</h3>
+            <h3 className="font-headline-sm text-headline-sm text-primary">Technical Evidence Certificate</h3>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
-              Formatted electronic record certificate documenting device identity, operator details, timestamp, and hash-chain continuity.
+              IBVAP generates technically verifiable electronic evidence designed to support evidence and audit workflows under applicable provisions of the Bharatiya Sakshya Adhiniyam, 2023.
             </p>
           </div>
 

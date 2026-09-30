@@ -111,17 +111,17 @@ export async function listProvenanceRecords(limit = 20): Promise<{ count: number
 }
 
 export async function verifyProvenanceRecord(sequenceId: number): Promise<ProvenanceVerifyResponse> {
-  const res = await apiClient.post<ProvenanceVerifyResponse>(`/api/v1/assurance/provenance/verify/${sequenceId}`);
+  const res = await apiClient.get<ProvenanceVerifyResponse>(`/api/v1/assurance/provenance/verify/${sequenceId}`);
   return res.data;
 }
 
 export const verifyProvenancePayload = async (payload: any): Promise<ProvenanceVerifyResponse> => {
-  const res = await apiClient.post<ProvenanceVerifyResponse>("/api/v1/assurance/provenance/verify/0", payload);
+  const res = await apiClient.post<ProvenanceVerifyResponse>("/api/v1/assurance/provenance/verify", payload);
   return res.data;
 };
 
 export async function verifyProvenanceChain(): Promise<{ valid: boolean; records_checked: number; message: string }> {
-  const res = await apiClient.post("/api/v1/assurance/provenance/chain/verify");
+  const res = await apiClient.get("/api/v1/assurance/provenance/chain/verify");
   return res.data;
 }
 
@@ -152,7 +152,7 @@ export async function updateBlockDisposition(
   blockIndex: number,
   disposition: "ACCEPT" | "REVIEW" | "QUARANTINE" | string
 ): Promise<any> {
-  const res = await apiClient.put(`/api/v1/evidence/ledger_blocks/${blockIndex}/disposition`, {
+  const res = await apiClient.post(`/api/v1/evidence/ledger_blocks/${blockIndex}/disposition`, {
     disposition
   });
   return res.data;
@@ -322,20 +322,14 @@ export const api = {
       format: "Deterministic Ingestion / JSON",
       intake_timestamp: res.timestamp,
       total_samples: res.total_samples,
-      total_bounding_boxes: res.total_samples ? res.total_samples * 2 : 24,
+      total_bounding_boxes: res.total_samples ? res.total_samples * 2 : 0,
       mean_sharpness: res.mean_sharpness_laplacian,
       corrupted_samples: res.corrupted_samples,
       verdict: res.verdict === "ACCEPTED" ? "ACCEPT" : res.verdict,
       summary: res.description,
       runtime_seconds: 0.42,
-      contributor_key: "contrib-auth-ed25519:7a89f41b209c4d9...3a8f",
-      sample_inspections: Array.from({ length: Math.min(res.total_samples || 6, 8) }).map((_, idx) => ({
-        sample_id: `#SMP-0${4980 + idx}`,
-        file_name: `frame_urb_0${4980 + idx}.png`,
-        resolution: "1920x1080",
-        sha256: `4f8a3d91c2847bb019e6d0a7902a7b8e1f0e4b8a2139b42171092a8b9412e87${idx}`,
-        sharpness: 142.8 + idx * 2.1
-      }))
+      contributor_key: (res as any).contributor_key || null,
+      sample_inspections: []
     };
   },
 

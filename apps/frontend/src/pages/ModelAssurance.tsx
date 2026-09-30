@@ -7,7 +7,7 @@ export const ModelAssurance: React.FC = () => {
   const [selectedModel, setSelectedModel] = useState<string>('YOLO11n');
   const [verificationStatus, setVerificationStatus] = useState<'PENDING' | 'VERIFIED' | 'QUARANTINED'>('PENDING');
   const [statusMessage, setStatusMessage] = useState<string>('Awaiting verification check');
-  const [modelHash, setModelHash] = useState<string>('c2b87f918e388d77c44933973950efec2d14878a846f71661138243be4f51e06');
+  const [modelHash, setModelHash] = useState<string>('');
   const [runningDiagnostics, setRunningDiagnostics] = useState<boolean>(false);
   const [diagnosticsRun, setDiagnosticsRun] = useState<boolean>(false);
   const [admissionVerdict, setAdmissionVerdict] = useState<'ACCEPT' | 'REVIEW' | 'QUARANTINE'>('ACCEPT');
@@ -17,9 +17,9 @@ export const ModelAssurance: React.FC = () => {
       try {
         const list = await api.listManifests();
         const mapped: ModelManifest[] = list.map((m: any) => ({
-          model_name: m.model?.model_id || m.model_name || 'YOLO11n',
+          model_name: m.model_id || m.model?.model_id || m.model_name || 'YOLO11n',
           version: m.manifest_version || '1.0.0',
-          sha256: m.model?.sha256 || m.sha256 || 'c2b87f918e388d77c44933973950efec2d14878a846f71661138243be4f51e06'
+          sha256: m.model_sha256 || m.model?.sha256 || m.sha256 || ''
         }));
         setManifests(mapped);
         if (mapped.length > 0) {
