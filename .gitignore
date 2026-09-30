@@ -8,6 +8,8 @@ env/
 venv/
 .venv/
 .venv_gpu/
+venv_*/
+*venv*/
 *.egg-info/
 dist/
 build/
