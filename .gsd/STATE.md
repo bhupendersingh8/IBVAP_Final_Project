@@ -1,44 +1,55 @@
 # GSD Runtime State: IBVAP SIH26228
 
-**Last Updated**: 2026-10-01 07:05 IST  
-**Current Phase**: Phase 0-42 Master Architecture & Dataset Provenance Verified  
+**Last Updated**: 2026-10-01 07:33 IST  
+**Current Phase**: Complete Dataset Provenance, Open-Data Compliance, Reference Attack Benchmarks & Frontend Views  
+**Git Checkpoint**: `bbdacb9`  
 **Hardware Profile**: NVIDIA GeForce RTX 5050 Laptop GPU / Zero-Crash CPU Fallback Matrix  
 **Active Project Directory**: `C:\Users\anmol\.gemini\antigravity\scratch\IBVAP_SIH26228`  
 **Baseline Reference Directory**: `C:\Users\anmol\.gemini\antigravity\scratch\IBVAP_Final_Project` (Pristine, 100% Untouched)  
 
 ---
 
-### Accomplishments
-1. **Master Architecture Alignment**: Structured as two clear, decoupled layers:
-   - **Layer 187 (Vision Intelligence)**: RTSP -> Ingest -> Enhance -> Detect -> ByteTrack -> Event Gate -> Specialists -> Reasoning -> Evidence Fusion -> Verified Event.
-   - **Layer 228 (Integrity Assurance)**: Data Integrity -> Model Integrity -> Behavioral Probes -> Inference Provenance -> Output Integrity -> Governance -> Ledger -> Certificate.
-2. **Dataset Provenance & Open-Data Compliance (SIH26228)**:
-   - 100% compliance with SIH26228 mandate: Zero classified, operational, or service-generated data.
-   - Authoritative manifest in `configs/dataset_manifest.json` cataloging open datasets (COCO 2017, ExDark, DarkFace) and reference benchmarks (NIST TrojAI Rounds 1-2, BackdoorBench).
-   - Deterministic directory manifest & archive hashing in `services/assurance/dataset_hashing.py`.
-   - Complete synthetic attack & evaluation battery in `data/synthetic_eval/` with exact SHA-256 Merkle root (`eda64779e7d51208c73b8329fbfe7f0c982d3c779b8da010274eb11393308610`).
-   - NIST TrojAI and BackdoorBench reference adapters (`services/assurance/benchmarks/`) with honest `REGISTERED_BUT_NOT_EXECUTED` vs `LOCAL_AVAILABLE` state tracking.
-   - Full documentation in `DATA_PROVENANCE.md` and audit report in `reports/benchmark_audit_results.json`.
-3. **Deterministic Test Verification**:
-   - PyTest Suite: **462 passed, 0 failed** in 55.98s (100% clean across all 60 test suites).
-   - Standalone Orchestrator Suite: **6/6 test suites passed 100%** (`run_tests_standalone.py`).
-   - Frontend Production Compilation: **113 modules in 1.40s, 0 errors** (`tsc && vite build`).
-4. **Silicon Fallback & Zero-Crash Hardware Resilience**:
-   - Added automatic zero-crash kernel-execution checks in `HardwareDetector`, `SharedPreprocessor`, `TwoStageYOLO26Pipeline`, and `LocalTacticalVLM` to seamlessly fallback to CPU when Blackwell SM120 PyTorch kernels are unavailable.
-5. **Verified Benchmarks**:
-   - Ingestion: **181.8 FPS** non-blocking threaded read rate (`ThreadedCamera`).
-   - Preprocessing: **0.49 ms** 1080p -> 640x640 scaling ($2039.9\text{ FPS}$ throughput).
-   - Zero-DCE++: **38.55 ms** on 256x256 downsampled grid (bypassed on daylight frames).
-   - Hashing Micro-operation: **1.1 \mu s** ($0.0011\text{ ms}$) recursive Merkle hash.
-6. **Air-Gap & Offline Demonstration**:
-   - `scripts/run_airgap_demo.py` passed all 5 assertion phases offline.
-   - Coordinate tampering detected instantly with immediate transition to `[QUARANTINE]`.
-   - 100% clean prohibited terminology audit.
+### Key Accomplishments & Verifications
+
+1. **Dataset Provenance & Open-Data Compliance (SIH26228)**:
+   - **Mandate Compliance**: 100% verified compliance with the SIH26228 clause: *"All development and evaluation data will be publicly available under applicable licences or synthetically generated. No classified, operational or service-generated data will be used."*
+   - **Authoritative Dataset Registry**: `configs/dataset_manifest.json` and `config/dataset_manifest.json` catalog 7 open datasets (COCO 2017, ExDark, DarkFace) and public reference benchmarks (NIST TrojAI Rounds 1-2, BackdoorBench). All entries marked `is_classified: false`, `is_operational: false`, `is_service_generated: false`.
+   - **Deterministic Hashing**: Implemented in `services/assurance/dataset_hashing.py`. Uses 64KB streaming SHA-256 chunks. Evaluates `DatasetComplianceAuditor` with zero hash fabrication: external assets without local copies cleanly report `REGISTERED_BUT_NOT_EXECUTED`.
+   - **Comprehensive 17-Section Specification**: Authored authoritative [`DATA_PROVENANCE.md`](file:///C:/Users/anmol/.gemini/antigravity/scratch/IBVAP_SIH26228/DATA_PROVENANCE.md) covering all 17 required numbered sections.
+   - **Audit Results Specification**: Updated `reports/benchmark_audit_results.json` adhering strictly to per-resource state format for `NIST_TROJAI`, `BACKDOORBENCH`, `TRINETRA_SYNTHETIC_SUITE`, and `CLEANLAB_CONFIDENT_LEARNING`.
+
+2. **Synthetic Attack & Evaluation Battery (21 Cases + Merkle Tree)**:
+   - Deterministic seed `26228`, generator version `2.0.0` in `scripts/generate_synthetic_cases.py` and `services/assurance/synthetic_eval.py`.
+   - 21 discrete synthetic cases spanning DATA (label flips, mislabeling, dup floods, malformed annotations, class subs), ENVIRONMENT (low light, fog, blur, compression), MODEL (BadNets, byte mutation, layer sub, signed-suspicious), and INFERENCE (coordinate inversion, conf tampering, class tampering, nonce replay, provenance substitution).
+   - Provenance Commitment in `data/synthetic_eval/synthetic_provenance.json`: Batch `SYNTH-EVAL-26228-V2`, Merkle Root: `6ecccafecf627c52d40bba90b23c4971b07f7fda62ad05ca19ba83de29c1d486`.
+
+3. **Reference Attack Benchmark Adapters**:
+   - `services/assurance/benchmarks/trojai_adapter.py`: Normalized interface to NIST TrojAI Rounds 1-2. Air-gap aware (`REGISTERED_BUT_NOT_EXECUTED`).
+   - `services/assurance/benchmarks/backdoorbench_adapter.py`: Standardized interface to BackdoorBench attacks (BadNets, Blended, WaNet) and defenses (Neural Cleanse, STRIP, Fine-Pruning, Spectral Signatures).
+   - `services/assurance/benchmarks/registry.py`: Standardized 14 attack classes with defense methods and audit serialization.
+   - `services/assurance/model_fingerprint.py`: Neural Cleanse trigger inversion report (`TriggerInversionReport`, $L_1$ norm, Anomaly Index, `WHITE_BOX_ANALYSIS_UNAVAILABLE` fallback, `SIGNED != SAFE`).
+
+4. **Operator Frontend Assurance Views (Phase 16)**:
+   - Created [`apps/frontend/src/pages/DatasetProvenance.tsx`](file:///C:/Users/anmol/.gemini/antigravity/scratch/IBVAP_SIH26228/apps/frontend/src/pages/DatasetProvenance.tsx) providing 4 dedicated views:
+     - **Dataset Registry**: Dataset ID, Name, License, Storage Type, Public/Synthetic, SHA-256 Digest, Audit Status.
+     - **Reference Attack Benchmarks**: Benchmark, Round/Version, Organization, Covered Attacks, Execution Status, Defenses.
+     - **Synthetic Case Lab**: 21 reproducible cases with Merkle Root commitment, automated governance decision, and interactive evaluation runner.
+     - **Attack Coverage Matrix**: 14 attack classes mapped across lifecycle stages and statuses (`REGISTERED`, `AVAILABLE`, `EXECUTED`, `VERIFIED`, `UNAVAILABLE`, `UNVERIFIED`, `NOT SUPPORTED`).
+   - Integrated route `/dataset-provenance` in `App.tsx`, navigation in `Sidebar.tsx`, and quick-link in `DataIntegrity.tsx`.
+   - Production Build: `tsc && vite build` passed cleanly (**114 modules in 1.53s, 0 errors**).
+
+5. **Test Verification Suite**:
+   - PyTest Suite: **469 passed, 0 failed** in 57.32s (100% clean across all 61 test files).
+   - Standalone Suite: **6/6 test suites passed 100%** (`run_tests_standalone.py`).
+   - Attack Benchmark Tests: `tests/test_dataset_provenance.py`, `tests/test_trojai_backdoorbench.py`, `tests/test_reference_attack_benchmarks.py` all passing 100%.
+
+6. **Security & Prohibited Terminology Audit**:
+   - Zero violations across all source code, markdown documentation, and configuration files.
 
 ---
 
-### Active Operational State
+### Active Operational Daemons
 - Backend daemon running on port 8000 (`http://127.0.0.1:8000`)
 - Frontend dev server running on port 5173 (`http://localhost:5173`)
-- MediaMTX daemon running on port 8554 with active CAM-01 RTSP loop
-- Baseline `IBVAP_Final_Project` is 100% untouched.
+- MediaMTX daemon running on port 8554 with CAM-01 active RTSP feed
+- Baseline directory `IBVAP_Final_Project` is 100% pristine and untouched.
