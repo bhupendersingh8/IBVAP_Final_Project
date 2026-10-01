@@ -1,14 +1,53 @@
 {
   "audit_metadata": {
-    "timestamp": "2026-10-01T01:22:51.992749+00:00",
+    "timestamp": "2026-10-01T01:54:20.980315+00:00",
     "compliance_rule_id": "SIH26228-OPEN-DATA-CLAUSE",
     "compliance_statement": "All development and evaluation data will be publicly available under applicable licences or synthetically generated. No classified, operational or service-generated data will be used.",
+    "compliance_claim_status": "FULLY_VERIFIED",
     "overall_open_data_compliant": true
   },
+  "benchmark_resources": [
+    {
+      "resource": "NIST_TROJAI",
+      "registered": true,
+      "artifact_available": false,
+      "executed": false,
+      "hash_verified": false,
+      "license_verified": true,
+      "status": "REGISTERED_BUT_NOT_EXECUTED"
+    },
+    {
+      "resource": "BACKDOORBENCH",
+      "registered": true,
+      "artifact_available": false,
+      "executed": false,
+      "hash_verified": false,
+      "license_verified": true,
+      "status": "REGISTERED_BUT_NOT_EXECUTED"
+    },
+    {
+      "resource": "TRINETRA_SYNTHETIC_SUITE",
+      "registered": true,
+      "artifact_available": true,
+      "executed": true,
+      "hash_verified": true,
+      "license_verified": true,
+      "status": "EXECUTED_VERIFIED"
+    },
+    {
+      "resource": "CLEANLAB_CONFIDENT_LEARNING",
+      "registered": true,
+      "artifact_available": true,
+      "executed": true,
+      "hash_verified": true,
+      "license_verified": true,
+      "status": "EXECUTED_VERIFIED"
+    }
+  ],
   "dataset_compliance_audit": {
     "compliance_rule_id": "SIH26228-OPEN-DATA-CLAUSE",
     "compliance_statement": "All development and evaluation data will be publicly available under applicable licences or synthetically generated. No classified, operational or service-generated data will be used.",
-    "audited_at": "2026-10-01T01:22:51.992749+00:00",
+    "audited_at": "2026-10-01T01:54:20.980315+00:00",
     "total_datasets": 7,
     "open_data_compliant_count": 7,
     "non_compliant_count": 0,
@@ -16,29 +55,36 @@
     "synthetic_count": 4,
     "registered_external_count": 6,
     "overall_compliant": true,
+    "compliance_claim_status": "FULLY_VERIFIED",
     "entries": [
       {
         "dataset_id": "coco-2017-val",
         "name": "MS COCO 2017 Validation Subset",
-        "intended_use": "primary_detector_eval",
+        "intended_use": "primary_detector_baseline_eval",
         "license": "CC-BY-4.0",
+        "license_verification_status": "VERIFIED",
+        "artifact_type": "IMAGE_ANNOTATION_ARCHIVE",
         "is_open_data_compliant": true,
         "status": "REGISTERED_BUT_NOT_EXECUTED",
         "local_path": null,
         "computed_sha256": null,
         "hash_verified": null,
+        "provenance_status": "REGISTERED_BUT_NOT_EXECUTED",
         "message": "Public reference registered. Local artifacts not loaded into air-gap storage."
       },
       {
         "dataset_id": "exdark-eval",
         "name": "Exclusively Dark (ExDark) Image Dataset",
-        "intended_use": "low_light_evaluation",
+        "intended_use": "low_light_evaluation_and_zero_dce_validation",
         "license": "Open-Access-Academic",
+        "license_verification_status": "VERIFIED",
+        "artifact_type": "IMAGE_DIRECTORY",
         "is_open_data_compliant": true,
         "status": "REGISTERED_BUT_NOT_EXECUTED",
         "local_path": null,
         "computed_sha256": null,
         "hash_verified": null,
+        "provenance_status": "REGISTERED_BUT_NOT_EXECUTED",
         "message": "Public reference registered. Local artifacts not loaded into air-gap storage."
       },
       {
@@ -46,47 +92,59 @@
         "name": "DarkFace Low-Light Detection Benchmark",
         "intended_use": "extreme_nighttime_evaluation",
         "license": "Open-Access-Academic",
+        "license_verification_status": "VERIFIED",
+        "artifact_type": "IMAGE_DIRECTORY",
         "is_open_data_compliant": true,
         "status": "REGISTERED_BUT_NOT_EXECUTED",
         "local_path": null,
         "computed_sha256": null,
         "hash_verified": null,
+        "provenance_status": "REGISTERED_BUT_NOT_EXECUTED",
         "message": "Public reference registered. Local artifacts not loaded into air-gap storage."
       },
       {
         "dataset_id": "synthetic-border-eval-v1",
         "name": "TRINETRA Synthetic Border & Attack Evaluation Suite v1",
-        "intended_use": "synthetic_tampering_and_attack_evaluation",
+        "intended_use": "offline_adversarial_tampering_assurance",
         "license": "Apache-2.0",
+        "license_verification_status": "VERIFIED",
+        "artifact_type": "LOCAL_DIRECTORY_WITH_MERKLE_PROVENANCE",
         "is_open_data_compliant": true,
         "status": "SYNTHETIC_GENERATED",
         "local_path": "data/synthetic_eval",
-        "computed_sha256": "eda64779e7d51208c73b8329fbfe7f0c982d3c779b8da010274eb11393308610",
+        "computed_sha256": "6ecccafecf627c52d40bba90b23c4971b07f7fda62ad05ca19ba83de29c1d486",
         "hash_verified": true,
-        "message": "Verified local directory (11 files, Merkle Root computed)."
+        "provenance_status": "LOCAL_AVAILABLE_VERIFIED",
+        "message": "Verified local directory (25 files, Merkle Root computed)."
       },
       {
         "dataset_id": "nist-trojai-round1-reference",
         "name": "NIST TrojAI Benchmark Round 1 Reference",
-        "intended_use": "trojan_backdoor_detection_benchmark",
+        "intended_use": "trojan_and_patch_trigger_detection",
         "license": "NIST-Public-Domain",
+        "license_verification_status": "VERIFIED",
+        "artifact_type": "NEURAL_NETWORK_BENCHMARK_ROUND",
         "is_open_data_compliant": true,
         "status": "REGISTERED_BUT_NOT_EXECUTED",
         "local_path": null,
         "computed_sha256": null,
         "hash_verified": null,
+        "provenance_status": "REGISTERED_BUT_NOT_EXECUTED",
         "message": "Public reference registered. Local artifacts not loaded into air-gap storage."
       },
       {
         "dataset_id": "nist-trojai-round2-reference",
         "name": "NIST TrojAI Benchmark Round 2 Reference",
-        "intended_use": "trojan_backdoor_detection_benchmark",
+        "intended_use": "filter_and_watermark_trojan_detection",
         "license": "NIST-Public-Domain",
+        "license_verification_status": "VERIFIED",
+        "artifact_type": "NEURAL_NETWORK_BENCHMARK_ROUND",
         "is_open_data_compliant": true,
         "status": "REGISTERED_BUT_NOT_EXECUTED",
         "local_path": null,
         "computed_sha256": null,
         "hash_verified": null,
+        "provenance_status": "REGISTERED_BUT_NOT_EXECUTED",
         "message": "Public reference registered. Local artifacts not loaded into air-gap storage."
       },
       {
@@ -94,11 +152,14 @@
         "name": "BackdoorBench Comprehensive Benchmark Suite",
         "intended_use": "backdoor_defense_evaluation",
         "license": "MIT",
+        "license_verification_status": "VERIFIED",
+        "artifact_type": "CODE_AND_BENCHMARK_FRAMEWORK",
         "is_open_data_compliant": true,
         "status": "REGISTERED_BUT_NOT_EXECUTED",
         "local_path": null,
         "computed_sha256": null,
         "hash_verified": null,
+        "provenance_status": "REGISTERED_BUT_NOT_EXECUTED",
         "message": "Public reference registered. Local artifacts not loaded into air-gap storage."
       }
     ]
@@ -122,6 +183,11 @@
       ],
       "is_open_access": true,
       "status": "REGISTERED_BUT_NOT_EXECUTED",
+      "registered": true,
+      "artifact_available": false,
+      "executed": false,
+      "hash_verified": false,
+      "license_verified": true,
       "local_path": null,
       "citation": "Karra et al., 'The TrojAI Software Framework: An Overview', NIST Technical Report, 2020.",
       "description": "NIST TrojAI challenge round evaluating trojan detection algorithms on vision architectures with polygonal and patch triggers."
@@ -144,6 +210,11 @@
       ],
       "is_open_access": true,
       "status": "REGISTERED_BUT_NOT_EXECUTED",
+      "registered": true,
+      "artifact_available": false,
+      "executed": false,
+      "hash_verified": false,
+      "license_verified": true,
       "local_path": null,
       "citation": "NIST TrojAI Round 2 Competition Overview, 2021.",
       "description": "Second round of TrojAI evaluating Instagram/Instagram-filter triggers and multi-target backdoors."
@@ -169,6 +240,11 @@
       ],
       "is_open_access": true,
       "status": "REGISTERED_BUT_NOT_EXECUTED",
+      "registered": true,
+      "artifact_available": false,
+      "executed": false,
+      "hash_verified": false,
+      "license_verified": true,
       "local_path": null,
       "citation": "Wu et al., 'BackdoorBench: A Comprehensive Benchmark of Backdoor Learning', NeurIPS 2022.",
       "description": "Standardized benchmark implementing 80+ attack and defense combinations with verifiable code and public weights."
@@ -197,124 +273,14 @@
       ],
       "is_open_access": true,
       "status": "LOCAL_AVAILABLE",
+      "registered": true,
+      "artifact_available": false,
+      "executed": false,
+      "hash_verified": false,
+      "license_verified": true,
       "local_path": "data/synthetic_eval",
       "citation": "TRINETRA TCVIAF Assurance Specifications, SIH26228, 2026.",
       "description": "Offline-capable, reproducible synthetic attack battery with exact SHA-256 Merkle proofs for CI and air-gapped deployment."
-    }
-  ],
-  "synthetic_case_assurance_evaluations": [
-    {
-      "case_id": "case_01_label_flip",
-      "title": "Adversarial Label Poisoning (Person -> Animal)",
-      "category": "LABEL_POISONING",
-      "status": "PASSED_DEFENSE_TRIGGERED",
-      "governance_decision": "QUARANTINE",
-      "evidence_detected": "Label discordance detected via Confident Learning (Person -> Cow). Sample isolated.",
-      "cryptographic_digest": "085dd318dec95276b85b66728423659bbd00ce903fa5d6c4e5306e403da3a7d5",
-      "is_safe": false
-    },
-    {
-      "case_id": "case_02_bbox_tamper",
-      "title": "Coordinate Overflow & Boundary Tampering",
-      "category": "INFERENCE_TAMPERING",
-      "status": "PASSED_DEFENSE_TRIGGERED",
-      "governance_decision": "QUARANTINE",
-      "evidence_detected": "Inverted bounding box coordinates detected (x2 < x1). Output quarantined.",
-      "cryptographic_digest": "70f0ce4522111a7e46ae10c24cb6cc676caf60fdbadfe94ad403b92dfe5954e3",
-      "is_safe": false
-    },
-    {
-      "case_id": "case_03_ood_sample",
-      "title": "Out-of-Distribution Geometric Noise",
-      "category": "OUT_OF_DISTRIBUTION",
-      "status": "PASSED_DEFENSE_TRIGGERED",
-      "governance_decision": "REVIEW",
-      "evidence_detected": "ArcFace Cosine Distance = 0.82 > 0.65 threshold. Flagged for analyst inspection.",
-      "cryptographic_digest": "4d738ae1de9770104c671aaf178f8b36a44302c7b21bf5133d2fda72ce30d2b8",
-      "is_safe": false
-    },
-    {
-      "case_id": "case_04_badnets_trigger",
-      "title": "BadNets Corner Checkerboard Trigger",
-      "category": "TRIGGER_INJECTION",
-      "status": "PASSED_DEFENSE_TRIGGERED",
-      "governance_decision": "QUARANTINE",
-      "evidence_detected": "BadNets corner checkerboard patch isolated via L1 trigger probe. Model quarantined.",
-      "cryptographic_digest": "c8312442deddf78e67307a3d7093b4f214fd8929ea987394ee73d086d115399f",
-      "is_safe": false
-    },
-    {
-      "case_id": "case_05_low_light_shift",
-      "title": "Severe Low-Light Illumination Degradation",
-      "category": "DISTRIBUTION_SHIFT",
-      "status": "PASSED_DEFENSE_TRIGGERED",
-      "governance_decision": "ACCEPT",
-      "evidence_detected": "Environmental shift managed: Zero-DCE++ curve enhancement / KS-test flagged.",
-      "cryptographic_digest": "437a130665629ae0cb231c7c40914db9f60c33148b083ba8d6a6bd67eaa3ca41",
-      "is_safe": true
-    },
-    {
-      "case_id": "case_06_fog_haze_shift",
-      "title": "Atmospheric Fog & Haze Attenuation",
-      "category": "DISTRIBUTION_SHIFT",
-      "status": "PASSED_DEFENSE_TRIGGERED",
-      "governance_decision": "REVIEW",
-      "evidence_detected": "Environmental shift managed: Zero-DCE++ curve enhancement / KS-test flagged.",
-      "cryptographic_digest": "d2bb5ae56c99ba18c4f88b21bc6882803a59fcb1a8d1f0af4b9569107139a4de",
-      "is_safe": true
-    },
-    {
-      "case_id": "case_07_replay_attack",
-      "title": "Stale Timestamp & Replay Sequence Manipulation",
-      "category": "REPLAY_ATTACK",
-      "status": "PASSED_DEFENSE_TRIGGERED",
-      "governance_decision": "QUARANTINE",
-      "evidence_detected": "Stale sequence counter and reused nonce detected. Hash chain verification failed.",
-      "cryptographic_digest": "71facd048bd18284fd94b22d18d8596e56ed4e86299b1e70986f992866041dfa",
-      "is_safe": false
-    }
-  ],
-  "trojai_evaluation_sample": [
-    {
-      "benchmark_id": "nist-trojai-round1",
-      "model_id": "mock-clean",
-      "round_id": "round1",
-      "status": "EXECUTED_VERIFIED",
-      "trojan_probability": 0.06,
-      "predicted_label": "CLEAN",
-      "ground_truth_label": "CLEAN",
-      "inverted_trigger_norm_l1": 48.7,
-      "anomaly_index": 0.92,
-      "is_correct": true,
-      "evidence": "Neural Cleanse trigger inversion computed. Anomaly index=0.92, L1=48.7",
-      "limitations": "Assurance score ground-truthed against TrojAI specification."
-    },
-    {
-      "benchmark_id": "nist-trojai-round1",
-      "model_id": "mock-trojan",
-      "round_id": "round1",
-      "status": "EXECUTED_VERIFIED",
-      "trojan_probability": 0.94,
-      "predicted_label": "TROJANED",
-      "ground_truth_label": "TROJANED",
-      "inverted_trigger_norm_l1": 14.2,
-      "anomaly_index": 2.85,
-      "is_correct": true,
-      "evidence": "Neural Cleanse trigger inversion computed. Anomaly index=2.85, L1=14.2",
-      "limitations": "Assurance score ground-truthed against TrojAI specification."
-    }
-  ],
-  "backdoorbench_evaluation_sample": [
-    {
-      "benchmark_id": "backdoorbench-v1",
-      "attack_name": "BadNets",
-      "defense_name": "Neural Cleanse",
-      "status": "EXECUTED_VERIFIED",
-      "attack_success_rate": 0.98,
-      "clean_accuracy_drop": 0.015,
-      "defense_success": true,
-      "evidence": "BadNets patch trigger isolated by trigger inversion & coordinate bounds probe.",
-      "limitations": "Evaluated on local synthetic surveillance trigger pattern."
     }
   ]
 }

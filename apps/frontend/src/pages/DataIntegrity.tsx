@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../api/client';
 import { DatasetAuditResult } from '../types';
 
@@ -69,8 +70,16 @@ export const DataIntegrity: React.FC = () => {
               {loading ? 'Auditing...' : 'Run Audit'}
             </span>
           </button>
+          <Link
+            to="/dataset-provenance"
+            className="inline-flex items-center gap-space-xs px-space-md py-1.5 rounded-lg bg-surface-container text-primary border border-surface-container font-label-mono-sm text-label-mono-sm font-semibold hover:bg-surface-container-high transition-colors"
+          >
+            <span className="material-symbols-outlined text-[16px]">verified</span>
+            <span>Open Provenance & Benchmarks</span>
+          </Link>
         </div>
       </div>
+
 
       {/* Dataset Overview & Contributor Cards */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-space-md">

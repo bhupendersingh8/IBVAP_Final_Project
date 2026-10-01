@@ -1,0 +1,21 @@
+{
+  "case_id": "case_inf_class_tamper",
+  "attack_class": "OUTPUT_TAMPERING",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.466396+00:00",
+  "domain": "INFERENCE",
+  "title": "Post-Inference Class Tampering",
+  "description": "Direct memory modification of detection class string before evidence ledger commitment.",
+  "target_defense": "Cryptographic Event Digest & Merkle Frame Commitment",
+  "expected_governance_disposition": "QUARANTINE",
+  "artifacts": [],
+  "parameters": {
+    "tampered_attribute": "class_name",
+    "original": "person",
+    "mutated": "dog"
+  },
+  "input_hash": "c77e65bcd45c2facd9838115d42dba115819c0a351d593411a455d45d4c451d0",
+  "output_hash": "1febd9486ff773260e48c34d0d9e945d3b0a1c7cb9eaf007579f13725b99c9ab",
+  "sha256": "8a12bac927c439a1415be6155d44843ff3bd26b0bf59b5895a3e2f93e7d72e6a"
+}

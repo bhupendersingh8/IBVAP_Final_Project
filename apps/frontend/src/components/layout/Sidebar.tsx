@@ -19,6 +19,7 @@ const navSections: NavSection[] = [
       { name: "Overview", path: "/overview", icon: "space_dashboard" },
       { name: "Live Inference", path: "/live-inference", icon: "videocam" },
       { name: "Data Integrity", path: "/data-integrity", icon: "fingerprint" },
+      { name: "Dataset Provenance", path: "/dataset-provenance", icon: "verified" },
       { name: "Model Assurance", path: "/model-assurance", icon: "model_training" },
     ],
   },

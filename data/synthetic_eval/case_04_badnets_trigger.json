@@ -1,13 +1,16 @@
 {
   "case_id": "case_04_badnets_trigger",
-  "category": "TRIGGER_INJECTION",
+  "attack_class": "TRIGGER_INJECTION",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.444986+00:00",
+  "domain": "DATA",
   "title": "BadNets Corner Checkerboard Trigger",
   "description": "Synthetic BadNets trigger patch located at pixel coordinates (290, 290) to evaluate trigger inversion and backdoor defenses.",
   "target_defense": "Neural Cleanse / Patch Isolation",
   "expected_governance_disposition": "QUARANTINE",
   "artifacts": [
-    "case_04_badnets_trigger.png",
-    "case_04_badnets_trigger.json"
+    "case_04_badnets_trigger.png"
   ],
   "parameters": {
     "patch_location": [
@@ -17,5 +20,8 @@
       314
     ],
     "trigger_type": "CHECKERBOARD"
-  }
+  },
+  "input_hash": "cfb9dd7196a2dca2a6965d5f1ccecabc9ed5428b3d4ff614d9d7aef4de020fea",
+  "output_hash": "f86c850da98d3a4fe32f5ae80c9646e773ad4463867a52b645f822657a9f89b0",
+  "sha256": "5e4f2aebbafab5f4f3ab778855ca0c006ffc0dfc305c61587a470fdf6d2be861"
 }

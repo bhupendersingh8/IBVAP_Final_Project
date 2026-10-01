@@ -83,7 +83,7 @@ export const IntegrityPanel: React.FC<IntegrityPanelProps> = ({
 
   return (
     <div className="flex flex-col gap-space-md p-space-md bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm font-body-sm text-body-sm">
-      {/* 1. Panel Header & Sovereign Decision Badge */}
+      {/* 1. Panel Header & Zero-Trust Decision Badge */}
       <div className="flex items-center justify-between gap-space-xs border-b border-surface-container pb-space-sm">
         <div className="flex flex-col">
           <span className="font-label-mono-sm text-[11px] uppercase tracking-wider text-secondary font-semibold">
@@ -208,7 +208,7 @@ export const IntegrityPanel: React.FC<IntegrityPanelProps> = ({
         </div>
       )}
 
-      {/* 6. Sovereign Governance Action Buttons */}
+      {/* 6. Zero-Trust Governance Action Buttons */}
       <div className="flex flex-col gap-1.5 pt-1">
         <span className="font-label-mono-sm text-[11px] font-semibold text-on-surface-variant uppercase">
           Analyst Governance Actions

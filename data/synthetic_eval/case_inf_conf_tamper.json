@@ -1,0 +1,20 @@
+{
+  "case_id": "case_inf_conf_tamper",
+  "attack_class": "OUTPUT_TAMPERING",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.467395+00:00",
+  "domain": "INFERENCE",
+  "title": "Post-Inference Confidence Score Tampering",
+  "description": "Modifying detection confidence from 0.22 to 0.99 to trigger false alarm panic.",
+  "target_defense": "Cross-Stage Confidence Fusion & Evidence Hash Check",
+  "expected_governance_disposition": "QUARANTINE",
+  "artifacts": [],
+  "parameters": {
+    "original_confidence": 0.22,
+    "tampered_confidence": 0.99
+  },
+  "input_hash": "fe0139b3a7a5f31b3b09dc5b391929b7a8ba0cc5e8b9b70aaf8a3de57fd2e589",
+  "output_hash": "626f8cb1d59e5856928d9bd58c574775906d40c8f50ffa4e2de37ffa7618037e",
+  "sha256": "5d23185e9397d583de0d11745ec914930834c833516c6c7c0de2202b0cf68ff1"
+}

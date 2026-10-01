@@ -4,7 +4,7 @@
 **SIH Problem Statement**: 26187 | Ministry of Home Affairs (MHA)  
 **Target Hardware**: Field Patrol Laptop with NVIDIA GeForce RTX 3050 (4GB / 6GB VRAM)  
 **Operating System**: Windows 11 Home / Pro (64-bit)  
-**Security Posture**: 100% Air-Gapped, Zero-Cloud, Sovereign Field Deployment  
+**Security Posture**: 100% Air-Gapped, Zero-Cloud, Autonomous Field Deployment  
 
 ---
 

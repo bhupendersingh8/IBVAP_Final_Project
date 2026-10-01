@@ -1,0 +1,20 @@
+{
+  "case_id": "case_env_compression",
+  "attack_class": "DISTRIBUTION_SHIFT",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.464942+00:00",
+  "domain": "ENVIRONMENT",
+  "title": "Severe H.264/JPEG Block Compression Artifacts",
+  "description": "High compression ratio inducing 8x8 block boundary noise across surveillance scene.",
+  "target_defense": "Frame Quality Analyzer & Bitrate Monitor",
+  "expected_governance_disposition": "REVIEW",
+  "artifacts": [],
+  "parameters": {
+    "jpeg_quality": 10,
+    "blockiness_score": 0.78
+  },
+  "input_hash": "ce2f7dfc6c227624d5dd5df127b9ce2821c1b830b11a2bad119abf8dc6cbafc1",
+  "output_hash": "97783fe51ea2d127fb832dbc287bb6f6bff720430f1d73fcfc03df005f423683",
+  "sha256": "6b17ec45169b9ec0f65357de6f5aa4be504a28f06da30a6ee6f016f40067da67"
+}

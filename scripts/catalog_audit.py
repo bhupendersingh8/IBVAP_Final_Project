@@ -62,7 +62,7 @@ def audit_catalog(registry_path=None):
         "foundation": "Layer 11: Foundation & Zero-Shot Representation",
         "edge_stack": "Layer 12: Edge Runtime & Acceleration",
         "anpr": "Layer 13: ANPR & Vehicle Intelligence",
-        "indian_ai": "Layer 14: Indian AI & Sovereign Indic Layer",
+        "indian_ai": "Layer 14: Indian AI & Indigenous Indic Layer",
         "temporal_event": "Layer 15: Temporal Event Correlation & State Machine",
         "camera_health": "Layer 16: Scene & Camera Health Intelligence",
         "evidence_security": "Layer 17: Tamper-Evident Evidence & Security"

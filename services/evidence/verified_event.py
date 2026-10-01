@@ -44,6 +44,24 @@ class TrajectorySummary(BaseModel):
     waypoints: List[List[float]] = Field(default_factory=list)
 
 
+class BenchmarkEvidenceItem(BaseModel):
+    """Reference attack or assurance benchmark finding."""
+    asset: str
+    attack_class: str
+    source: str
+    model: str
+    input_hash: str
+    model_hash: str
+    output_hash: str
+    benchmark_id: str
+    benchmark_version: str
+    evidence: str
+    confidence: float
+    severity: str = "MEDIUM"  # "LOW", "MEDIUM", "HIGH", "CRITICAL"
+    governance: str = "REVIEW"  # "ACCEPT", "REVIEW", "QUARANTINE"
+    provenance: Dict[str, Any] = Field(default_factory=dict)
+
+
 class VerifiedEvent(BaseModel):
     """
     Canonical Verified Event Contract.
@@ -81,6 +99,7 @@ class VerifiedEvent(BaseModel):
     governance_decision: str = Field(default="ACCEPT", description="Governance status: ACCEPT, REVIEW, QUARANTINE")
     assurance_status: str = Field(default="VERIFIED", description="Cryptographic status: VERIFIED, FLAG_TAMPER")
     evidence_references: Dict[str, Any] = Field(default_factory=dict, description="Ledger block index and UUIDs")
+    benchmark_evidence: List[BenchmarkEvidenceItem] = Field(default_factory=list, description="Attached reference attack/assurance benchmark findings")
 
     def compute_canonical_digest(self) -> str:
         """Returns deterministic SHA-256 digest of the entire verified event."""

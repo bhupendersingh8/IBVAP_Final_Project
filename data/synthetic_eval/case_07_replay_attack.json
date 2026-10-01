@@ -1,16 +1,21 @@
 {
   "case_id": "case_07_replay_attack",
-  "category": "REPLAY_ATTACK",
+  "attack_class": "REPLAY",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.466396+00:00",
+  "domain": "INFERENCE",
   "title": "Stale Timestamp & Replay Sequence Manipulation",
   "description": "Frame replayed from past sequence (regressive timestamp or reused nonce) causing Merkle hash-chain divergence.",
   "target_defense": "Recursive Merkle Sequence Validation",
   "expected_governance_disposition": "QUARANTINE",
-  "artifacts": [
-    "case_07_replay_attack.json"
-  ],
+  "artifacts": [],
   "parameters": {
     "replayed_sequence_id": 14,
     "current_sequence_id": 25,
     "nonce_reused": true
-  }
+  },
+  "input_hash": "51c68eb3f957efa8618b8861e9071bba0087b34657e4290f78da0b508cf2d5ff",
+  "output_hash": "e8294422018f365513ace19dc7be75c96ef31137c52b55ed97c62a3e7cb66551",
+  "sha256": "7603180f745954fd476b88f098d70fe1b237ff67d3fd9e4dc7c9513ef747d2d0"
 }

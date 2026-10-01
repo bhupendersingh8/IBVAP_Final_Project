@@ -254,6 +254,31 @@ export async function verifyPostQuantumSignature(messageText: string, pqSignatur
   return res.data;
 }
 
+export async function getDatasetsManifest(): Promise<any> {
+  const res = await apiClient.get("/api/v1/assurance/datasets");
+  return res.data;
+}
+
+export async function getDatasetComplianceAudit(): Promise<any> {
+  const res = await apiClient.get("/api/v1/assurance/datasets/audit");
+  return res.data;
+}
+
+export async function getReferenceBenchmarks(): Promise<any> {
+  const res = await apiClient.get("/api/v1/assurance/benchmarks");
+  return res.data;
+}
+
+export async function getSyntheticCases(): Promise<any> {
+  const res = await apiClient.get("/api/v1/assurance/synthetic-cases");
+  return res.data;
+}
+
+export async function evaluateSyntheticCase(caseId: string): Promise<any> {
+  const res = await apiClient.post(`/api/v1/assurance/synthetic-cases/evaluate/${caseId}`);
+  return res.data;
+}
+
 // ---------------------------------------------------------------------------
 // Unified API facade object
 // ---------------------------------------------------------------------------
@@ -364,5 +389,13 @@ export const api = {
   exportJsonLd: async (id: string) => {
     const res = await apiClient.get(`/api/v1/evidence/certificate/${id}`);
     return res.data;
-  }
+  },
+
+  // Dataset Provenance & Benchmarks (SIH26228)
+  getDatasetsManifest,
+  getDatasetComplianceAudit,
+  getReferenceBenchmarks,
+  getSyntheticCases,
+  evaluateSyntheticCase
 };
+

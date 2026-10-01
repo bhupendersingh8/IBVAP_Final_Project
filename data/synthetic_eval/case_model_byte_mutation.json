@@ -1,0 +1,20 @@
+{
+  "case_id": "case_model_byte_mutation",
+  "attack_class": "MODEL_WEIGHT_TAMPERING",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.464942+00:00",
+  "domain": "MODEL",
+  "title": "Model Checkpoint Byte Mutation / Bit-Flip",
+  "description": "Subtle bit-flip mutation in model checkpoint weights attempting to evade SHA-256 integrity.",
+  "target_defense": "CycloneDX AIBOM SHA-256 Checksum & Keygen Signatures",
+  "expected_governance_disposition": "QUARANTINE",
+  "artifacts": [],
+  "parameters": {
+    "mutated_byte_offset": 4096,
+    "expected_digest_mismatch": true
+  },
+  "input_hash": "fd638670bda7e38d331db3452174bb512c7ab5c2c4f263ddd8cd0961beacdad0",
+  "output_hash": "fc7b8f9269d7f0657071b92b9fbd1e046709cbd634464a70ffd36f0bb822107d",
+  "sha256": "f59bca3daf4cf4117a13f2e6da2bdb1c004ab37fa957dfc1887e25c1226499cf"
+}

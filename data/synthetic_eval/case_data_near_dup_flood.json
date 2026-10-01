@@ -1,0 +1,20 @@
+{
+  "case_id": "case_data_near_dup_flood",
+  "attack_class": "DUPLICATE_FLOODING",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.436102+00:00",
+  "domain": "DATA",
+  "title": "Perceptual Near-Duplicate Flooding (dHash Hamming <= 3)",
+  "description": "Injecting slightly perturbed near-duplicate frames with subtle brightness shifts.",
+  "target_defense": "Perceptual dHash-64 Hamming Distance Anomaly Check",
+  "expected_governance_disposition": "REVIEW",
+  "artifacts": [],
+  "parameters": {
+    "hamming_distance": 2,
+    "threshold": 6
+  },
+  "input_hash": "7a9ec0e6d4172ee715262883b5c67ed14b66cf1a9c1649b2684f47f2565c8501",
+  "output_hash": "fab283f937659d31c824d30792bdc1267064bdb6a7c2f7d3354c00cdfa69e2bc",
+  "sha256": "f5154006d7d13734e447ae48e8ae9faff10e662a14221f414b1adeb0fa5886f7"
+}

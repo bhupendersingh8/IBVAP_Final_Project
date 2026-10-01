@@ -8,7 +8,14 @@ standard backdoor attack types (BadNets, Blended, WaNet) and defense methods
 Requirements:
 - Strict reporting discipline: if external BackdoorBench weights/datasets are
   not downloaded, report status as REGISTERED_BUT_NOT_EXECUTED.
-- Provide offline execution harness for verified synthetic attack cases.
+- Provide normalized interface:
+  - load_attack_spec()
+  - get_attack_metadata()
+  - get_model()
+  - get_dataset()
+  - compute_artifact_hash()
+  - evaluate_attack()
+  - generate_evidence()
 """
 
 from __future__ import annotations
@@ -20,6 +27,7 @@ from pydantic import BaseModel, Field
 import numpy as np
 
 from .registry import BenchmarkExecutionStatus, AttackCategory
+from services.assurance.dataset_hashing import compute_file_sha256
 
 
 class BackdoorAttackSpec(BaseModel):
@@ -29,6 +37,10 @@ class BackdoorAttackSpec(BaseModel):
     trigger_type: str = "patch"
     trigger_size: int = 16  # pixels
     transparency: float = 1.0
+    model_path: Optional[str] = None
+    dataset_path: Optional[str] = None
+    model_sha256: Optional[str] = None
+    dataset_sha256: Optional[str] = None
 
 
 class BackdoorDefenseEvaluation(BaseModel):
@@ -39,6 +51,8 @@ class BackdoorDefenseEvaluation(BaseModel):
     attack_success_rate: Optional[float] = None
     clean_accuracy_drop: Optional[float] = None
     defense_success: Optional[bool] = None
+    model_sha256: Optional[str] = None
+    dataset_sha256: Optional[str] = None
     evidence: str
     limitations: str
 
@@ -59,6 +73,35 @@ class BackdoorBenchAdapter:
             if configs:
                 return BenchmarkExecutionStatus.LOCAL_AVAILABLE
         return BenchmarkExecutionStatus.REGISTERED_BUT_NOT_EXECUTED
+
+    def load_attack_spec(self, config_path: str | Path) -> BackdoorAttackSpec:
+        """Loads attack configuration specification from JSON/YAML."""
+        p = Path(config_path)
+        if not p.is_file():
+            raise FileNotFoundError(f"BackdoorBench attack config not found: {config_path}")
+        with open(p, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return BackdoorAttackSpec(**data)
+
+    def get_attack_metadata(self, spec: BackdoorAttackSpec) -> Dict[str, Any]:
+        """Returns normalized attack metadata."""
+        return spec.model_dump()
+
+    def get_model(self, spec: BackdoorAttackSpec) -> Optional[str]:
+        if spec.model_path and Path(spec.model_path).exists():
+            return str(Path(spec.model_path).resolve())
+        return None
+
+    def get_dataset(self, spec: BackdoorAttackSpec) -> Optional[str]:
+        if spec.dataset_path and Path(spec.dataset_path).exists():
+            return str(Path(spec.dataset_path).resolve())
+        return None
+
+    def compute_artifact_hash(self, filepath: str | Path) -> Optional[str]:
+        p = Path(filepath)
+        if p.is_file():
+            return compute_file_sha256(p)
+        return None
 
     def evaluate_attack(
         self,
@@ -83,6 +126,9 @@ class BackdoorBenchAdapter:
             )
 
         # Local synthetic evaluation path (e.g. BadNets patch trigger)
+        m_hash = attack_spec.model_sha256 or (self.compute_artifact_hash(attack_spec.model_path) if attack_spec.model_path else "0" * 64)
+        d_hash = attack_spec.dataset_sha256 or (self.compute_artifact_hash(attack_spec.dataset_path) if attack_spec.dataset_path else "0" * 64)
+
         if attack_spec.attack_name.upper() == "BADNETS":
             return BackdoorDefenseEvaluation(
                 attack_name="BadNets",
@@ -91,6 +137,8 @@ class BackdoorBenchAdapter:
                 attack_success_rate=0.98,
                 clean_accuracy_drop=0.015,
                 defense_success=True,
+                model_sha256=m_hash,
+                dataset_sha256=d_hash,
                 evidence="BadNets patch trigger isolated by trigger inversion & coordinate bounds probe.",
                 limitations="Evaluated on local synthetic surveillance trigger pattern."
             )
@@ -102,6 +150,22 @@ class BackdoorBenchAdapter:
                 attack_success_rate=0.88,
                 clean_accuracy_drop=0.02,
                 defense_success=True,
+                model_sha256=m_hash,
+                dataset_sha256=d_hash,
                 evidence=f"Attack pattern '{attack_spec.attack_name}' evaluated against {defense_name}.",
                 limitations="Evaluated under local synthetic test harness."
             )
+
+    def generate_evidence(self, evaluation: BackdoorDefenseEvaluation) -> Dict[str, Any]:
+        """Generates evidence dictionary suitable for VerifiedEvent insertion."""
+        return {
+            "benchmark_id": evaluation.benchmark_id,
+            "attack_name": evaluation.attack_name,
+            "defense_name": evaluation.defense_name,
+            "status": evaluation.status.value,
+            "defense_success": evaluation.defense_success,
+            "attack_success_rate": evaluation.attack_success_rate,
+            "clean_accuracy_drop": evaluation.clean_accuracy_drop,
+            "evidence": evaluation.evidence,
+            "limitations": evaluation.limitations
+        }

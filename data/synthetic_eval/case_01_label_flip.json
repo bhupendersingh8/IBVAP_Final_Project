@@ -1,16 +1,21 @@
 {
   "case_id": "case_01_label_flip",
-  "category": "LABEL_POISONING",
-  "title": "Adversarial Label Poisoning (Person -> Animal)",
-  "description": "Dataset sample where high-confidence person feature vector has label poisoned to 'cow' to induce blind spots.",
-  "target_defense": "Confident Learning / Merkle Dataset Tree",
+  "attack_class": "LABEL_FLIPPING",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.435103+00:00",
+  "domain": "DATA",
+  "title": "Adversarial Label Flipping (Person -> Cow)",
+  "description": "Ground truth annotation corrupted where high-confidence person detection is flipped to livestock.",
+  "target_defense": "Confident Learning / Cleanlab Anomaly Detector",
   "expected_governance_disposition": "QUARANTINE",
-  "artifacts": [
-    "case_01_label_flip.json"
-  ],
+  "artifacts": [],
   "parameters": {
-    "original_label": "person",
-    "poisoned_label": "cow",
-    "feature_divergence": 0.89
-  }
+    "annotated_class": "person",
+    "flipped_class": "cow",
+    "model_conf": 0.94
+  },
+  "input_hash": "91c16c58662e639dfca5ab4198766a41af45d6f2a9aee626b42843a2f663cf8b",
+  "output_hash": "aadf6294c5d7ea5eebc5949856650c41a53986f78f99a8b27411f3f3beee7989",
+  "sha256": "b99919801e3414d539c6bde4eaaba52bddd8624c5a25ea10baf203d156e74988"
 }

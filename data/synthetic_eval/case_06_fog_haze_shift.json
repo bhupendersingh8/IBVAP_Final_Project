@@ -1,16 +1,22 @@
 {
   "case_id": "case_06_fog_haze_shift",
-  "category": "DISTRIBUTION_SHIFT",
+  "attack_class": "DISTRIBUTION_SHIFT",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.464942+00:00",
+  "domain": "ENVIRONMENT",
   "title": "Atmospheric Fog & Haze Attenuation",
   "description": "Low-contrast foggy scene to test distribution shift detector and CLAHE contrast enhancement.",
   "target_defense": "Two-Sample Kolmogorov-Smirnov Test",
   "expected_governance_disposition": "REVIEW",
   "artifacts": [
-    "case_06_fog_haze.png",
-    "case_06_fog_haze_shift.json"
+    "case_06_fog_haze.png"
   ],
   "parameters": {
     "contrast_ratio": 0.18,
     "ks_p_value": 0.0001
-  }
+  },
+  "input_hash": "ddfc703f8497e0fb707e879f40e2defd244d6256dbc32464a03be255f63a3a4e",
+  "output_hash": "93298a8e800f46e019376ef2561e2092ffaa7eba99bd424e3ebecceb0e4f425f",
+  "sha256": "9d6c93e0678ea1b0474d40f1c8ff234d84c5b45d6f194e597de8345b9b4ae39d"
 }

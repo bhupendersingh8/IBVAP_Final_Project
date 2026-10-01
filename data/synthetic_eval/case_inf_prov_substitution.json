@@ -1,0 +1,20 @@
+{
+  "case_id": "case_inf_prov_substitution",
+  "attack_class": "PROVENANCE_TAMPERING",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.467395+00:00",
+  "domain": "INFERENCE",
+  "title": "Provenance Hash-Chain Substitution",
+  "description": "Injecting external block hash H_prev that does not link to committed parent block.",
+  "target_defense": "Strict Recursive Ledger Parent Linkage Verification",
+  "expected_governance_disposition": "QUARANTINE",
+  "artifacts": [],
+  "parameters": {
+    "parent_hash_expected": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "injected_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  },
+  "input_hash": "d5b6f9a774d3833c1f77668cc8729d9373b47890d5ed7506ffc79d34498058cf",
+  "output_hash": "4ad24ee930d1a69727fbee220f09ddce7dd37baa12195ea51f5eab98ec15e795",
+  "sha256": "295bec72a927623569c4efa0546ea2640b5f42cdaf02b20c649dd5889c9cf9f3"
+}

@@ -1,0 +1,20 @@
+{
+  "case_id": "case_data_dup_flood",
+  "attack_class": "DUPLICATE_FLOODING",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.436102+00:00",
+  "domain": "DATA",
+  "title": "Exact Duplicate Sample Flooding",
+  "description": "Injecting 1,000 exact byte duplicate images to artificially bias training weights.",
+  "target_defense": "Exact Duplicate SHA-256 Filter & Merkle Leaf Dedup",
+  "expected_governance_disposition": "QUARANTINE",
+  "artifacts": [],
+  "parameters": {
+    "duplicate_count": 1000,
+    "original_sample_id": "SAMPLE_9921"
+  },
+  "input_hash": "5261dedb8b02f534becdf2dac71f49ad18a210697eb99f82cfb855a4cbf8d342",
+  "output_hash": "62a446e09cc65028b791e4ff3058c6248b1a6e99613ee16535dbf2464b6524fd",
+  "sha256": "5f48ae1e01d470f8006ef7be45d4dc20d81fcedf41a88d85be07eeb62d1dfe5f"
+}

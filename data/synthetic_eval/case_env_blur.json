@@ -1,0 +1,20 @@
+{
+  "case_id": "case_env_blur",
+  "attack_class": "DISTRIBUTION_SHIFT",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.464942+00:00",
+  "domain": "ENVIRONMENT",
+  "title": "Extreme Gaussian Optical Blur Defocus",
+  "description": "Simulated lens defocus causing severe loss of high-frequency edges.",
+  "target_defense": "Laplacian Variance Focus Quality Gate",
+  "expected_governance_disposition": "REVIEW",
+  "artifacts": [],
+  "parameters": {
+    "laplacian_variance": 14.5,
+    "focus_threshold": 50.0
+  },
+  "input_hash": "49e025a143cf016012ef57f2be98e89f437bed905d4e152bdda74413530aab62",
+  "output_hash": "d5bbeb71d170a1b9f9df853b1833650c2dd5a1e15ec49ea1f2f25818b52e3b5e",
+  "sha256": "f16cca1ef62ebe5ce23bac9578d0fe1b8e5491caa930f91640b7ae161fb3c623"
+}

@@ -26,18 +26,41 @@ from datetime import datetime, timezone
 
 
 class AttackCategory(str, enum.Enum):
+    # Phase 9 Canonical Attack Taxonomy
     TRIGGER_INJECTION = "TRIGGER_INJECTION"
+    BACKDOOR = "BACKDOOR"
+    TROJAN = "TROJAN"
+    LABEL_FLIPPING = "LABEL_FLIPPING"
+    DATA_POISONING = "DATA_POISONING"
+    DUPLICATE_FLOODING = "DUPLICATE_FLOODING"
+    OOD_INSERTION = "OOD_INSERTION"
+    MODEL_SUBSTITUTION = "MODEL_SUBSTITUTION"
+    MODEL_WEIGHT_TAMPERING = "MODEL_WEIGHT_TAMPERING"
+    OUTPUT_TAMPERING = "OUTPUT_TAMPERING"
+    REPLAY = "REPLAY"
+    PROVENANCE_TAMPERING = "PROVENANCE_TAMPERING"
+    DISTRIBUTION_SHIFT = "DISTRIBUTION_SHIFT"
+    ADVERSARIAL_INPUT = "ADVERSARIAL_INPUT"
+
+    # Backward compatibility aliases
     BACKDOOR_TROJAN = "BACKDOOR_TROJAN"
-    LABEL_POISONING = "LABEL_POISONING"
     INFERENCE_TAMPERING = "INFERENCE_TAMPERING"
     REPLAY_ATTACK = "REPLAY_ATTACK"
     OUT_OF_DISTRIBUTION = "OUT_OF_DISTRIBUTION"
+    LABEL_POISONING = "LABEL_POISONING"
 
 
 class BenchmarkExecutionStatus(str, enum.Enum):
     REGISTERED_BUT_NOT_EXECUTED = "REGISTERED_BUT_NOT_EXECUTED"
     LOCAL_AVAILABLE = "LOCAL_AVAILABLE"
     EXECUTED_VERIFIED = "EXECUTED_VERIFIED"
+    REGISTERED = "REGISTERED"
+    EXECUTED = "EXECUTED"
+    VERIFIED = "VERIFIED"
+    PENDING = "PENDING"
+    UNVERIFIED = "UNVERIFIED"
+    BLOCKED = "BLOCKED"
+    NOT_EXECUTED = "NOT_EXECUTED"
     FAILED = "FAILED"
 
 
@@ -52,9 +75,27 @@ class BenchmarkRegistration(BaseModel):
     defenses_evaluated: List[str]
     is_open_access: bool
     status: BenchmarkExecutionStatus
+    registered: bool = True
+    artifact_available: bool = False
+    executed: bool = False
+    hash_verified: bool = False
+    license_verified: bool = True
     local_path: Optional[str] = None
     citation: str
     description: str
+
+    def to_resource_audit_entry(self) -> Dict[str, Any]:
+        return {
+            "resource": self.name,
+            "benchmark_id": self.benchmark_id,
+            "registered": self.registered,
+            "artifact_available": self.artifact_available,
+            "executed": self.executed,
+            "hash_verified": self.hash_verified,
+            "license_verified": self.license_verified,
+            "status": self.status.value if hasattr(self.status, "value") else str(self.status)
+        }
+
 
 
 class ReferenceBenchmarkRegistry:
@@ -181,6 +222,9 @@ class ReferenceBenchmarkRegistry:
 
     def list_all(self) -> List[BenchmarkRegistration]:
         return list(self._benchmarks.values())
+
+    def export_audit_resources(self) -> List[Dict[str, Any]]:
+        return [b.to_resource_audit_entry() for b in self._benchmarks.values()]
 
     def update_status(self, benchmark_id: str, status: BenchmarkExecutionStatus, local_path: Optional[str] = None):
         if benchmark_id in self._benchmarks:

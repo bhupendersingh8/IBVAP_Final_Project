@@ -1,44 +1,160 @@
 {
-  "suite_name": "TRINETRA Synthetic Attack & Tampering Evaluation Suite v1",
-  "version": "1.0.0",
-  "compliance_rule_id": "SIH26228-OPEN-DATA-CLAUSE",
+  "batch_id": "SYNTH-EVAL-26228-V2",
+  "generator_version": "2.0.0",
+  "seed": 26228,
+  "artifact_count": 25,
+  "leaf_hashes": [
+    "705f8b4062abd6ff8dd5f63f7ae7e1fcff09c980815dba2877122cab8d875abc",
+    "b65c0acf869ab21238d0b698aebe7cc35c0e78236ce525f75d4baabff5ce2689",
+    "761224b049844b87939007b1684cd4fee13dc5e6eedee3848a18908185ff061e",
+    "a8c2db65a6588939135fb3ab26774f779282ed38e39abdfebc3db4406d344a6c",
+    "61d0d82a78d098d38c2c90f04d298cd2c92761aca07cad348df2f7106a36b570",
+    "cfb9dd7196a2dca2a6965d5f1ccecabc9ed5428b3d4ff614d9d7aef4de020fea",
+    "143012743b8db4b4e8bc34afc46f30bac2528dc056b0e06185cd5f2f3a3e70e2",
+    "41da1165b9975172ac9d30f9be38a62120a1e2238886a3b7cf9e2481876350ae",
+    "ddfc703f8497e0fb707e879f40e2defd244d6256dbc32464a03be255f63a3a4e",
+    "a24034f9f951c8c2b978ffdebf7e32e81f848ad6a0ac897d028832f29c375465",
+    "d4ee9e58d032a13f056a34bff08d0b0f199f7a415bc9e408fd428abd37736ff8",
+    "2a2ee76ffe4184a7dc4953c898301132d9ffd0349c9aa3f79ce0fc8bb90c28e4",
+    "f8c8d972243272fbfa579bfaaa34c117ccae3c3feed74279d90ad92822b132a1",
+    "e435ea44957b08f6ea3e4651e01ca52929676033b808b76761535cde0650ab15",
+    "5a7f905b30cb801a246d8bb256953ad2d45613f6f96a06a133366086808b5449",
+    "f7429c1359f462c4ffdcb3160e969afc903b3b93522aa538b1f599810f4ee5d6",
+    "6a819f5804d266444a16d677a34339026267ca21b623756762718ca5fedc86fb",
+    "61773f4c59c0f58ac845002e8658cb2cd94e9c215749610530916e523f655943",
+    "0400dc24fa7a60a22d113575ff620dbce24fb1c5312cec04c259de6991bbd485",
+    "cf04d92d4c6dba3c351677e23de4e980a68331f87418911c34cd4e2db22308fe",
+    "948810f8cb04b245245cfc9c1f9ac4d10df452651f9d2ac6b4b948f45b79c57f",
+    "338381ca66d26091af2cfad0bb8d0548f1f8b7df258627402f5633666bcc805e",
+    "03cd15494982c0aa2e1677cdbec7c08fc72045cdd7c86309ba4ee899ff491308",
+    "dbdab6fa14f236692b726e8bb3dabeac364504654076eea009ef7da85135753a",
+    "9d481cdafdd3c2877694598f80ad1f30f9c722d951a446affe3ba6043d3ee6d4"
+  ],
+  "merkle_root": "6ecccafecf627c52d40bba90b23c4971b07f7fda62ad05ca19ba83de29c1d486",
   "is_classified": false,
   "is_operational": false,
   "is_service_generated": false,
   "is_synthetic": true,
-  "license": "Apache-2.0",
-  "generated_at": "2026-10-01T01:21:40.600530+00:00",
-  "total_cases": 7,
-  "total_files": 11,
-  "manifest_sha256": "5c9f82eefd05e4ca0ac695a17fa74373894f1a2355b6d63becebcc54c05c75e2",
-  "merkle_root": "eda64779e7d51208c73b8329fbfe7f0c982d3c779b8da010274eb11393308610",
+  "created_at": "2026-10-01T01:48:52.556909+00:00",
+  "total_cases": 21,
   "cases": [
     {
       "case_id": "case_01_label_flip",
-      "category": "LABEL_POISONING",
-      "title": "Adversarial Label Poisoning (Person -> Animal)",
-      "description": "Dataset sample where high-confidence person feature vector has label poisoned to 'cow' to induce blind spots.",
-      "target_defense": "Confident Learning / Merkle Dataset Tree",
+      "attack_class": "LABEL_FLIPPING",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.435103+00:00",
+      "domain": "DATA",
+      "title": "Adversarial Label Flipping (Person -> Cow)",
+      "description": "Ground truth annotation corrupted where high-confidence person detection is flipped to livestock.",
+      "target_defense": "Confident Learning / Cleanlab Anomaly Detector",
       "expected_governance_disposition": "QUARANTINE",
-      "artifacts": [
-        "case_01_label_flip.json"
-      ],
+      "artifacts": [],
       "parameters": {
-        "original_label": "person",
-        "poisoned_label": "cow",
-        "feature_divergence": 0.89
-      }
+        "annotated_class": "person",
+        "flipped_class": "cow",
+        "model_conf": 0.94
+      },
+      "input_hash": "91c16c58662e639dfca5ab4198766a41af45d6f2a9aee626b42843a2f663cf8b",
+      "output_hash": "aadf6294c5d7ea5eebc5949856650c41a53986f78f99a8b27411f3f3beee7989",
+      "sha256": "b99919801e3414d539c6bde4eaaba52bddd8624c5a25ea10baf203d156e74988"
+    },
+    {
+      "case_id": "case_data_sys_mislabel",
+      "attack_class": "DATA_POISONING",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.435103+00:00",
+      "domain": "DATA",
+      "title": "Systematic Perimeter Vehicle Mislabelling",
+      "description": "Multi-contributor batch where all surveillance trucks are tagged as civilian cars.",
+      "target_defense": "Cross-Contributor Confusion Matrix & Confident Learning",
+      "expected_governance_disposition": "QUARANTINE",
+      "artifacts": [],
+      "parameters": {
+        "source_id": "CONTRIBUTOR_EXT_04",
+        "discordant_ratio": 0.38
+      },
+      "input_hash": "df0ddfaa908b6764148f18154784fbb09b43a31eaf02ea2d4438f4cb8571dfc2",
+      "output_hash": "1ddd2478bc94974001c87890d5e5de18d7bc9a24d4863967a28d0d09dec9ae06",
+      "sha256": "2fc84688b46f63993c8d721f7f2217502dc20e235e223b5f79c51ebe5927efe8"
+    },
+    {
+      "case_id": "case_data_dup_flood",
+      "attack_class": "DUPLICATE_FLOODING",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.436102+00:00",
+      "domain": "DATA",
+      "title": "Exact Duplicate Sample Flooding",
+      "description": "Injecting 1,000 exact byte duplicate images to artificially bias training weights.",
+      "target_defense": "Exact Duplicate SHA-256 Filter & Merkle Leaf Dedup",
+      "expected_governance_disposition": "QUARANTINE",
+      "artifacts": [],
+      "parameters": {
+        "duplicate_count": 1000,
+        "original_sample_id": "SAMPLE_9921"
+      },
+      "input_hash": "5261dedb8b02f534becdf2dac71f49ad18a210697eb99f82cfb855a4cbf8d342",
+      "output_hash": "62a446e09cc65028b791e4ff3058c6248b1a6e99613ee16535dbf2464b6524fd",
+      "sha256": "5f48ae1e01d470f8006ef7be45d4dc20d81fcedf41a88d85be07eeb62d1dfe5f"
+    },
+    {
+      "case_id": "case_data_near_dup_flood",
+      "attack_class": "DUPLICATE_FLOODING",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.436102+00:00",
+      "domain": "DATA",
+      "title": "Perceptual Near-Duplicate Flooding (dHash Hamming <= 3)",
+      "description": "Injecting slightly perturbed near-duplicate frames with subtle brightness shifts.",
+      "target_defense": "Perceptual dHash-64 Hamming Distance Anomaly Check",
+      "expected_governance_disposition": "REVIEW",
+      "artifacts": [],
+      "parameters": {
+        "hamming_distance": 2,
+        "threshold": 6
+      },
+      "input_hash": "7a9ec0e6d4172ee715262883b5c67ed14b66cf1a9c1649b2684f47f2565c8501",
+      "output_hash": "fab283f937659d31c824d30792bdc1267064bdb6a7c2f7d3354c00cdfa69e2bc",
+      "sha256": "f5154006d7d13734e447ae48e8ae9faff10e662a14221f414b1adeb0fa5886f7"
+    },
+    {
+      "case_id": "case_data_malformed_annot",
+      "attack_class": "DATA_POISONING",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.436102+00:00",
+      "domain": "DATA",
+      "title": "Malformed YOLO Annotation Geometry",
+      "description": "Bounding box coordinate overflow where width or height > 1.0 or normalized coordinates < 0.",
+      "target_defense": "YOLO Geometry & Range Guardrail Verifier",
+      "expected_governance_disposition": "QUARANTINE",
+      "artifacts": [],
+      "parameters": {
+        "invalid_bbox": [
+          -0.1,
+          0.4,
+          1.2,
+          0.5
+        ]
+      },
+      "input_hash": "2430cfb0b89ba0b78eea9a26d2ad8107ae72972f5d7b1333da2b54fe46fa875b",
+      "output_hash": "0380d41a7f1f672f19c7e1645960efb603e049d49f7f925a240bff195b288230",
+      "sha256": "8473c5b1ee53ce8dba2e431bf83b2ef68c9c1314c84fb1987d256e1b9ffb68f2"
     },
     {
       "case_id": "case_02_bbox_tamper",
-      "category": "INFERENCE_TAMPERING",
+      "attack_class": "OUTPUT_TAMPERING",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.436102+00:00",
+      "domain": "DATA",
       "title": "Coordinate Overflow & Boundary Tampering",
-      "description": "Inference output where bounding box coordinates are intentionally corrupted (e.g. x2 < x1 or coords > 1.0) to bypass boundary fence checks.",
+      "description": "Inference output where bounding box coordinates are intentionally corrupted (x2 < x1).",
       "target_defense": "Recursive Merkle Frame Assurance & Boundary Guardrails",
       "expected_governance_disposition": "QUARANTINE",
-      "artifacts": [
-        "case_02_bbox_tamper.json"
-      ],
+      "artifacts": [],
       "parameters": {
         "corrupted_box": [
           120,
@@ -47,34 +163,66 @@
           50
         ],
         "tamper_mode": "INVERTED_COORDINATES"
-      }
+      },
+      "input_hash": "dbea06187b681358f54357bafb3632e8152a9d154edb3f075d20f5b34b772f7f",
+      "output_hash": "75959e102dd8735b1c5689769a3f7d6fd6c94703ee4562f0f0ea5476b6af35b9",
+      "sha256": "46da0af41b0f98849052453adc296d10a33f3caad0bba96bf69d90641d68c66a"
+    },
+    {
+      "case_id": "case_data_class_sub",
+      "attack_class": "DATA_POISONING",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.437103+00:00",
+      "domain": "DATA",
+      "title": "Class Label Substitution (Weapon -> Tool)",
+      "description": "Targeted label substitution aiming to hide armed intruders as maintenance workers.",
+      "target_defense": "Specialist Evidence Gating & Confident Learning",
+      "expected_governance_disposition": "QUARANTINE",
+      "artifacts": [],
+      "parameters": {
+        "original_target": "rifle",
+        "substituted_target": "tripod"
+      },
+      "input_hash": "d73c16e6c95065b474c6931473bffaed76b8f372ab99ad244d78b1be565f60da",
+      "output_hash": "945d8db4fa2386a593494036da38d00b62238dbebd8e3bd3e5ce1234a9ad1153",
+      "sha256": "2c9a590c9e64c1407911e2d2658c0ad6fe1dcaba6c6c2c7d371fad4ea4b3adb1"
     },
     {
       "case_id": "case_03_ood_sample",
-      "category": "OUT_OF_DISTRIBUTION",
+      "attack_class": "OOD_INSERTION",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.443249+00:00",
+      "domain": "DATA",
       "title": "Out-of-Distribution Geometric Noise",
       "description": "Extreme non-surveillance visual artifact designed to test ArcFace cosine distance and MMD anomaly detection.",
       "target_defense": "ArcFace Cosine Distance & MMD Shift",
       "expected_governance_disposition": "REVIEW",
       "artifacts": [
-        "case_03_ood_image.png",
-        "case_03_ood_sample.json"
+        "case_03_ood_image.png"
       ],
       "parameters": {
         "cosine_distance_expected": 0.82,
         "threshold": 0.65
-      }
+      },
+      "input_hash": "761224b049844b87939007b1684cd4fee13dc5e6eedee3848a18908185ff061e",
+      "output_hash": "a7894e15187a2aca7e5a761e8c8fb3771389bcf20078afed64d51c7fb6554fe7",
+      "sha256": "376faf2af46e59efee872c719ab12d4f0a598fc750322f3e4a250cae95ad936b"
     },
     {
       "case_id": "case_04_badnets_trigger",
-      "category": "TRIGGER_INJECTION",
+      "attack_class": "TRIGGER_INJECTION",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.444986+00:00",
+      "domain": "DATA",
       "title": "BadNets Corner Checkerboard Trigger",
       "description": "Synthetic BadNets trigger patch located at pixel coordinates (290, 290) to evaluate trigger inversion and backdoor defenses.",
       "target_defense": "Neural Cleanse / Patch Isolation",
       "expected_governance_disposition": "QUARANTINE",
       "artifacts": [
-        "case_04_badnets_trigger.png",
-        "case_04_badnets_trigger.json"
+        "case_04_badnets_trigger.png"
       ],
       "parameters": {
         "patch_location": [
@@ -84,55 +232,258 @@
           314
         ],
         "trigger_type": "CHECKERBOARD"
-      }
+      },
+      "input_hash": "cfb9dd7196a2dca2a6965d5f1ccecabc9ed5428b3d4ff614d9d7aef4de020fea",
+      "output_hash": "f86c850da98d3a4fe32f5ae80c9646e773ad4463867a52b645f822657a9f89b0",
+      "sha256": "5e4f2aebbafab5f4f3ab778855ca0c006ffc0dfc305c61587a470fdf6d2be861"
     },
     {
       "case_id": "case_05_low_light_shift",
-      "category": "DISTRIBUTION_SHIFT",
+      "attack_class": "DISTRIBUTION_SHIFT",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.446984+00:00",
+      "domain": "ENVIRONMENT",
       "title": "Severe Low-Light Illumination Degradation",
-      "description": "Low illumination condition (mean lux < 15) requiring Zero-DCE++ curve enhancement before detector ingestion.",
+      "description": "Low illumination condition (mean lux < 15) requiring Zero-DCE++ non-linear curve enhancement.",
       "target_defense": "Zero-DCE++ Curve Enhancement & Lux Gating",
       "expected_governance_disposition": "ACCEPT",
       "artifacts": [
-        "case_05_low_light.png",
-        "case_05_low_light_shift.json"
+        "case_05_low_light.png"
       ],
       "parameters": {
         "mean_lux": 11.2,
         "enhancement_applied": true
-      }
+      },
+      "input_hash": "143012743b8db4b4e8bc34afc46f30bac2528dc056b0e06185cd5f2f3a3e70e2",
+      "output_hash": "0d191fe341e30fb2e74138c1529397be87f0f348213f5d1e0ddb45244387600c",
+      "sha256": "c0412e0ced334cb0a646d0d70eb65f325bbe310b7d1572e145df7d3b8fa7aef2"
     },
     {
       "case_id": "case_06_fog_haze_shift",
-      "category": "DISTRIBUTION_SHIFT",
+      "attack_class": "DISTRIBUTION_SHIFT",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.464942+00:00",
+      "domain": "ENVIRONMENT",
       "title": "Atmospheric Fog & Haze Attenuation",
       "description": "Low-contrast foggy scene to test distribution shift detector and CLAHE contrast enhancement.",
       "target_defense": "Two-Sample Kolmogorov-Smirnov Test",
       "expected_governance_disposition": "REVIEW",
       "artifacts": [
-        "case_06_fog_haze.png",
-        "case_06_fog_haze_shift.json"
+        "case_06_fog_haze.png"
       ],
       "parameters": {
         "contrast_ratio": 0.18,
         "ks_p_value": 0.0001
-      }
+      },
+      "input_hash": "ddfc703f8497e0fb707e879f40e2defd244d6256dbc32464a03be255f63a3a4e",
+      "output_hash": "93298a8e800f46e019376ef2561e2092ffaa7eba99bd424e3ebecceb0e4f425f",
+      "sha256": "9d6c93e0678ea1b0474d40f1c8ff234d84c5b45d6f194e597de8345b9b4ae39d"
+    },
+    {
+      "case_id": "case_env_blur",
+      "attack_class": "DISTRIBUTION_SHIFT",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.464942+00:00",
+      "domain": "ENVIRONMENT",
+      "title": "Extreme Gaussian Optical Blur Defocus",
+      "description": "Simulated lens defocus causing severe loss of high-frequency edges.",
+      "target_defense": "Laplacian Variance Focus Quality Gate",
+      "expected_governance_disposition": "REVIEW",
+      "artifacts": [],
+      "parameters": {
+        "laplacian_variance": 14.5,
+        "focus_threshold": 50.0
+      },
+      "input_hash": "49e025a143cf016012ef57f2be98e89f437bed905d4e152bdda74413530aab62",
+      "output_hash": "d5bbeb71d170a1b9f9df853b1833650c2dd5a1e15ec49ea1f2f25818b52e3b5e",
+      "sha256": "f16cca1ef62ebe5ce23bac9578d0fe1b8e5491caa930f91640b7ae161fb3c623"
+    },
+    {
+      "case_id": "case_env_compression",
+      "attack_class": "DISTRIBUTION_SHIFT",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.464942+00:00",
+      "domain": "ENVIRONMENT",
+      "title": "Severe H.264/JPEG Block Compression Artifacts",
+      "description": "High compression ratio inducing 8x8 block boundary noise across surveillance scene.",
+      "target_defense": "Frame Quality Analyzer & Bitrate Monitor",
+      "expected_governance_disposition": "REVIEW",
+      "artifacts": [],
+      "parameters": {
+        "jpeg_quality": 10,
+        "blockiness_score": 0.78
+      },
+      "input_hash": "ce2f7dfc6c227624d5dd5df127b9ce2821c1b830b11a2bad119abf8dc6cbafc1",
+      "output_hash": "97783fe51ea2d127fb832dbc287bb6f6bff720430f1d73fcfc03df005f423683",
+      "sha256": "6b17ec45169b9ec0f65357de6f5aa4be504a28f06da30a6ee6f016f40067da67"
+    },
+    {
+      "case_id": "case_model_byte_mutation",
+      "attack_class": "MODEL_WEIGHT_TAMPERING",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.464942+00:00",
+      "domain": "MODEL",
+      "title": "Model Checkpoint Byte Mutation / Bit-Flip",
+      "description": "Subtle bit-flip mutation in model checkpoint weights attempting to evade SHA-256 integrity.",
+      "target_defense": "CycloneDX AIBOM SHA-256 Checksum & Keygen Signatures",
+      "expected_governance_disposition": "QUARANTINE",
+      "artifacts": [],
+      "parameters": {
+        "mutated_byte_offset": 4096,
+        "expected_digest_mismatch": true
+      },
+      "input_hash": "fd638670bda7e38d331db3452174bb512c7ab5c2c4f263ddd8cd0961beacdad0",
+      "output_hash": "fc7b8f9269d7f0657071b92b9fbd1e046709cbd634464a70ffd36f0bb822107d",
+      "sha256": "f59bca3daf4cf4117a13f2e6da2bdb1c004ab37fa957dfc1887e25c1226499cf"
+    },
+    {
+      "case_id": "case_model_substitution",
+      "attack_class": "MODEL_SUBSTITUTION",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.464942+00:00",
+      "domain": "MODEL",
+      "title": "Model Architecture & Weight Substitution",
+      "description": "Substituting YOLO26x verification model with lightweight unverified checkpoint under same filename.",
+      "target_defense": "Behavioral Model Fingerprint & Probe Battery Battery Divergence",
+      "expected_governance_disposition": "QUARANTINE",
+      "artifacts": [],
+      "parameters": {
+        "target_model": "yolo26x",
+        "divergence_score": 0.76,
+        "threshold": 0.15
+      },
+      "input_hash": "e3a45c478e306ec6b8e076dce4a965f14343ad282fdf6d338f3767d1c8a3b089",
+      "output_hash": "f8cd4d88a03229b51c007c354bf8fc305d5e8899ef598e59965eef8911954019",
+      "sha256": "ecce4c7578ce93595d5030d484fa1138e94cc691f2de1441e08d2a71da992aae"
+    },
+    {
+      "case_id": "case_model_signed_suspicious",
+      "attack_class": "TROJAN",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.466396+00:00",
+      "domain": "MODEL",
+      "title": "Signed-but-Behaviourally-Suspicious Model (SIGNED != SAFE)",
+      "description": "Model checkpoint carrying valid contributor cryptographic signature but failing behavioral probe battery.",
+      "target_defense": "Multi-Stage Model Assurance: Signature + Behavioral Probe Divergence",
+      "expected_governance_disposition": "QUARANTINE",
+      "artifacts": [],
+      "parameters": {
+        "signature_valid": true,
+        "behavioral_divergence": 0.88,
+        "signed_not_safe": true
+      },
+      "input_hash": "65ceb6ef4d3838ad2477d439443f97e10bad1b1fd723c6ae9f704b3bc0c13533",
+      "output_hash": "bdf2e49801022b476cbbb264b9fb109f7bfc364834319f7279123c8cb63e609e",
+      "sha256": "ae7a963fa58f63b9698f97d2c149cf3876023478ff1f452f34efd0efd1e7b2f5"
     },
     {
       "case_id": "case_07_replay_attack",
-      "category": "REPLAY_ATTACK",
+      "attack_class": "REPLAY",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.466396+00:00",
+      "domain": "INFERENCE",
       "title": "Stale Timestamp & Replay Sequence Manipulation",
       "description": "Frame replayed from past sequence (regressive timestamp or reused nonce) causing Merkle hash-chain divergence.",
       "target_defense": "Recursive Merkle Sequence Validation",
       "expected_governance_disposition": "QUARANTINE",
-      "artifacts": [
-        "case_07_replay_attack.json"
-      ],
+      "artifacts": [],
       "parameters": {
         "replayed_sequence_id": 14,
         "current_sequence_id": 25,
         "nonce_reused": true
-      }
+      },
+      "input_hash": "51c68eb3f957efa8618b8861e9071bba0087b34657e4290f78da0b508cf2d5ff",
+      "output_hash": "e8294422018f365513ace19dc7be75c96ef31137c52b55ed97c62a3e7cb66551",
+      "sha256": "7603180f745954fd476b88f098d70fe1b237ff67d3fd9e4dc7c9513ef747d2d0"
+    },
+    {
+      "case_id": "case_inf_class_tamper",
+      "attack_class": "OUTPUT_TAMPERING",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.466396+00:00",
+      "domain": "INFERENCE",
+      "title": "Post-Inference Class Tampering",
+      "description": "Direct memory modification of detection class string before evidence ledger commitment.",
+      "target_defense": "Cryptographic Event Digest & Merkle Frame Commitment",
+      "expected_governance_disposition": "QUARANTINE",
+      "artifacts": [],
+      "parameters": {
+        "tampered_attribute": "class_name",
+        "original": "person",
+        "mutated": "dog"
+      },
+      "input_hash": "c77e65bcd45c2facd9838115d42dba115819c0a351d593411a455d45d4c451d0",
+      "output_hash": "1febd9486ff773260e48c34d0d9e945d3b0a1c7cb9eaf007579f13725b99c9ab",
+      "sha256": "8a12bac927c439a1415be6155d44843ff3bd26b0bf59b5895a3e2f93e7d72e6a"
+    },
+    {
+      "case_id": "case_inf_conf_tamper",
+      "attack_class": "OUTPUT_TAMPERING",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.467395+00:00",
+      "domain": "INFERENCE",
+      "title": "Post-Inference Confidence Score Tampering",
+      "description": "Modifying detection confidence from 0.22 to 0.99 to trigger false alarm panic.",
+      "target_defense": "Cross-Stage Confidence Fusion & Evidence Hash Check",
+      "expected_governance_disposition": "QUARANTINE",
+      "artifacts": [],
+      "parameters": {
+        "original_confidence": 0.22,
+        "tampered_confidence": 0.99
+      },
+      "input_hash": "fe0139b3a7a5f31b3b09dc5b391929b7a8ba0cc5e8b9b70aaf8a3de57fd2e589",
+      "output_hash": "626f8cb1d59e5856928d9bd58c574775906d40c8f50ffa4e2de37ffa7618037e",
+      "sha256": "5d23185e9397d583de0d11745ec914930834c833516c6c7c0de2202b0cf68ff1"
+    },
+    {
+      "case_id": "case_inf_nonce_replay",
+      "attack_class": "REPLAY",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.467395+00:00",
+      "domain": "INFERENCE",
+      "title": "Cryptographic Nonce Replay & Collision",
+      "description": "Re-submitting evidence block using identical nonce to create ledger fork.",
+      "target_defense": "Strict Monotonic Nonce & Sequence Validator",
+      "expected_governance_disposition": "QUARANTINE",
+      "artifacts": [],
+      "parameters": {
+        "replayed_nonce": "a1b2c3d4e5f60718",
+        "sequence_id": 105
+      },
+      "input_hash": "b1d9a96e10ef4303ebbbd3a35cf193160dbc8dc5c5767fa9c5c81b882f65c83e",
+      "output_hash": "b1610880ee8458bd707623ba4b1431e5c1ce38a29a89eda9afa6f3cfd2bcc9b4",
+      "sha256": "881ceff09e67693e648cd4929ae111b9fd67dba45e41d8ba4618c87ec2c265c9"
+    },
+    {
+      "case_id": "case_inf_prov_substitution",
+      "attack_class": "PROVENANCE_TAMPERING",
+      "generation_seed": 26228,
+      "generator_version": "2.0.0",
+      "created_at": "2026-10-01T01:48:52.467395+00:00",
+      "domain": "INFERENCE",
+      "title": "Provenance Hash-Chain Substitution",
+      "description": "Injecting external block hash H_prev that does not link to committed parent block.",
+      "target_defense": "Strict Recursive Ledger Parent Linkage Verification",
+      "expected_governance_disposition": "QUARANTINE",
+      "artifacts": [],
+      "parameters": {
+        "parent_hash_expected": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "injected_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      },
+      "input_hash": "d5b6f9a774d3833c1f77668cc8729d9373b47890d5ed7506ffc79d34498058cf",
+      "output_hash": "4ad24ee930d1a69727fbee220f09ddce7dd37baa12195ea51f5eab98ec15e795",
+      "sha256": "295bec72a927623569c4efa0546ea2640b5f42cdaf02b20c649dd5889c9cf9f3"
     }
   ]
 }

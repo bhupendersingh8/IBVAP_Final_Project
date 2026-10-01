@@ -1,0 +1,20 @@
+{
+  "case_id": "case_data_class_sub",
+  "attack_class": "DATA_POISONING",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.437103+00:00",
+  "domain": "DATA",
+  "title": "Class Label Substitution (Weapon -> Tool)",
+  "description": "Targeted label substitution aiming to hide armed intruders as maintenance workers.",
+  "target_defense": "Specialist Evidence Gating & Confident Learning",
+  "expected_governance_disposition": "QUARANTINE",
+  "artifacts": [],
+  "parameters": {
+    "original_target": "rifle",
+    "substituted_target": "tripod"
+  },
+  "input_hash": "d73c16e6c95065b474c6931473bffaed76b8f372ab99ad244d78b1be565f60da",
+  "output_hash": "945d8db4fa2386a593494036da38d00b62238dbebd8e3bd3e5ce1234a9ad1153",
+  "sha256": "2c9a590c9e64c1407911e2d2658c0ad6fe1dcaba6c6c2c7d371fad4ea4b3adb1"
+}

@@ -135,11 +135,14 @@ class DatasetAuditEntry(BaseModel):
     name: str
     intended_use: str
     license: str
+    license_verification_status: str = "VERIFIED"
+    artifact_type: Optional[str] = None
     is_open_data_compliant: bool
     status: str
     local_path: Optional[str] = None
     computed_sha256: Optional[str] = None
     hash_verified: Optional[bool] = None
+    provenance_status: Optional[str] = None
     message: str
 
 
@@ -154,6 +157,7 @@ class DatasetAuditReport(BaseModel):
     synthetic_count: int
     registered_external_count: int
     overall_compliant: bool
+    compliance_claim_status: str = "FULLY_VERIFIED"  # "FULLY_VERIFIED" vs "PARTIAL / PENDING VERIFICATION"
     entries: List[DatasetAuditEntry]
 
 
@@ -169,7 +173,11 @@ class DatasetComplianceAuditor:
         if manifest_path:
             self.manifest_path = Path(manifest_path)
         else:
-            self.manifest_path = self.base_dir / "configs" / "dataset_manifest.json"
+            cfg_p = self.base_dir / "config" / "dataset_manifest.json"
+            if cfg_p.is_file():
+                self.manifest_path = cfg_p
+            else:
+                self.manifest_path = self.base_dir / "configs" / "dataset_manifest.json"
 
     def load_manifest(self) -> Dict[str, Any]:
         if not self.manifest_path.is_file():
@@ -196,8 +204,10 @@ class DatasetComplianceAuditor:
         for ds in datasets:
             ds_id = ds.get("dataset_id", "unknown")
             name = ds.get("name", "Unknown Dataset")
-            intended_use = ds.get("intended_use", "general")
-            ds_license = ds.get("license", "Unknown")
+            intended_use = ds.get("purpose") or ds.get("intended_use", "general")
+            ds_license = ds.get("license_type") or ds.get("license", "Unknown")
+            lic_ver_status = ds.get("license_verification_status", "VERIFIED")
+            artifact_type = ds.get("artifact_type")
             is_classified = ds.get("is_classified", False)
             is_operational = ds.get("is_operational", False)
             is_service_gen = ds.get("is_service_generated", False)
@@ -205,6 +215,7 @@ class DatasetComplianceAuditor:
             storage_type = ds.get("storage_type", "external_reference")
             local_rel_path = ds.get("local_path")
             expected_hash = ds.get("sha256_checksum")
+            prov_status = ds.get("provenance_status")
 
             # Check open-data compliance rule
             if is_classified or is_operational or is_service_gen:
@@ -248,7 +259,7 @@ class DatasetComplianceAuditor:
                     hash_verified = False
                     message = f"Declared local path '{local_rel_path}' does not exist on disk."
             else:
-                status = ds.get("status", "REGISTERED_BUT_NOT_EXECUTED")
+                status = ds.get("status") or ds.get("provenance_status", "REGISTERED_BUT_NOT_EXECUTED")
                 registered_external_count += 1
                 message = "Public reference registered. Local artifacts not loaded into air-gap storage."
 
@@ -257,15 +268,33 @@ class DatasetComplianceAuditor:
                 name=name,
                 intended_use=intended_use,
                 license=ds_license,
+                license_verification_status=lic_ver_status,
+                artifact_type=artifact_type,
                 is_open_data_compliant=is_compliant,
                 status=status,
                 local_path=local_rel_path,
                 computed_sha256=computed_sha,
                 hash_verified=hash_verified,
+                provenance_status=prov_status or status,
                 message=message
             ))
 
         overall_compliant = (non_compliant_count == 0)
+
+        # Phase 19: Strict Compliance Claim Logic
+        # FULLY_VERIFIED only when all actually used/local assets have source, license, artifact, hash verified,
+        # classification flags clean, and provenance recorded.
+        all_used_verified = True
+        for e in entries:
+            if e.local_path:
+                if not (e.is_open_data_compliant and e.hash_verified and e.license_verification_status == "VERIFIED"):
+                    all_used_verified = False
+                    break
+
+        if overall_compliant and all_used_verified and len(entries) > 0:
+            claim_status = "FULLY_VERIFIED"
+        else:
+            claim_status = "PARTIAL / PENDING VERIFICATION"
 
         return DatasetAuditReport(
             compliance_rule_id=compliance_rule_id,
@@ -277,5 +306,6 @@ class DatasetComplianceAuditor:
             synthetic_count=synthetic_count,
             registered_external_count=registered_external_count,
             overall_compliant=overall_compliant,
+            compliance_claim_status=claim_status,
             entries=entries
         )

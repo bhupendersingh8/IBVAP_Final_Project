@@ -151,7 +151,7 @@ class FrameAssurancePayload(BaseModel):
     shift_status: str = Field(default="NOMINAL", description="Distribution shift status: NOMINAL | LOW_LIGHT_ADAPTATION")
     zero_dce_enhanced: bool = Field(default=False, description="Whether Zero-DCE++ low-light curve estimation was applied")
     mean_lux: float = Field(default=50.0, description="Estimated ambient illumination level")
-    governance_decision: str = Field(..., description="Automated sovereign decision: ACCEPT | REVIEW | QUARANTINE (Analyst Governance)")
+    governance_decision: str = Field(..., description="Automated zero-trust decision: ACCEPT | REVIEW | QUARANTINE (Analyst Governance)")
     tamper_flags: List[str] = Field(default_factory=list, description="List of detected anomalies or tamper indicators")
 
 

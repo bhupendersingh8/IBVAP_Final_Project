@@ -1,0 +1,20 @@
+{
+  "case_id": "case_data_sys_mislabel",
+  "attack_class": "DATA_POISONING",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.435103+00:00",
+  "domain": "DATA",
+  "title": "Systematic Perimeter Vehicle Mislabelling",
+  "description": "Multi-contributor batch where all surveillance trucks are tagged as civilian cars.",
+  "target_defense": "Cross-Contributor Confusion Matrix & Confident Learning",
+  "expected_governance_disposition": "QUARANTINE",
+  "artifacts": [],
+  "parameters": {
+    "source_id": "CONTRIBUTOR_EXT_04",
+    "discordant_ratio": 0.38
+  },
+  "input_hash": "df0ddfaa908b6764148f18154784fbb09b43a31eaf02ea2d4438f4cb8571dfc2",
+  "output_hash": "1ddd2478bc94974001c87890d5e5de18d7bc9a24d4863967a28d0d09dec9ae06",
+  "sha256": "2fc84688b46f63993c8d721f7f2217502dc20e235e223b5f79c51ebe5927efe8"
+}

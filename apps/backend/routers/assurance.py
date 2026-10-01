@@ -867,7 +867,7 @@ async def evaluate_frame_assurance(
     """
     Evaluates a frame payload through the 5-stage assurance workflow:
     Computes H_n = SHA256(H_{n-1} || frame_hash || model_weight_hash || output_digest || ts || nonce),
-    checks coordinate bounds, and issues automated sovereign governance decisions [ACCEPT | REVIEW | QUARANTINE].
+    checks coordinate bounds, and issues automated zero-trust governance decisions [ACCEPT | REVIEW | QUARANTINE].
     """
     engine = get_assurance_engine()
     if req.frame_bytes_hex:

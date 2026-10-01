@@ -1,0 +1,24 @@
+{
+  "case_id": "case_data_malformed_annot",
+  "attack_class": "DATA_POISONING",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.436102+00:00",
+  "domain": "DATA",
+  "title": "Malformed YOLO Annotation Geometry",
+  "description": "Bounding box coordinate overflow where width or height > 1.0 or normalized coordinates < 0.",
+  "target_defense": "YOLO Geometry & Range Guardrail Verifier",
+  "expected_governance_disposition": "QUARANTINE",
+  "artifacts": [],
+  "parameters": {
+    "invalid_bbox": [
+      -0.1,
+      0.4,
+      1.2,
+      0.5
+    ]
+  },
+  "input_hash": "2430cfb0b89ba0b78eea9a26d2ad8107ae72972f5d7b1333da2b54fe46fa875b",
+  "output_hash": "0380d41a7f1f672f19c7e1645960efb603e049d49f7f925a240bff195b288230",
+  "sha256": "8473c5b1ee53ce8dba2e431bf83b2ef68c9c1314c84fb1987d256e1b9ffb68f2"
+}

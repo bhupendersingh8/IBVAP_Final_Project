@@ -378,7 +378,7 @@ class ModelValidator:
         self.record("PaddleOCR", "paddleocr", "UNAVAILABLE", False, False, False, "N/A", "BLOCKED", "Requires paddlepaddle wheel build for Windows CPU")
 
     # ──────────────────────────────────────────────────────────────────────────
-    # 10. INDIAN AI & SOVEREIGN INDIC LAYER
+    # 10. INDIAN AI & INDIGENOUS INDIC LAYER
     # ──────────────────────────────────────────────────────────────────────────
     def validate_indic_ai(self):
         try:

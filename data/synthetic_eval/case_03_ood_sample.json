@@ -1,16 +1,22 @@
 {
   "case_id": "case_03_ood_sample",
-  "category": "OUT_OF_DISTRIBUTION",
+  "attack_class": "OOD_INSERTION",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.443249+00:00",
+  "domain": "DATA",
   "title": "Out-of-Distribution Geometric Noise",
   "description": "Extreme non-surveillance visual artifact designed to test ArcFace cosine distance and MMD anomaly detection.",
   "target_defense": "ArcFace Cosine Distance & MMD Shift",
   "expected_governance_disposition": "REVIEW",
   "artifacts": [
-    "case_03_ood_image.png",
-    "case_03_ood_sample.json"
+    "case_03_ood_image.png"
   ],
   "parameters": {
     "cosine_distance_expected": 0.82,
     "threshold": 0.65
-  }
+  },
+  "input_hash": "761224b049844b87939007b1684cd4fee13dc5e6eedee3848a18908185ff061e",
+  "output_hash": "a7894e15187a2aca7e5a761e8c8fb3771389bcf20078afed64d51c7fb6554fe7",
+  "sha256": "376faf2af46e59efee872c719ab12d4f0a598fc750322f3e4a250cae95ad936b"
 }

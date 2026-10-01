@@ -188,7 +188,7 @@
 | **BHASHINI** | Government of India (MeitY) | Multilingual speech-to-text, translation, and voice command dispatch | **88%** | Voice-activated operator search; automated translation of alerts into Hindi, Punjabi, Bengali, Assamese, etc. |
 | **IndicTrans2** | AI4Bharat (IIT Madras) | Compact neural machine translation for Indian languages | **90%** | Translates technical incident reports (*"Intrusion detected at North Perimeter"*) into native Indic vernacular. |
 | **IndicBERT / IndicWhisper** | AI4Bharat | Semantic retrieval and voice transcription | **87%** | Allows border sentries to query system via VHF/radio audio input. |
-| **Krutrim AI** | Ola Krutrim | Sovereign Indic LLM reasoning and summarization | **85%** | Synthesizes daily border activity summaries in regional languages. |
+| **Krutrim AI** | Ola Krutrim | Indigenous Indic LLM reasoning and summarization | **85%** | Synthesizes daily border activity summaries in regional languages. |
 
 ---
 
@@ -316,7 +316,8 @@ $$S_{route} = 0.25 C_{det} + 0.15 C_{track} + 0.15 C_{temporal} + 0.20 C_{zone} 
 2. **AI4Bharat Ecosystem:**  
    Employs **IndicTrans2** (distilled 1B variant) for high-speed edge text translation of incident logs, and **IndicWhisper** for radio audio transcription.
 3. **Defense Positioning:**  
-   Positioned as: *“IBVAP natively interoperates with sovereign Indian AI language foundations to ensure field operators receive situational awareness in their primary regional dialect without cloud dependency for core computer vision.”*
+   Positioned as: *“IBVAP natively interoperates with indigenous Indian AI language foundations to ensure field operators receive situational awareness in their primary regional dialect without cloud dependency for core computer vision.”*
+
 
 ---
 

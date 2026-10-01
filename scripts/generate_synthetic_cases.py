@@ -15,7 +15,7 @@ project_root = Path(__file__).resolve().parents[1]
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
-from services.assurance.synthetic_eval import generate_synthetic_suite
+from services.assurance.synthetic_eval import generate_synthetic_suite, verify_synthetic_merkle_provenance
 
 
 def main():
@@ -23,12 +23,16 @@ def main():
     print(f"[*] Generating SIH26228 Synthetic Attack & Evaluation Suite...")
     print(f"    Target directory: {target_dir}")
 
-    provenance = generate_synthetic_suite(target_dir)
+    provenance = generate_synthetic_suite(target_dir, seed=26228)
 
-    print(f"[+] Successfully generated {provenance['total_cases']} synthetic test cases.")
-    print(f"    Total files: {provenance['total_files']}")
-    print(f"    Manifest SHA-256: {provenance['manifest_sha256']}")
-    print(f"    Merkle Root:     {provenance['merkle_root']}")
+    print(f"[+] Successfully generated {provenance.get('total_cases', len(provenance.get('cases', [])))} synthetic test cases.")
+    print(f"    Batch ID:        {provenance.get('batch_id')}")
+    print(f"    Artifact Count:  {provenance.get('artifact_count')}")
+    print(f"    Merkle Root:     {provenance.get('merkle_root')}")
+    
+    # Mathematical verification of Merkle tree
+    is_valid = verify_synthetic_merkle_provenance(provenance)
+    print(f"[+] Merkle Proof Validated: {is_valid}")
     print(f"[+] Provenance saved to: {target_dir / 'synthetic_provenance.json'}")
 
 

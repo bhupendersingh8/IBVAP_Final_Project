@@ -17,6 +17,7 @@ import { Reports } from './pages/Reports';
 import { GovernanceSystem } from './pages/GovernanceSystem';
 import { EdgeHardwareRuntime } from './pages/EdgeHardwareRuntime';
 import { Admin } from './pages/Admin';
+import { DatasetProvenance } from './pages/DatasetProvenance';
 
 export const App: React.FC = () => {
   return (
@@ -30,6 +31,7 @@ export const App: React.FC = () => {
           <Route path="/overview" element={<Overview />} />
           <Route path="/live-inference" element={<LiveInference />} />
           <Route path="/data-integrity" element={<DataIntegrity />} />
+          <Route path="/dataset-provenance" element={<DatasetProvenance />} />
           <Route path="/model-assurance" element={<ModelAssurance />} />
           <Route path="/assurance-analytics" element={<AssuranceAnalytics />} />
           <Route path="/drift-monitor" element={<DriftMonitor />} />

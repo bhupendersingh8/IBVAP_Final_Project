@@ -1,0 +1,21 @@
+{
+  "case_id": "case_model_substitution",
+  "attack_class": "MODEL_SUBSTITUTION",
+  "generation_seed": 26228,
+  "generator_version": "2.0.0",
+  "created_at": "2026-10-01T01:48:52.464942+00:00",
+  "domain": "MODEL",
+  "title": "Model Architecture & Weight Substitution",
+  "description": "Substituting YOLO26x verification model with lightweight unverified checkpoint under same filename.",
+  "target_defense": "Behavioral Model Fingerprint & Probe Battery Battery Divergence",
+  "expected_governance_disposition": "QUARANTINE",
+  "artifacts": [],
+  "parameters": {
+    "target_model": "yolo26x",
+    "divergence_score": 0.76,
+    "threshold": 0.15
+  },
+  "input_hash": "e3a45c478e306ec6b8e076dce4a965f14343ad282fdf6d338f3767d1c8a3b089",
+  "output_hash": "f8cd4d88a03229b51c007c354bf8fc305d5e8899ef598e59965eef8911954019",
+  "sha256": "ecce4c7578ce93595d5030d484fa1138e94cc691f2de1441e08d2a71da992aae"
+}
