@@ -1,0 +1,140 @@
+# configs/class_taxonomy.yaml
+# IBVAP / SIH26228 Border & CCTV Operational Class Taxonomy
+# Maps raw detector classes (COCO/YOLO) into standardized operational categories
+# with confidence gates, severity levels, and conditional specialist triggers.
+
+version: "1.0.0"
+description: "Configurable tactical and border surveillance object taxonomy"
+
+categories:
+  PERSON:
+    canonical_class: "tactical_personnel"
+    display_name: "Personnel / Sentry"
+    aliases: ["person", "human", "pedestrian", "sentry", "intruder"]
+    source_model_ids: [0]
+    confidence_threshold: 0.40
+    severity: "MEDIUM"
+    specialist_triggers:
+      pose_analysis: true
+      silhouette_segmentation: "conditional"  # Trigger on crawling/camouflaged
+      face_authorization: true
+      reid_association: true
+    evidence_category: "PERSONNEL_MOVEMENT"
+
+  CAR:
+    canonical_class: "recon_vehicle"
+    display_name: "Reconnaissance Vehicle"
+    aliases: ["car", "automobile", "sedan", "suv", "van"]
+    source_model_ids: [2]
+    confidence_threshold: 0.45
+    severity: "MEDIUM"
+    specialist_triggers:
+      anpr_ocr: true
+      trajectory_dwell: true
+    evidence_category: "VEHICLE_LOGISTICS"
+
+  TWO_WHEELER:
+    canonical_class: "patrol_convoy"
+    display_name: "Light Patrol / Two-Wheeler"
+    aliases: ["motorcycle", "motorbike", "scooter"]
+    source_model_ids: [3]
+    confidence_threshold: 0.45
+    severity: "MEDIUM"
+    specialist_triggers:
+      anpr_ocr: true
+      trajectory_dwell: true
+    evidence_category: "RAPID_PATROL"
+
+  BUS:
+    canonical_class: "transport_convoy"
+    display_name: "Troop / Transport Convoy"
+    aliases: ["bus", "coach"]
+    source_model_ids: [5]
+    confidence_threshold: 0.50
+    severity: "HIGH"
+    specialist_triggers:
+      anpr_ocr: true
+      perimeter_dwell: true
+    evidence_category: "CONVOY_TRANSPORT"
+
+  TRUCK:
+    canonical_class: "armored_vehicle"
+    display_name: "Heavy / Armored Vehicle"
+    aliases: ["truck", "lorry", "carrier"]
+    source_model_ids: [7]
+    confidence_threshold: 0.50
+    severity: "HIGH"
+    specialist_triggers:
+      anpr_ocr: true
+      weight_checkpoint: true
+    evidence_category: "HEAVY_LOGISTICS"
+
+  BICYCLE:
+    canonical_class: "patrol_convoy"
+    display_name: "Bicycle / Non-Motorized Transport"
+    aliases: ["bicycle", "bike", "cycle"]
+    source_model_ids: [1]
+    confidence_threshold: 0.40
+    severity: "LOW"
+    specialist_triggers:
+      anpr_ocr: false
+      trajectory_dwell: true
+    evidence_category: "SLOW_TRANSIT"
+
+  ARMED_THREAT_WEAPON:
+    canonical_class: "armed_threat_weapon"
+    display_name: "Tactical Weapon Threat"
+    aliases: ["gun", "weapon", "pistol", "rifle", "knife", "blade"]
+    source_model_ids: [0, 1, 2, 3] # Threat model classes
+    confidence_threshold: 0.45
+    severity: "CRITICAL"
+    specialist_triggers:
+      immediate_quarantine: false
+      immediate_alert: true
+      evidence_ledger_commit: true
+    evidence_category: "LETHAL_THREAT"
+
+  EXPLOSIVE_HAZARD:
+    canonical_class: "explosive_hazard"
+    display_name: "Explosive Device / Ordinance"
+    aliases: ["explosive", "bomb", "grenade", "ied"]
+    source_model_ids: [4, 5]
+    confidence_threshold: 0.40
+    severity: "CRITICAL"
+    specialist_triggers:
+      immediate_alert: true
+      evidence_ledger_commit: true
+    evidence_category: "HAZARDOUS_ORDNANCE"
+
+  BAG:
+    canonical_class: "unattended_baggage"
+    display_name: "Backpack / Unattended Baggage"
+    aliases: ["backpack", "bag", "suitcase", "handbag"]
+    source_model_ids: [24, 26, 28]
+    confidence_threshold: 0.40
+    severity: "MEDIUM"
+    specialist_triggers:
+      dwell_abandonment: true
+    evidence_category: "UNATTENDED_ITEM"
+
+  ANIMAL:
+    canonical_class: "wildlife_activity"
+    display_name: "Wildlife / Fauna"
+    aliases: ["dog", "cat", "horse", "sheep", "cow", "bird", "animal"]
+    source_model_ids: [14, 15, 16, 17, 18, 19, 20, 21]
+    confidence_threshold: 0.40
+    severity: "LOW"
+    specialist_triggers:
+      suppress_perimeter_alert: true
+    evidence_category: "ENVIRONMENTAL_FAUNA"
+
+  UNKNOWN_OBJECT:
+    canonical_class: "unknown_tactical_asset"
+    display_name: "Unclassified Target"
+    aliases: ["unknown", "target", "object"]
+    source_model_ids: [-1]
+    confidence_threshold: 0.35
+    severity: "LOW"
+    specialist_triggers:
+      secondary_detector: true
+    evidence_category: "UNCLASSIFIED"

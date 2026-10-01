@@ -295,7 +295,7 @@ export const LiveDashboard = ({ cameraId = "CAM-01" }) => {
           <div className="p-3 bg-slate-900 border border-slate-800 rounded-xl flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <span className="font-mono text-xs text-slate-400 uppercase font-semibold">
-                5. Sovereign Governance
+                5. Automated Governance
               </span>
               <span
                 className={`px-2 py-0.5 rounded font-mono text-[10px] font-bold ${
