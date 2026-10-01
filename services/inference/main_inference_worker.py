@@ -754,12 +754,12 @@ class MainInferenceWorker:
         # TCVIAF Air-Gapped Assurance Engine Evaluation (SIH26228)
         raw_det_list = []
         for tr in tracking_result.active_tracks:
-            cls_id = int(getattr(tr, 'track_id', 1))
+            track_id = int(getattr(tr, 'track_id', 1))
             cname = getattr(tr, 'class_name', 'target')
             sub = getattr(tr, 'subclass', None) or cname
-            tactical_name = map_sih26228_label(cls_id, sub)
+            tactical_name = map_sih26228_label(-1, sub)
             raw_det_list.append({
-                "class_id": cls_id,
+                "class_id": track_id,
                 "class_name": tactical_name,
                 "confidence": tr.avg_confidence,
                 "bbox": [tr.bbox.x1, tr.bbox.y1, tr.bbox.x2, tr.bbox.y2],
@@ -778,8 +778,8 @@ class MainInferenceWorker:
         )
 
         detections_payload = [{
-            "class_name": map_sih26228_label(getattr(tr, 'track_id', 1), getattr(tr, 'subclass', None) or tr.class_name),
-            "label": map_sih26228_label(getattr(tr, 'track_id', 1), getattr(tr, 'subclass', None) or tr.class_name),
+            "class_name": map_sih26228_label(-1, getattr(tr, 'subclass', None) or tr.class_name),
+            "label": map_sih26228_label(-1, getattr(tr, 'subclass', None) or tr.class_name),
             "confidence": tr.avg_confidence,
             "bbox": [tr.bbox.x1, tr.bbox.y1, tr.bbox.x2, tr.bbox.y2],
             "track_id": tr.track_id,

@@ -37,14 +37,14 @@ COCO_NAME_TO_TACTICAL = {
 }
 
 
-def map_sih26228_label(class_id: int, class_name: str = "") -> str:
+def map_sih26228_label(class_id: int = -1, class_name: str = "") -> str:
     """Returns the SIH26228 tactical defence label for a class ID or name."""
+    c_lower = str(class_name).lower().strip()
+    if c_lower and c_lower in COCO_NAME_TO_TACTICAL:
+        return COCO_NAME_TO_TACTICAL[c_lower]
     if class_id in TACTICAL_DEFENCE_MAP:
         return TACTICAL_DEFENCE_MAP[class_id]
-    c_lower = str(class_name).lower().strip()
-    if c_lower in COCO_NAME_TO_TACTICAL:
-        return COCO_NAME_TO_TACTICAL[c_lower]
-    return "unknown_tactical_asset"
+    return c_lower or "unknown_tactical_asset"
 
 
 def map_sih26228_detections(raw_boxes: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
