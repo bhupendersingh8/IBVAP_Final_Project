@@ -324,7 +324,7 @@ export const EvidenceProvenance: React.FC = () => {
               <div className="flex flex-col gap-1">
                 <span className="font-label-mono-sm text-label-mono-sm uppercase text-on-surface-variant font-semibold">Model Hash Binding</span>
                 <div className="p-space-xs rounded bg-surface-container-low font-data-tabular text-body-sm text-primary break-all">
-                  {selectedRecord.model_hash || 'c2b87f918e388d77c44933973950efec2d14878a846f71661138243be4f51e06'}
+                  {selectedRecord.model_hash || '0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1'}
                 </div>
               </div>
 

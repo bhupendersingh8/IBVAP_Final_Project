@@ -10,6 +10,7 @@ from .source_adapters import (
     MediaMTXAdapter,
     SourceAdapterFactory,
 )
+from .threaded_camera import ThreadedCamera
 
 __all__ = [
     "FramePacket",
@@ -26,4 +27,5 @@ __all__ = [
     "RTSPAdapter",
     "MediaMTXAdapter",
     "SourceAdapterFactory",
+    "ThreadedCamera",
 ]

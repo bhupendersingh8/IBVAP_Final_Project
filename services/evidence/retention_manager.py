@@ -24,7 +24,7 @@ class EvidenceRetentionManager:
     def __init__(
         self,
         evidence_dir: str = "data/evidence",
-        max_photos: int = 100,
+        max_photos: int = 500,
         project_root: Optional[str] = None,
     ):
         self.project_root = project_root or os.path.abspath(

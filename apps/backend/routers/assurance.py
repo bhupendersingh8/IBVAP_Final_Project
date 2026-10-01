@@ -489,10 +489,10 @@ async def get_post_quantum_status(
         engine = PostQuantumAssuranceEngine()
         info = engine.get_public_key_info()
         return {
-            "post_quantum_ready": True,
-            "nist_standards": [
-                "NIST FIPS 202 (SHAKE-256 Extensible-Output Function)",
-                "NIST FIPS 205 (SLH-DSA / Stateless Hash-Based Signatures)"
+            "experimental_pqc_active": True,
+            "signature_algorithms": [
+                "SHAKE-256 Extensible-Output Function (Experimental)",
+                "WOTS+ Stateless Hash-Based Signatures (Experimental)"
             ],
             "quantum_security_category": 5,
             "symmetric_quantum_security_bits": 256,
@@ -822,3 +822,79 @@ async def verify_cyclonedx_aibom(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"AIBOM verification error: {str(e)}"
         )
+
+
+# ---------------------------------------------------------------------------
+# Air-Gapped TCVIAF Assurance Engine & Merkle Frame Endpoints (SIH26228)
+# ---------------------------------------------------------------------------
+
+from services.assurance.assurance_engine import (
+    FrameAssurancePayload,
+    BlockVerificationResponse,
+    get_assurance_engine,
+)
+
+class FrameEvaluationRequest(BaseModel):
+    model_config = {"protected_namespaces": ()}
+    frame_bytes_hex: Optional[str] = None
+    frame_text: Optional[str] = None
+    detections: List[Dict[str, Any]] = Field(default_factory=list)
+    zero_dce_enhanced: bool = False
+    mean_lux: float = 55.0
+    forced_nonce: Optional[str] = None
+
+
+@router.get("/engine/status", response_model=Dict[str, Any])
+async def get_assurance_engine_status(
+    user: dict = Depends(require_permission(Permission.VIEW_EVIDENCE))
+):
+    """Returns the live state of the TCVIAF Air-Gapped Assurance Engine."""
+    engine = get_assurance_engine()
+    return {
+        "model_id": engine.model_id,
+        "model_weight_hash": engine.model_weight_hash,
+        "current_sequence_id": engine.current_sequence_id,
+        "current_merkle_block_hash": engine.current_block_hash,
+        "status": "OPERATIONAL_AIR_GAPPED"
+    }
+
+
+@router.post("/frame/evaluate", response_model=FrameAssurancePayload)
+async def evaluate_frame_assurance(
+    req: FrameEvaluationRequest,
+    user: dict = Depends(require_permission(Permission.VIEW_EVIDENCE))
+):
+    """
+    Evaluates a frame payload through the 5-stage assurance workflow:
+    Computes H_n = SHA256(H_{n-1} || frame_hash || model_weight_hash || output_digest || ts || nonce),
+    checks coordinate bounds, and issues automated sovereign governance decisions [ACCEPT | REVIEW | QUARANTINE].
+    """
+    engine = get_assurance_engine()
+    if req.frame_bytes_hex:
+        raw_bytes = bytes.fromhex(req.frame_bytes_hex)
+    elif req.frame_text:
+        raw_bytes = req.frame_text.encode("utf-8")
+    else:
+        raw_bytes = b"EMPTY_AIRGAP_FRAME_BUFFER"
+
+    payload = engine.evaluate_frame(
+        frame_bytes=raw_bytes,
+        detections=req.detections,
+        zero_dce_enhanced=req.zero_dce_enhanced,
+        mean_lux=req.mean_lux,
+        forced_nonce=req.forced_nonce
+    )
+    return payload
+
+
+@router.post("/frame/verify", response_model=BlockVerificationResponse)
+async def verify_frame_block(
+    payload: FrameAssurancePayload,
+    user: dict = Depends(require_permission(Permission.VIEW_EVIDENCE))
+):
+    """
+    Verifies a Merkle block hash and validates coordinate boundaries.
+    Automatically flags tamper mutations and returns QUARANTINE if manipulated.
+    """
+    engine = get_assurance_engine()
+    return engine.verify_block(payload)

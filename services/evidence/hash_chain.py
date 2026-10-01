@@ -2,7 +2,7 @@
 services/evidence/hash_chain.py
 ================================
 Cryptographic SHA-256 Tamper-Evident Evidence Hash Chain Ledger.
-Complies with Indian Evidence Act Section 65B forensic requirements.
+Provides cryptographically verifiable technical evidence chain-of-custody.
 """
 from __future__ import annotations
 

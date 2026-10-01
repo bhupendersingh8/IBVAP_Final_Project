@@ -28,7 +28,7 @@ def test_hardware_detector_falls_back_to_dell_cpu():
     if not profile.gpu.cuda_available:
         assert profile.profile_name == HardwareProfileName.DELL_CPU
         assert profile.primary_runtime == "cpu_fp32"
-        assert profile.primary_detection_model in ["yolo26n.pt", "yolov8n.pt"]
+        assert os.path.basename(profile.primary_detection_model) in ["yolo26n.pt", "yolov8n.pt"]
 
 
 def test_yolo_adapter_cuda_unavailable_fallback():

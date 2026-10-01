@@ -3,7 +3,7 @@
 crypto_ledger.py
 ================
 IBVAP Cryptographic Evidence Chain-of-Custody Ledger.
-Complies with SIH26187 Defense & Cybersecurity Mandate and Indian Evidence Act Section 65B.
+Provides tamper-evident cryptographic provenance and auditability.
 
 Key Capabilities:
 1. Millisecond-precision SHA-256 frame-level and video clip content hashing.
@@ -11,7 +11,7 @@ Key Capabilities:
    block_hash = SHA256(previous_hash + frame_hash + timestamp + camera_id + event_type + payload_str)
 3. High-throughput DuckDB append-only persistent audit store (with SQLite fallback).
 4. Live Tamper-Evidence Verification: verify_chain_integrity() detects even a single altered bit.
-5. Section 65B Indian Evidence Act physical file tamper verification (verify_clip_integrity).
+5. Technical evidence physical file tamper verification (verify_clip_integrity).
 6. Merkle Root Tree computation for verifiable non-repudiation proofs.
 """
 
@@ -1566,7 +1566,7 @@ if __name__ == "__main__":
     print(f"    - Latest Merkle Root: {audit['latest_merkle_root']}")
     print(f"    - Message: {audit['message']}")
 
-    # Export Section 65B certificate
+    # Export technical evidence certificate
     cert = ledger.export_audit_certificate(PROJECT_ROOT / "evidence_audit_certificate.json")
-    print(f"\n[+] Section 65B Forensic Certificate exported to evidence_audit_certificate.json")
+    print(f"\n[+] Cryptographically Verifiable Technical Evidence Certificate exported to evidence_audit_certificate.json")
     print("=" * 70)

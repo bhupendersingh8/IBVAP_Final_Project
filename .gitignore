@@ -19,8 +19,14 @@ build/
 *.sqlite3
 *.duckdb
 *.duckdb.wal
+*.db-shm
+*.db-wal
 evidence_clips/*.mp4
 data/cache/
+data/evidence/
+data/logs/
+auto.key
+auto.crt
 
 # Node & Frontend
 node_modules/

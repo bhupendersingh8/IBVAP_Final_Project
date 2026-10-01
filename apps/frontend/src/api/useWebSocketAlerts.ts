@@ -19,6 +19,14 @@ export interface WebSocketAlertsState {
   sequenceId: number;
   sealedBlockHash: string;
   frameHash: string;
+  modelWeightHash: string;
+  governanceDecision: string;
+  zeroDceEnhanced: boolean;
+  meanLux: number;
+  datasetMerkleRoot: string;
+  illuminationScore: number;
+  shiftStatus: string;
+  tamperFlags: string[];
   isPaused: boolean;
   togglePause: () => void;
   sendPing: () => void;
@@ -33,6 +41,14 @@ export function useWebSocketAlerts(): WebSocketAlertsState {
   const [sequenceId, setSequenceId] = useState<number>(0);
   const [sealedBlockHash, setSealedBlockHash] = useState<string>("Awaiting First Frame");
   const [frameHash, setFrameHash] = useState<string>("Awaiting Frame");
+  const [modelWeightHash, setModelWeightHash] = useState<string>("0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1");
+  const [governanceDecision, setGovernanceDecision] = useState<string>("ACCEPT");
+  const [zeroDceEnhanced, setZeroDceEnhanced] = useState<boolean>(false);
+  const [meanLux, setMeanLux] = useState<number>(55.0);
+  const [datasetMerkleRoot, setDatasetMerkleRoot] = useState<string>("7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069");
+  const [illuminationScore, setIlluminationScore] = useState<number>(55.0);
+  const [shiftStatus, setShiftStatus] = useState<string>("NOMINAL");
+  const [tamperFlags, setTamperFlags] = useState<string[]>([]);
   const [isPaused, setIsPaused] = useState<boolean>(false);
 
   const wsRef = useRef<WebSocket | null>(null);
@@ -95,8 +111,32 @@ export function useWebSocketAlerts(): WebSocketAlertsState {
             if (data.frame_hash) {
               setFrameHash(String(data.frame_hash));
             }
-            if (data.sealed_block_hash) {
-              setSealedBlockHash(String(data.sealed_block_hash));
+            if (data.sealed_block_hash || data.merkle_block_hash) {
+              setSealedBlockHash(String(data.merkle_block_hash || data.sealed_block_hash));
+            }
+            if (data.model_weight_hash) {
+              setModelWeightHash(String(data.model_weight_hash));
+            }
+            if (data.governance_decision) {
+              setGovernanceDecision(String(data.governance_decision));
+            }
+            if (typeof data.zero_dce_enhanced === "boolean") {
+              setZeroDceEnhanced(data.zero_dce_enhanced);
+            }
+            if (typeof data.mean_lux === "number") {
+              setMeanLux(data.mean_lux);
+            }
+            if (data.dataset_merkle_root) {
+              setDatasetMerkleRoot(String(data.dataset_merkle_root));
+            }
+            if (typeof data.illumination_score === "number") {
+              setIlluminationScore(data.illumination_score);
+            }
+            if (data.shift_status) {
+              setShiftStatus(String(data.shift_status));
+            }
+            if (Array.isArray(data.tamper_flags)) {
+              setTamperFlags(data.tamper_flags);
             }
 
             if (Array.isArray(data.detections)) {
@@ -152,6 +192,14 @@ export function useWebSocketAlerts(): WebSocketAlertsState {
     sequenceId,
     sealedBlockHash,
     frameHash,
+    modelWeightHash,
+    governanceDecision,
+    zeroDceEnhanced,
+    meanLux,
+    datasetMerkleRoot,
+    illuminationScore,
+    shiftStatus,
+    tamperFlags,
     isPaused,
     togglePause,
     sendPing,

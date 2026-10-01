@@ -82,7 +82,15 @@ class YOLOAdapter(DetectionEngine):
         # We don't force self._model.to(device) here, ultralytics handles it in predict()
         logger.info("YOLO model loaded successfully")
         
-        self.warmup(iterations=1)
+        try:
+            self.warmup(iterations=1)
+        except Exception as e:
+            if "cuda" in str(self.device).lower():
+                logger.warning("CUDA execution unsupported or failed on this device, falling back to CPU", error=str(e))
+                self.device = "cpu"
+                self.warmup(iterations=1)
+            else:
+                raise
 
     def is_loaded(self) -> bool:
         return self._model is not None

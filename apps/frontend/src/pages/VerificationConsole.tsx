@@ -9,7 +9,7 @@ export const VerificationConsole: React.FC = () => {
     timestamp: "2026-03-30T16:14:02.124Z",
     nonce: 4981,
     input_frame_sha256: "4f8a3d91c2847bb019e6d0a7902a7b8e1f0e4b8a2139b42171092a8b9412e87c",
-    model_sha256: "c2b87f918e388d77c44933973950efec2d14878a846f71661138243be4f51e06",
+    model_sha256: "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
     detections: [
       { class_name: "person", confidence: 0.942, bbox: [120, 80, 240, 310] },
       { class_name: "car", confidence: 0.887, bbox: [450, 210, 620, 390] }
@@ -26,7 +26,7 @@ export const VerificationConsole: React.FC = () => {
     timestamp: "2026-03-30T16:14:02.124Z",
     nonce: 4981,
     input_frame_sha256: "4f8a3d91c2847bb019e6d0a7902a7b8e1f0e4b8a2139b42171092a8b9412e87c",
-    model_sha256: "c2b87f918e388d77c44933973950efec2d14878a846f71661138243be4f51e06",
+    model_sha256: "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
     detections: [
       { class_name: "weapon", confidence: 0.999, bbox: [10, 10, 50, 50] } // Mutated!
     ],
@@ -77,7 +77,7 @@ export const VerificationConsole: React.FC = () => {
           valid: true,
           details: [
             'Input Frame Hash: 4f8a3d91c2847bb019e6d0a7902a7b8e1f0e4b8a2139b42171092a8b9412e87c (Valid)',
-            'Model Weight Digest: c2b87f918e388d77c44933973950efec2d14878a846f71661138243be4f51e06 (Valid)',
+            'Model Weight Digest: 0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1 (Valid)',
             'Ed25519 Contributor Signature: Authenticated by Consortium Keyring',
             'Sequential Hash Link: Aligned with local tamper-evident ledger tip',
             'Verdict: VERIFIED — Cryptographically verifiable technical evidence'

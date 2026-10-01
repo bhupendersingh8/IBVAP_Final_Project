@@ -92,12 +92,25 @@ class ZeroDCEPlusPlusNet(nn.Module):
 class ZeroDCEPlusPlusRestorer:
     """
     High-level Zero-DCE++ Neural Restoration Engine.
-    Handles OpenCV frame <-> GPU tensor conversions, dynamic downsampling for speed,
-    and fallback to CPU or bilateral CLAHE if GPU memory is constrained.
+    Estimates 8-iteration curve coefficients on a fast downsampled 256x256 image,
+    then applies the estimated curve parameter maps across the full frame.
     """
     def __init__(self, device: Optional[str] = None):
         if device is None:
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            # Check PyTorch CUDA architecture compatibility to prevent sm_120 crashes
+            if torch.cuda.is_available():
+                try:
+                    cap = torch.cuda.get_device_capability(0)
+                    arch = f"sm_{cap[0]}{cap[1]}"
+                    supported = torch.cuda.get_arch_list()
+                    if arch in supported or not supported:
+                        self.device = torch.device("cuda")
+                    else:
+                        self.device = torch.device("cpu")
+                except Exception:
+                    self.device = torch.device("cpu")
+            else:
+                self.device = torch.device("cpu")
         else:
             self.device = torch.device(device)
 
@@ -108,34 +121,39 @@ class ZeroDCEPlusPlusRestorer:
     def enhance_frame(self, frame_bgr: np.ndarray) -> Tuple[np.ndarray, float]:
         """
         Enhances low-light BGR frame using Zero-DCE++ neural curve estimation.
+        Uses 256x256 downsampled image for super-fast curve parameter calculation,
+        then applies the curve factors to the full frame.
         Returns: (enhanced_bgr: np.ndarray, latency_ms: float)
         """
         import time
+        import torch.nn.functional as F
         t0 = time.perf_counter()
 
         h, w = frame_bgr.shape[:2]
-        # Convert BGR to RGB and normalize to [0, 1]
-        rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
 
-        # Downsample if image is 4K/1080p to keep inference under 5ms, then bilinearly interpolate curve
-        scale = 1.0
-        if max(h, w) > 720:
-            scale = 720.0 / max(h, w)
-            h_s, w_s = int(h * scale), int(w * scale)
-            rgb_input = cv2.resize(rgb, (w_s, h_s), interpolation=cv2.INTER_AREA)
-        else:
-            rgb_input = rgb
+        # 1. Downsample to 256x256 for super-fast curve estimation
+        small_bgr = cv2.resize(frame_bgr, (256, 256), interpolation=cv2.INTER_AREA)
+        rgb_small = cv2.cvtColor(small_bgr, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
+        tensor_small = torch.from_numpy(rgb_small).permute(2, 0, 1).unsqueeze(0).to(self.device, non_blocking=True)
 
-        tensor_in = torch.from_numpy(rgb_input).permute(2, 0, 1).unsqueeze(0).to(self.device, non_blocking=True)
+        # 2. Predict 24-channel curve parameters on 256x256 input
+        _, curve_params = self.model(tensor_small)
 
-        enhanced_tensor, _ = self.model(tensor_in)
+        # 3. Bilinearly interpolate curve parameter maps to full frame resolution
+        curve_params_full = F.interpolate(curve_params, size=(h, w), mode='bilinear', align_corners=False)
 
-        enhanced_np = enhanced_tensor.squeeze(0).permute(1, 2, 0).cpu().numpy()
+        # 4. Apply high-order curve transformations directly on full frame
+        rgb_full = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
+        tensor_full = torch.from_numpy(rgb_full).permute(2, 0, 1).unsqueeze(0).to(self.device, non_blocking=True)
 
-        if scale != 1.0:
-            enhanced_np = cv2.resize(enhanced_np, (w, h), interpolation=cv2.INTER_LINEAR)
+        enhanced = tensor_full
+        for i in range(self.model.num_iterations):
+            a_i = curve_params_full[:, i * 3:(i + 1) * 3, :, :]
+            enhanced = enhanced + a_i * enhanced * (1.0 - enhanced)
 
+        enhanced = torch.clamp(enhanced, 0.0, 1.0)
+        enhanced_np = enhanced.squeeze(0).permute(1, 2, 0).cpu().numpy()
         enhanced_bgr = cv2.cvtColor((enhanced_np * 255.0).astype(np.uint8), cv2.COLOR_RGB2BGR)
-        latency_ms = (time.perf_counter() - t0) * 1000.0
 
+        latency_ms = (time.perf_counter() - t0) * 1000.0
         return enhanced_bgr, latency_ms

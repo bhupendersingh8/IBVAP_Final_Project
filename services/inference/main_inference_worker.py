@@ -56,6 +56,9 @@ try:
 except ImportError:
     _TWO_STAGE_AVAILABLE = False
 
+from services.assurance.assurance_engine import get_assurance_engine
+from services.tactical_mapper import map_sih26228_label, map_sih26228_detections
+
 logger = structlog.get_logger()
 
 # ── Module-level worker registry for metrics API (Phase 19) ─────────────────
@@ -154,23 +157,33 @@ class MainInferenceWorker:
             )
             logger.info("Initialized local WebcamSource adapter", camera_id=self.camera_id, device=device_idx)
         else:
-            is_phone = self.camera_id.startswith("PHONE") or "8080" in str(self.rtsp_url) or "4747" in str(self.rtsp_url)
             self.camera_source = RTSPSource(
                 camera_id=self.camera_id,
                 config={
                     "rtsp_url": self.rtsp_url,
-                    "fps_limit": 30 if is_phone else 15,
-                    "buffer_size": 15,
+                    "fps_limit": 0,
+                    "buffer_size": 2,
                     "reconnect_delay_seconds": 2.0
                 }
             )
 
         # 2. Detection (YOLOv8 CUDA GPU acceleration with CPU fallback)
         device_env = os.environ.get("IBVAP_DEVICE", "auto").lower()
+        target_device = "cpu"
         try:
             import torch
             if device_env in ("cuda", "cuda:0", "gpu", "auto") and torch.cuda.is_available():
-                target_device = "cuda:0"
+                try:
+                    cap = torch.cuda.get_device_capability(0)
+                    arch = f"sm_{cap[0]}{cap[1]}"
+                    supported_archs = torch.cuda.get_arch_list()
+                    if arch in supported_archs or not supported_archs:
+                        target_device = "cuda:0"
+                    else:
+                        logger.warning("GPU architecture unsupported by PyTorch CUDA binary, falling back to CPU", gpu_arch=arch)
+                        target_device = "cpu"
+                except Exception:
+                    target_device = "cpu"
             else:
                 target_device = "cpu"
         except Exception:
@@ -197,8 +210,12 @@ class MainInferenceWorker:
         self._last_disk_preview_write = 0.0
         self._last_disk_ann_write = 0.0
 
-        # 3. Tracking (Class-aware multi-object tracking with 0.20 IoU matching threshold)
-        self.tracker = FallbackIoUTracker(max_age=30, iou_threshold=0.20)
+        # 3. Tracking (ByteTrack multi-object tracking with fallback IoU)
+        try:
+            from services.tracking.tracker_factory import TrackerFactory
+            self.tracker = TrackerFactory.create_tracker("bytetrack", max_age=30, iou_threshold=0.20)
+        except Exception:
+            self.tracker = FallbackIoUTracker(max_age=30, iou_threshold=0.20)
 
         # 4. Rules & Zones
         self.rule_engine = RuleEngine()
@@ -284,6 +301,10 @@ class MainInferenceWorker:
         # 8. Long-Term Cross-Camera Remembrance & Re-ID Store
         self.remembrance_store = LongTermRemembranceStore.get_instance()
         logger.info("Initialized LongTermRemembranceStore")
+
+        # 8a. TCVIAF Air-Gapped Assurance Engine (SIH26228)
+        self.assurance_engine = get_assurance_engine()
+        logger.info("Initialized TCVIAF Air-Gapped Assurance Engine", model=self.detector.model_version)
 
         # 8b. Adaptive Night Vision & Low-Light / IR Enhancer
         self.night_enhancer = NightVisionEnhancer()
@@ -682,16 +703,10 @@ class MainInferenceWorker:
     async def _broadcast_live_telemetry(self, tracking_result, batch, t_inference_ms):
         """Pushes live bounding boxes, active tracks with trajectories, and system performance metrics to React UI."""
         now = time.time()
-        # Throttle telemetry broadcast to ~16 FPS (65ms interval) for ultra-smooth UI tracking
-        if now - self._last_telemetry_time < 0.065:
+        # Throttle telemetry broadcast to ~25 FPS (40ms interval) for ultra-smooth UI tracking
+        if now - self._last_telemetry_time < 0.040:
             return
         self._last_telemetry_time = now
-
-        self.fps_counter += 1
-        if now - self.last_fps_calc_time >= 1.0:
-            self.measured_fps = round(self.fps_counter / (now - self.last_fps_calc_time), 1)
-            self.fps_counter = 0
-            self.last_fps_calc_time = now
 
         tracks_payload = []
         for tr in tracking_result.active_tracks:
@@ -736,11 +751,63 @@ class MainInferenceWorker:
         cpu_percent = psutil.cpu_percent()
         ram_percent = psutil.virtual_memory().percent
 
+        # TCVIAF Air-Gapped Assurance Engine Evaluation (SIH26228)
+        raw_det_list = []
+        for tr in tracking_result.active_tracks:
+            cls_id = int(getattr(tr, 'track_id', 1))
+            cname = getattr(tr, 'class_name', 'target')
+            sub = getattr(tr, 'subclass', None) or cname
+            tactical_name = map_sih26228_label(cls_id, sub)
+            raw_det_list.append({
+                "class_id": cls_id,
+                "class_name": tactical_name,
+                "confidence": tr.avg_confidence,
+                "bbox": [tr.bbox.x1, tr.bbox.y1, tr.bbox.x2, tr.bbox.y2],
+                "track_id": tr.track_id
+            })
+
+        is_enhanced = getattr(self.last_night_result, "is_night", False) if self.last_night_result else False
+        m_lux = round(getattr(self.last_night_result, "mean_brightness", 55.0), 1) if self.last_night_result else 55.0
+        frame_bytes = f"{self.camera_id}:{batch.frame_id}:{time.time():.4f}".encode("utf-8")
+
+        assurance_res = self.assurance_engine.evaluate_frame(
+            frame_bytes=frame_bytes,
+            detections=raw_det_list,
+            zero_dce_enhanced=is_enhanced,
+            mean_lux=m_lux
+        )
+
+        detections_payload = [{
+            "class_name": map_sih26228_label(getattr(tr, 'track_id', 1), getattr(tr, 'subclass', None) or tr.class_name),
+            "label": map_sih26228_label(getattr(tr, 'track_id', 1), getattr(tr, 'subclass', None) or tr.class_name),
+            "confidence": tr.avg_confidence,
+            "bbox": [tr.bbox.x1, tr.bbox.y1, tr.bbox.x2, tr.bbox.y2],
+            "track_id": tr.track_id,
+            "assurance_status": assurance_res.governance_decision
+        } for tr in tracking_result.active_tracks]
+
         telemetry_payload = {
             "type": "telemetry",
             "camera_id": self.camera_id,
             "frame_id": batch.frame_id,
+            "sequence_id": assurance_res.sequence_id,
             "timestamp": datetime.now(timezone.utc).isoformat(),
+            "nonce": assurance_res.nonce,
+            "frame_hash": assurance_res.frame_hash,
+            "model_id": assurance_res.model_id,
+            # 5 Core SIH26228 Assurance Fields:
+            "dataset_merkle_root": assurance_res.dataset_merkle_root,
+            "model_weight_hash": assurance_res.model_weight_hash,
+            "merkle_block_hash": assurance_res.merkle_block_hash,
+            "previous_block_hash": assurance_res.previous_block_hash,
+            "illumination_score": assurance_res.illumination_score,
+            "shift_status": assurance_res.shift_status,
+            "governance_decision": assurance_res.governance_decision,
+            "zero_dce_enhanced": assurance_res.zero_dce_enhanced,
+            "mean_lux": assurance_res.mean_lux,
+            "tamper_flags": assurance_res.tamper_flags,
+            "measured_fps": self.measured_fps or round(self.camera_source.get_stats().fps_measured, 1),
+            "latency_ms": round(t_inference_ms, 1),
             "metrics": {
                 "fps": self.measured_fps or round(self.camera_source.get_stats().fps_measured, 1),
                 "latency_ms": round(t_inference_ms, 1),
@@ -749,10 +816,17 @@ class MainInferenceWorker:
                 "ram_percent": ram_percent,
                 "active_tracks_count": len(tracking_result.active_tracks),
                 "camera_health": self.camera_source.get_stats().health.value,
-                "is_night": getattr(self.last_night_result, "is_night", False) if self.last_night_result else False,
+                "is_night": is_enhanced,
                 "night_mode": getattr(self.last_night_result, "mode", "DAYLIGHT") if self.last_night_result else "DAYLIGHT",
-                "mean_brightness": round(getattr(self.last_night_result, "mean_brightness", 0.0), 1) if self.last_night_result else 0.0
+                "mean_brightness": m_lux,
+                "dataset_merkle_root": assurance_res.dataset_merkle_root,
+                "model_weight_hash": assurance_res.model_weight_hash,
+                "merkle_block_hash": assurance_res.merkle_block_hash,
+                "illumination_score": assurance_res.illumination_score,
+                "shift_status": assurance_res.shift_status,
+                "governance_decision": assurance_res.governance_decision
             },
+            "detections": detections_payload,
             "tracks": tracks_payload
         }
 
@@ -848,21 +922,32 @@ class MainInferenceWorker:
 
                 t0 = time.time()
 
+                # High-Speed Input Resizing: 640x640 tensor normalization to prevent PCIe / CPU bus saturation
+                h_raw, w_raw = frame.shape[:2]
+                if (h_raw, w_raw) != (640, 640):
+                    inference_frame = cv2.resize(frame, (640, 640), interpolation=cv2.INTER_LINEAR)
+                else:
+                    inference_frame = frame
+
                 # 2. Run Model Orchestrator & Hierarchical Router (Phases D, E, F, G)
-                batch = self.orchestrator.process_frame(frame, self.camera_id, frame_id, now_ts)
+                batch = self.orchestrator.process_frame(inference_frame, self.camera_id, frame_id, now_ts)
                 valid_detections = batch.detections
 
                 # 2b. Tactical Weapon & Threat Detection (Guns, Firearms, Grenades, Explosives)
                 is_gpu = bool(hasattr(self, "target_device") and "cuda" in str(self.target_device).lower())
-                if self.threat_detector and (is_gpu or (frame_id % 2 == 0)):
+                if self.threat_detector and (is_gpu or (frame_id % 30 == 0)):
                     try:
+                        predict_kwargs = {
+                            "device": getattr(self, "target_device", "cpu"),
+                            "conf": 0.25,
+                            "verbose": False,
+                            "imgsz": 320,
+                        }
+                        if is_gpu:
+                            predict_kwargs["half"] = True
                         threat_results = self.threat_detector.predict(
-                            frame,
-                            device=getattr(self, "target_device", "cpu"),
-                            half=is_gpu,
-                            conf=0.25,
-                            verbose=False,
-                            imgsz=320
+                            inference_frame,
+                            **predict_kwargs
                         )
                         if threat_results and threat_results[0].boxes:
                             t_boxes = threat_results[0].boxes.xyxyn.cpu().numpy()
@@ -922,8 +1007,8 @@ class MainInferenceWorker:
                     except Exception:
                         pass
 
-                # Software Face Detection on detected persons (SIH PS-26187 FRS) - throttled to every 5th frame for low CPU usage
-                if self.face_detector and (frame_id % 5 == 0):
+                # Software Face Detection on detected persons (SIH PS-26187 FRS) - throttled to every 30th frame on CPU for ultra-low latency
+                if self.face_detector and (is_gpu or (frame_id % 30 == 0)):
                     try:
                         new_faces = []
                         for tr in tracking_result.active_tracks:
@@ -1116,7 +1201,7 @@ class MainInferenceWorker:
                     # Eliminates the duplicate/ghost bounding box bug by decoupling raw video from frontend SVG overlay.
                     try:
                         now_sec = time.time()
-                        _, clean_buf = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
+                        _, clean_buf = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 75])
                         clean_jpeg_bytes = clean_buf.tobytes()
                         # Only write from worker if capture thread does not own SHM publishing
                         if not getattr(self, '_shm_owned_by_source', False) and hasattr(self, 'shm_writer') and self.shm_writer is not None:
@@ -1132,7 +1217,7 @@ class MainInferenceWorker:
                         # Throttled disk write for annotated forensic evidence backup (every 1.0s)
                         if now_sec - self._last_disk_ann_write > 1.0:
                             self._last_disk_ann_write = now_sec
-                            _, ann_buf = cv2.imencode('.jpg', annotated_preview, [cv2.IMWRITE_JPEG_QUALITY, 80])
+                            _, ann_buf = cv2.imencode('.jpg', annotated_preview, [int(cv2.IMWRITE_JPEG_QUALITY), 75])
                             ann_path = os.path.join(PROJECT_ROOT, self.evidence_dir, f"live_annotated_{self.camera_id}.jpg")
                             with open(ann_path, "wb") as f_out:
                                 f_out.write(ann_buf.tobytes())
@@ -1156,6 +1241,14 @@ class MainInferenceWorker:
                 t_inf = (time.time() - t0) * 1000
                 self.last_latency_ms = t_inf
                 self.frames_processed += 1
+
+                # Accurate Real-Time Pipeline FPS calculation
+                now_f = time.time()
+                self.fps_counter += 1
+                if now_f - self.last_fps_calc_time >= 1.0:
+                    self.measured_fps = round(self.fps_counter / (now_f - self.last_fps_calc_time), 1)
+                    self.fps_counter = 0
+                    self.last_fps_calc_time = now_f
 
                 # 6. Process Vehicle Analytics & ANPR Pipeline (Asynchronous ThreadPool)
                 if self.anpr_config.enabled:

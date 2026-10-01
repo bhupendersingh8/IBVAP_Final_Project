@@ -17,7 +17,7 @@ Features:
 4. Uniform file naming and filesystem safety:
    - breach_{camera_id}_{timestamp}_{track_id}.mp4
    - Sanitized against Windows reserved characters (e.g. colons ':').
-5. Section 65B Indian Evidence Act Cryptographic Chain-of-Custody:
+5. Cryptographic Technical Evidence Chain-of-Custody:
    - Computes deterministic SHA-256 hash of the final MP4 file.
    - Returns SHA-256 hash for direct linking into DuckDB evidence ledger.
 """

@@ -156,9 +156,9 @@ class RTSPSource(CameraSource):
                 
                 logger.info("Connected to stream", camera_id=self.camera_id)
 
-                # For phone camera or HTTP streams, drain continuously without artificial sleep
-                is_phone_or_http = self.camera_id.startswith("PHONE") or self.rtsp_url.startswith("http")
-                target_frame_time = 0.0 if is_phone_or_http else (1.0 / self.fps_limit if self.fps_limit > 0 else 0.0)
+                # Zero artificial sleep on live RTSP feeds to maximize FPS throughput
+                is_live_stream = self.rtsp_url.startswith("rtsp://") or self.camera_id.startswith("PHONE") or self.rtsp_url.startswith("http")
+                target_frame_time = 0.0 if (is_live_stream or self.fps_limit <= 0 or self.fps_limit >= 30) else (1.0 / self.fps_limit)
                 
                 while not self._stop_event.is_set():
                     loop_start = time.time()
@@ -167,7 +167,7 @@ class RTSPSource(CameraSource):
                     if not ret or frame is None:
                         consecutive_failures += 1
                         if consecutive_failures < 4:
-                            time.sleep(0.02)
+                            time.sleep(0.01)
                             continue
                         logger.warning("Stream ended or failed to read frame", camera_id=self.camera_id)
                         break
@@ -190,16 +190,16 @@ class RTSPSource(CameraSource):
                     self._last_capture_latency_ms = (time.time() - loop_start) * 1000.0
                     self.buffer.put(cam_frame)
 
-                    # Decoupled Stream Delivery: Publish directly to SharedMemory at capture rate
+                    # Decoupled Stream Delivery: Publish directly to SharedMemory at capture rate with 75% quality
                     if self.shm_writer is not None:
                         try:
-                            ok, enc_buf = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
+                            ok, enc_buf = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 75])
                             if ok:
                                 self.shm_writer.write_frame(enc_buf.tobytes())
                         except Exception:
                             pass
                     
-                    # Sleep only if rate-limiting is explicitly configured and not a live phone stream
+                    # Sleep only if rate-limiting is explicitly configured
                     if target_frame_time > 0:
                         elapsed = time.time() - loop_start
                         if elapsed < target_frame_time:

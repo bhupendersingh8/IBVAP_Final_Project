@@ -177,7 +177,7 @@ class WebcamSource(CameraSource):
                     # Decoupled Stream Delivery: Publish directly to SharedMemory at capture rate
                     if self.shm_writer is not None:
                         try:
-                            ok, enc_buf = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
+                            ok, enc_buf = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 75])
                             if ok:
                                 self.shm_writer.write_frame(enc_buf.tobytes())
                         except Exception:

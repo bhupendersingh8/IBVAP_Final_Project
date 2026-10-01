@@ -4,7 +4,7 @@ import { api } from '../api/client';
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('auditor@team-trinetra.in');
+  const [email, setEmail] = useState('lead.auditor@dbuu.ac.in');
   const [password, setPassword] = useState('password123');
   const [role, setRole] = useState('Lead Auditor');
   const [loading, setLoading] = useState(false);

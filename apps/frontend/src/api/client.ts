@@ -91,6 +91,11 @@ export async function stopStream(cameraId: string): Promise<any> {
   return res.data;
 }
 
+export async function activateCamera(cameraId: string, force = true): Promise<any> {
+  const res = await apiClient.post(`/api/v1/cameras/${cameraId}/activate?force=${force}`);
+  return res.data;
+}
+
 export async function triggerControlledTamper(params: {
   camera_id?: string;
   tamper_type: string;

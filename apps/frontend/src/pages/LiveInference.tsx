@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useWebSocketAlerts } from "../api/useWebSocketAlerts";
-import { getCamerasList, verifyProvenancePayload } from "../api/client";
+import { getCamerasList, activateCamera, verifyProvenancePayload } from "../api/client";
 import { Detection, VERIFIED_BENCHMARK } from "../types";
+import { IntegrityPanel } from "../components/IntegrityPanel";
 
 export const LiveInference: React.FC = () => {
   const [selectedCamera, setSelectedCamera] = useState<string>("CAM-01");
@@ -21,6 +22,14 @@ export const LiveInference: React.FC = () => {
     sequenceId,
     sealedBlockHash,
     frameHash,
+    modelWeightHash,
+    governanceDecision,
+    zeroDceEnhanced,
+    meanLux,
+    datasetMerkleRoot,
+    illuminationScore,
+    shiftStatus,
+    tamperFlags,
     isPaused,
     togglePause,
   } = useWebSocketAlerts();
@@ -34,6 +43,15 @@ export const LiveInference: React.FC = () => {
     }
     loadCameras();
   }, []);
+
+  // Automatically activate camera / inference worker when selectedCamera changes
+  useEffect(() => {
+    if (selectedCamera) {
+      activateCamera(selectedCamera, true).catch((err) => {
+        console.warn("Camera activation notification:", selectedCamera, err);
+      });
+    }
+  }, [selectedCamera]);
 
   // Draw bounding boxes on canvas if available
   useEffect(() => {
@@ -450,173 +468,24 @@ export const LiveInference: React.FC = () => {
           </div>
         </div>
 
-        {/* 3. Right-Hand Real-time Provenance Card (Cryptographic Binding Panel) */}
+        {/* 3. Right-Hand Real-time Provenance Card (Cryptographic Integrity & Assurance Panel) */}
         <div className="xl:col-span-4 flex flex-col gap-space-md">
-          <div className="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm border border-surface-container flex flex-col gap-space-md">
-            {/* Header */}
-            <div className="flex items-start justify-between">
-              <div className="flex flex-col">
-                <div className="flex items-center gap-1.5">
-                  <span className="material-symbols-outlined text-secondary text-[18px]">
-                    enhanced_encryption
-                  </span>
-                  <h2 className="font-headline-sm text-headline-sm text-primary font-semibold">
-                    Frame Provenance
-                  </h2>
-                </div>
-                <span className="font-label-mono-sm text-label-mono-sm text-on-surface-variant">
-                  Cryptographic State Machine
-                </span>
-              </div>
-              <span className={`px-space-xs py-0.5 font-label-mono-sm text-label-mono-sm rounded-lg font-semibold inline-flex items-center gap-1 ${
-                mutationTriggered
-                  ? "bg-error-container text-on-error-container"
-                  : "bg-surface-container text-on-surface-variant"
-              }`}>
-                <span className={`w-1.5 h-1.5 rounded-full ${mutationTriggered ? "bg-red-600" : "bg-emerald-500"}`} />
-                {mutationTriggered ? "TAMPER DETECTED" : "Zero Tamper Delta"}
-              </span>
-            </div>
-
-            <div className="h-px bg-surface-container" />
-
-            {/* Frame Attestation Summary */}
-            <div className="grid grid-cols-2 gap-space-sm">
-              <div className="bg-surface-container-low p-space-sm rounded-lg flex flex-col">
-                <span className="font-label-mono-sm text-label-mono-sm text-on-surface-variant">Sequence ID</span>
-                <span className="font-data-tabular text-body-md font-semibold text-primary">
-                  {sequenceId > 0 ? `#${sequenceId}` : "Standby"}
-                </span>
-              </div>
-              <div className="bg-surface-container-low p-space-sm rounded-lg flex flex-col">
-                <span className="font-label-mono-sm text-label-mono-sm text-on-surface-variant">Nonce Value</span>
-                <span className="font-data-tabular text-body-md font-semibold text-primary truncate">
-                  {latestFrame?.nonce || "nonce_seq_init"}
-                </span>
-              </div>
-            </div>
-
-            <div className="bg-surface-container-low p-space-sm rounded-lg flex flex-col gap-0.5">
-              <span className="font-label-mono-sm text-label-mono-sm text-on-surface-variant">Attestation Timestamp</span>
-              <span className="font-data-tabular text-body-sm font-medium text-on-surface">
-                {latestFrame?.timestamp ? new Date(latestFrame.timestamp).toISOString() : new Date().toISOString()}
-              </span>
-            </div>
-
-            {/* Hash Digest Chain Breakdown */}
-            <div className="flex flex-col gap-space-xs">
-              <span className="font-label-mono-sm text-label-mono-sm uppercase text-on-surface-variant tracking-wider font-semibold">
-                Canonical Hashes
-              </span>
-
-              <div className="bg-surface-container-low p-2 rounded-lg flex flex-col gap-1">
-                <div className="flex items-center justify-between text-[11px] font-label-mono-sm">
-                  <span className="text-on-surface-variant">Input Frame Hash (SHA-256)</span>
-                  <span className={mutationTriggered ? "text-error font-bold" : "text-emerald-700 font-semibold"}>
-                    {mutationTriggered ? "TAMPERED" : "Sealed"}
-                  </span>
-                </div>
-                <code className="font-data-tabular text-[11px] text-on-surface-variant truncate bg-surface-container-lowest px-1.5 py-0.5 rounded">
-                  {mutationTriggered ? "ff00ff00ff00ff00ff00ff00ff00ff00...[BIT_FLIP]" : frameHash}
-                </code>
-              </div>
-
-              <div className="bg-surface-container-low p-2 rounded-lg flex flex-col gap-1">
-                <div className="flex items-center justify-between text-[11px] font-label-mono-sm">
-                  <span className="text-on-surface-variant">Model Digest (Ed25519)</span>
-                  <span className="text-emerald-700 font-semibold flex items-center gap-0.5">
-                    <span className="material-symbols-outlined text-[12px]">check_circle</span>Verified
-                  </span>
-                </div>
-                <code className="font-data-tabular text-[11px] text-primary truncate bg-surface-container-lowest px-1.5 py-0.5 rounded">
-                  YOLO11n-Ed25519:b0b2cefc13e2f9f1b4...
-                </code>
-              </div>
-
-              <div className="bg-surface-container-low p-2 rounded-lg flex flex-col gap-1">
-                <div className="flex items-center justify-between text-[11px] font-label-mono-sm">
-                  <span className="text-on-surface-variant">Inference Config Hash</span>
-                  <span className="text-on-surface-variant">conf=0.25, iou=0.45</span>
-                </div>
-                <code className="font-data-tabular text-[11px] text-on-surface-variant truncate bg-surface-container-lowest px-1.5 py-0.5 rounded">
-                  a1b2c3d4e5f60718293a4b5c6d7e8f90...
-                </code>
-              </div>
-
-              <div className="bg-surface-container-low p-2 rounded-lg flex flex-col gap-1">
-                <div className="flex items-center justify-between text-[11px] font-label-mono-sm">
-                  <span className="text-on-surface-variant">Detection Output Digest</span>
-                  <span className="text-on-surface-variant">{detections.length} detections</span>
-                </div>
-                <code className="font-data-tabular text-[11px] text-on-surface-variant truncate bg-surface-container-lowest px-1.5 py-0.5 rounded">
-                  {detections.length > 0 ? "canon-out-sha256:4d8a1f2b..." : "Awaiting Inference Batch"}
-                </code>
-              </div>
-
-              <div className="bg-surface-container-high p-2 rounded-lg flex flex-col gap-1">
-                <div className="flex items-center justify-between text-[11px] font-label-mono-sm">
-                  <span className="text-primary font-semibold">Current Sealed Block Hash</span>
-                  <span className={mutationTriggered ? "text-error font-bold" : "text-secondary font-bold"}>
-                    {mutationTriggered ? "QUARANTINED" : "SEALED"}
-                  </span>
-                </div>
-                <code className="font-data-tabular text-[11px] text-on-surface-variant font-semibold truncate bg-surface-container-lowest px-1.5 py-0.5 rounded">
-                  {mutationTriggered ? "QUARANTINED_BLOCK_REJECTED" : sealedBlockHash}
-                </code>
-              </div>
-            </div>
-
-            {/* Verification Result Banner if tested */}
-            {verificationResult && (
-              <div className={`p-3 rounded-lg border font-label-mono-sm text-[12px] flex flex-col gap-1 ${
-                verificationResult.status === "TAMPER_DETECTED" || verificationResult.recommended_disposition === "QUARANTINE"
-                  ? "bg-error-container/40 border-error/30 text-on-error-container"
-                  : "bg-emerald-50 border-emerald-200 text-emerald-800"
-              }`}>
-                <div className="flex items-center justify-between font-bold">
-                  <span>VERDICT: {verificationResult.status || verificationResult.recommended_disposition}</span>
-                  <span className="material-symbols-outlined text-[16px]">
-                    {verificationResult.status === "TAMPER_DETECTED" ? "gpp_bad" : "verified"}
-                  </span>
-                </div>
-                <p className="text-[11px] leading-tight">{verificationResult.message || "All cryptographic checks validated."}</p>
-              </div>
-            )}
-
-            {/* Binding Action buttons */}
-            <div className="flex flex-col gap-space-xs pt-1">
-              <button
-                onClick={handleVerifyRecord}
-                disabled={verifying}
-                className="w-full inline-flex items-center justify-center gap-space-xs px-space-md py-2 rounded-lg bg-primary text-on-primary hover:bg-primary-container font-body-sm text-body-sm font-semibold transition-colors disabled:opacity-75"
-                type="button"
-              >
-                <span className={`material-symbols-outlined text-[16px] ${verifying ? "animate-spin" : ""}`}>
-                  {verifying ? "sync" : "verified"}
-                </span>
-                <span>{verifying ? "Executing Verification..." : "Verify Canonical Record"}</span>
-              </button>
-
-              <button
-                onClick={handleCaptureSnapshot}
-                className="w-full inline-flex items-center justify-center gap-space-xs px-space-md py-2 rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container font-body-sm text-body-sm font-semibold transition-colors border border-surface-container"
-                type="button"
-              >
-                <span className="material-symbols-outlined text-[16px]">receipt_long</span>
-                <span>Commit to Evidence Ledger</span>
-              </button>
-            </div>
-
-            {/* Strict binding guarantee note */}
-            <div className="p-space-sm bg-surface-container-low rounded-lg flex items-start gap-2 border border-surface-container">
-              <span className="material-symbols-outlined text-secondary text-[16px] shrink-0 mt-0.5">
-                lock
-              </span>
-              <p className="font-label-mono-sm text-[11px] text-on-surface-variant leading-relaxed">
-                Strict binding guarantee: Each frame execution binds frame byte-hash, loaded model weights, and hyperparameter states before subsequent inference iteration.
-              </p>
-            </div>
-          </div>
+          <IntegrityPanel
+            sequenceId={sequenceId}
+            sealedBlockHash={sealedBlockHash}
+            frameHash={frameHash}
+            modelWeightHash={modelWeightHash}
+            governanceDecision={governanceDecision}
+            zeroDceEnhanced={zeroDceEnhanced}
+            meanLux={meanLux}
+            datasetMerkleRoot={datasetMerkleRoot}
+            illuminationScore={illuminationScore}
+            shiftStatus={shiftStatus}
+            tamperFlags={tamperFlags}
+            onTriggerTamper={handleControlledMutation}
+            onClearTamper={() => setMutationTriggered(false)}
+            isTamperSimulated={mutationTriggered}
+          />
         </div>
       </div>
 

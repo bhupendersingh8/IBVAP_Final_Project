@@ -294,7 +294,7 @@ class HardwareDetector:
                 name = HardwareProfileName[override_raw]
             except KeyError:
                 name = HardwareProfileName(override_raw)
-        elif gpu.nvidia_present and gpu.gpu_name:
+        elif gpu.nvidia_present and gpu.gpu_name and gpu.cuda_available:
             if gpu.total_vram_mb <= 4600:
                 name = HardwareProfileName.LOW_VRAM_4GB
             elif gpu.total_vram_mb <= 6600:

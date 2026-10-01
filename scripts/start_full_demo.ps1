@@ -6,14 +6,17 @@ Write-Host "   IBVAP FULL STACK DEMO STARTER          " -ForegroundColor Cyan
 Write-Host "==========================================" -ForegroundColor Cyan
 
 $IBVAP_ROOT = (Resolve-Path "$PSScriptRoot\..").Path
-$venvPython = "$IBVAP_ROOT\..\venv\Scripts\python.exe"
-$localVenv = "$IBVAP_ROOT\.venv\Scripts\python.exe"
+$rtxVenv = "$IBVAP_ROOT\venv_rtx\Scripts\python.exe"
+$baselineGpuVenv = "$IBVAP_ROOT\..\IBVAP_Final_Project\.venv_gpu\Scripts\python.exe"
 $gpuVenv = "$IBVAP_ROOT\.venv_gpu\Scripts\python.exe"
+$localVenv = "$IBVAP_ROOT\.venv\Scripts\python.exe"
 
-if (Test-Path $gpuVenv) {
+if (Test-Path $rtxVenv) {
+    $PYTHON_EXE = $rtxVenv
+} elseif (Test-Path $baselineGpuVenv) {
+    $PYTHON_EXE = $baselineGpuVenv
+} elseif (Test-Path $gpuVenv) {
     $PYTHON_EXE = $gpuVenv
-} elseif (Test-Path $venvPython) {
-    $PYTHON_EXE = $venvPython
 } elseif (Test-Path $localVenv) {
     $PYTHON_EXE = $localVenv
 } elseif (Get-Command python -ErrorAction SilentlyContinue) {

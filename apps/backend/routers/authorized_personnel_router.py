@@ -99,7 +99,7 @@ async def list_authorized_people():
 async def get_officer_entry_history(officer_id: Optional[str] = None):
     """
     Retrieve chronological officer movement and entry logs across surveillance cameras.
-    Section 65B Indian Evidence Act compliant log.
+    Cryptographically verifiable audit log with tamper-evident chain-of-custody.
     """
     now = time.time()
     cameras = [

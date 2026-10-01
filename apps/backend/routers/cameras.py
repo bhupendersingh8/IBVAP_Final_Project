@@ -38,7 +38,7 @@ def _create_placeholder(text: str, w: int = 640, h: int = 480) -> bytes:
     img = np.full((h, w, 3), 24, dtype=np.uint8)
     cv2.putText(img, text, (30, h // 2), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (220, 220, 220), 2)
     cv2.putText(img, "Initializing AI pipeline...", (30, h // 2 + 35), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (100, 200, 100), 1)
-    _, buf = cv2.imencode('.jpg', img, [cv2.IMWRITE_JPEG_QUALITY, 80])
+    _, buf = cv2.imencode('.jpg', img, [int(cv2.IMWRITE_JPEG_QUALITY), 75])
     data = buf.tobytes()
     _placeholder_cache[text] = data
     return data
@@ -116,7 +116,7 @@ async def get_camera_snapshot(camera_id: str, annotated: bool = False):
                     r, f = c.read()
                     c.release()
                     if r and f is not None and f.size > 0:
-                        ok, b = cv2.imencode(".jpg", f, [cv2.IMWRITE_JPEG_QUALITY, 90])
+                        ok, b = cv2.imencode(".jpg", f, [int(cv2.IMWRITE_JPEG_QUALITY), 75])
                         if ok:
                             return b.tobytes()
             except Exception as e:
@@ -509,9 +509,19 @@ async def activate_camera(
     # Launch dedicated worker
     log_dir = os.path.join(project_root, "data", "logs")
     os.makedirs(log_dir, exist_ok=True)
-    log_file = open(os.path.join(log_dir, f"worker_{camera_id}.log"), "a", encoding="utf-8")
-    gpu_python = os.path.join(project_root, ".venv_gpu", "Scripts", "python.exe")
-    worker_python = gpu_python if os.path.exists(gpu_python) else sys.executable
+    log_path = os.path.join(log_dir, f"inference_{camera_id.lower()}.log")
+    log_file = open(log_path, "a", encoding="utf-8")
+    candidate_pythons = [
+        os.path.join(project_root, "venv_rtx", "Scripts", "python.exe"),
+        os.path.join(project_root, ".venv_gpu", "Scripts", "python.exe"),
+        os.path.join(project_root, "venv", "Scripts", "python.exe"),
+        sys.executable
+    ]
+    worker_python = sys.executable
+    for cp in candidate_pythons:
+        if os.path.exists(cp) and os.path.isfile(cp):
+            worker_python = cp
+            break
 
     subprocess.Popen(
         [worker_python, "-u", worker_script, "--camera", camera_id, "--rtsp", rtsp_target, "--input-size", "640"],
