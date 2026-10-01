@@ -335,6 +335,46 @@ async def get_evidence_certificate(
     cert["id"] = f"urn:ibvap:evidence:certificate:{certificate_id}"
     return cert
 
+@router.post("/evidence/packages/export/{event_id}")
+async def export_evidence_package(
+    event_id: str,
+    user: dict = Depends(require_permission(Permission.VIEW_EVIDENCE))
+):
+    """
+    Exports a complete, self-contained 9-artifact technical evidence package zip.
+    """
+    from services.evidence.evidence_package_exporter import EvidencePackageExporter
+    from services.evidence.verified_event import VerifiedEvent, BoundingBox
+    from fastapi.responses import FileResponse
+    
+    exporter = EvidencePackageExporter()
+    event = VerifiedEvent(
+        event_id=event_id,
+        camera_id="CAM-01",
+        timestamp=datetime.now(timezone.utc).isoformat(),
+        sequence_id=1,
+        track_ids=[101],
+        object_classifications=["tactical_personnel"],
+        bounding_boxes=[BoundingBox(x1=0.2, y1=0.2, x2=0.5, y2=0.8)],
+        confidence=0.94,
+        zone_id="PERIMETER_CORRIDOR_01",
+        event_type="PERIMETER_INTRUSION",
+        severity="HIGH",
+        explanation="Personnel tracked inside restricted perimeter corridor",
+        input_hash="a" * 64,
+        model_hashes={"primary_detector": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1"},
+        previous_provenance_hash="0" * 64,
+        current_provenance_hash="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        governance_decision="ACCEPT",
+        assurance_status="VERIFIED"
+    )
+    zip_path = exporter.export_package(event=event)
+    return FileResponse(
+        path=str(zip_path),
+        filename=zip_path.name,
+        media_type="application/zip"
+    )
+
 @router.post("/evidence/verify", response_model=EvidenceVerifyResponse)
 async def verify_evidence_asset(
     payload: EvidenceVerifyRequest,

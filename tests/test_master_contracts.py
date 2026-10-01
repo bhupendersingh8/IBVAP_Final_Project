@@ -95,3 +95,74 @@ def test_event_gate_selective_specialists():
     crawling_person = MockTrack(3, "person", conf=0.45, bbox=[0.1, 0.1, 0.6, 0.25]) # Low aspect ratio
     res_sam = gate.evaluate(frame_id=4, tracks=[crawling_person])
     assert any(t.specialist_type == SpecialistType.MOBILE_SAM for t in res_sam.scheduled_tasks)
+
+
+def test_evidence_package_exporter(tmp_path):
+    """Verifies that EvidencePackageExporter generates a complete 9-artifact zip package."""
+    from services.evidence.evidence_package_exporter import EvidencePackageExporter
+    import zipfile
+
+    exporter = EvidencePackageExporter(export_dir=tmp_path)
+    event = VerifiedEvent(
+        event_id="evt-export-test-01",
+        camera_id="CAM-01",
+        timestamp=datetime.now(timezone.utc).isoformat(),
+        sequence_id=1,
+        track_ids=[42],
+        object_classifications=["recon_vehicle"],
+        bounding_boxes=[BoundingBox(x1=0.2, y1=0.3, x2=0.5, y2=0.7)],
+        confidence=0.92,
+        zone_id="RESTRICTED_GATE_01",
+        event_type="UNAUTHORIZED_VEHICLE_APPROACH",
+        severity="HIGH",
+        explanation="Vehicle breached buffer zone without clearance",
+        input_hash="e" * 64,
+        model_hashes={"primary_detector": "f" * 64},
+        previous_provenance_hash="0" * 64,
+        current_provenance_hash="1" * 64,
+        governance_decision="ACCEPT",
+        assurance_status="VERIFIED"
+    )
+
+    fake_frame = b"\xff\xd8\xff\xe0" + b"\x00" * 512 # JPEG signature
+    zip_result = exporter.export_package(event=event, frame_bytes=fake_frame)
+
+    assert zip_result.exists()
+    assert zip_result.suffix == ".zip"
+
+    # Verify all 9 artifacts inside the package
+    with zipfile.ZipFile(zip_result, "r") as zf:
+        namelist = zf.namelist()
+        expected = [
+            "event.json",
+            "metadata/camera_metadata.json",
+            "provenance.json",
+            "model_manifest/manifest.json",
+            "aibom/cyclonedx_aibom.json",
+            "ledger_record.json",
+            "verification.json",
+            "certificate.json",
+            "frame/committed_frame.jpg"
+        ]
+        for item in expected:
+            assert item in namelist, f"Missing {item} in exported package!"
+
+
+def test_export_evidence_package_api_endpoint():
+    """Verifies POST /api/v1/evidence/packages/export/{event_id} returns valid application/zip."""
+    from fastapi.testclient import TestClient
+    from apps.backend.main import app
+
+    client = TestClient(app)
+    # Login as admin to obtain JWT
+    login_resp = client.post("/api/v1/auth/login", json={"username": "admin", "password": "adminpassword123"})
+    assert login_resp.status_code == 200
+    token = login_resp.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    res = client.post("/api/v1/evidence/packages/export/evt-api-test-99", headers=headers)
+    assert res.status_code == 200
+    assert res.headers["content-type"] == "application/zip"
+    assert len(res.content) > 100
+
+
