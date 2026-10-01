@@ -69,6 +69,16 @@ except ImportError:
 logger = structlog.get_logger("ibvap.main_pipeline")
 
 
+def _resolve_default_device() -> str:
+    if not torch.cuda.is_available():
+        return "cpu"
+    try:
+        torch.zeros(1, device="cuda")
+        return "cuda"
+    except Exception:
+        return "cpu"
+
+
 @dataclass
 class PipelineConfig:
     source: str = "0"  # Camera index, RTSP URL, MP4 path, or 'synthetic'
@@ -76,7 +86,7 @@ class PipelineConfig:
     weights_dir: Path = PROJECT_ROOT / "weights"
     tracker_type: str = "bytetrack"
     camera_id: str = "CAM_SSB_SECTOR_07"
-    device: str = "cuda" if torch.cuda.is_available() else "cpu"
+    device: str = _resolve_default_device()
     half_precision: bool = True
     low_light_threshold: float = 40.0
     camou_conf_min: float = 0.25
@@ -348,7 +358,16 @@ class IBVAPUnifiedPipeline:
 
     def __init__(self, config: Optional[PipelineConfig] = None):
         self.cfg = config or PipelineConfig()
-        self.device = torch.device(self.cfg.device)
+        cand_dev = torch.device(self.cfg.device)
+        if getattr(cand_dev, "type", None) == "cuda":
+            try:
+                torch.zeros(1, device=cand_dev)
+                self.device = cand_dev
+            except Exception:
+                logger.warning("CUDA execution unsupported by current PyTorch installation. Falling back to CPU.")
+                self.device = torch.device("cpu")
+        else:
+            self.device = cand_dev
         logger.info("pipeline.initializing", device=str(self.device), config=asdict(self.cfg))
 
         # 1. Low-Light Neural Restorer (Zero-DCE++)

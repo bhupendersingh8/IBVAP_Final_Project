@@ -38,12 +38,24 @@ class SharedPreprocessor:
         self.use_half = use_half
 
         if device is None:
+            cuda_ok = False
             if HAS_TORCH and torch.cuda.is_available():
-                self.device = torch.device("cuda:0")
-            else:
-                self.device = torch.device("cpu") if HAS_TORCH else "cpu"
+                try:
+                    torch.zeros(1, device="cuda")
+                    cuda_ok = True
+                except Exception:
+                    cuda_ok = False
+            self.device = torch.device("cuda:0") if cuda_ok else (torch.device("cpu") if HAS_TORCH else "cpu")
         else:
-            self.device = torch.device(device) if HAS_TORCH else "cpu"
+            cand_dev = torch.device(device) if HAS_TORCH else "cpu"
+            if HAS_TORCH and hasattr(cand_dev, "type") and cand_dev.type == "cuda":
+                try:
+                    torch.zeros(1, device=cand_dev)
+                    self.device = cand_dev
+                except Exception:
+                    self.device = torch.device("cpu")
+            else:
+                self.device = cand_dev
 
         logger.info(
             "SharedPreprocessor initialized",
@@ -120,15 +132,21 @@ class SharedPreprocessor:
 
         # 3. Create Tensor
         if HAS_TORCH:
-            # Transfer numpy (H, W, C) -> torch (C, H, W)
-            tensor = torch.from_numpy(rgb_img).to(self.device, non_blocking=True)
-            # Permute from HWC to CHW and add batch dimension -> [1, C, H, W]
-            tensor = tensor.permute(2, 0, 1).unsqueeze(0)
-            # Convert uint8 -> float32/float16 in range [0.0, 1.0]
-            if self.use_half and self.device.type == "cuda":
-                tensor = tensor.half() / 255.0
-            else:
-                tensor = tensor.float() / 255.0
+            try:
+                # Transfer numpy (H, W, C) -> torch (C, H, W)
+                tensor = torch.from_numpy(rgb_img).to(self.device, non_blocking=True)
+                # Permute from HWC to CHW and add batch dimension -> [1, C, H, W]
+                tensor = tensor.permute(2, 0, 1).unsqueeze(0)
+                # Convert uint8 -> float32/float16 in range [0.0, 1.0]
+                if self.use_half and getattr(self.device, "type", None) == "cuda":
+                    tensor = tensor.half() / 255.0
+                else:
+                    tensor = tensor.float() / 255.0
+            except Exception as e:
+                # Automatic zero-crash fallback to CPU
+                self.device = torch.device("cpu")
+                tensor = torch.from_numpy(rgb_img).to(self.device)
+                tensor = tensor.permute(2, 0, 1).unsqueeze(0).float() / 255.0
 
             packet.gpu_tensor = tensor
         else:

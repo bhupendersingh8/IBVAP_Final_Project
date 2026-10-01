@@ -1,0 +1,16 @@
+{
+  "case_id": "case_01_label_flip",
+  "category": "LABEL_POISONING",
+  "title": "Adversarial Label Poisoning (Person -> Animal)",
+  "description": "Dataset sample where high-confidence person feature vector has label poisoned to 'cow' to induce blind spots.",
+  "target_defense": "Confident Learning / Merkle Dataset Tree",
+  "expected_governance_disposition": "QUARANTINE",
+  "artifacts": [
+    "case_01_label_flip.json"
+  ],
+  "parameters": {
+    "original_label": "person",
+    "poisoned_label": "cow",
+    "feature_divergence": 0.89
+  }
+}

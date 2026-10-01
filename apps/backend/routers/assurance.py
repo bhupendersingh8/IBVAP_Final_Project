@@ -898,3 +898,93 @@ async def verify_frame_block(
     """
     engine = get_assurance_engine()
     return engine.verify_block(payload)
+
+
+# ---------------------------------------------------------------------------
+# Dataset Provenance, Open-Data Compliance & Reference Benchmarks (SIH26228)
+# ---------------------------------------------------------------------------
+
+from services.assurance.dataset_hashing import DatasetComplianceAuditor, DatasetAuditReport
+from services.assurance.benchmarks import get_benchmark_registry
+from services.assurance.synthetic_eval import evaluate_synthetic_case, SyntheticCaseEvaluationResult
+
+
+@router.get("/datasets", response_model=Dict[str, Any])
+async def get_datasets_manifest(
+    user: dict = Depends(require_permission(Permission.VIEW_EVIDENCE))
+):
+    """
+    Returns the authoritative dataset manifest and open-data compliance status.
+    Ensures zero classified, operational, or service-generated data is utilized.
+    """
+    auditor = DatasetComplianceAuditor()
+    manifest = auditor.load_manifest()
+    return manifest
+
+
+@router.get("/datasets/audit", response_model=DatasetAuditReport)
+async def audit_dataset_compliance(
+    user: dict = Depends(require_permission(Permission.VIEW_EVIDENCE))
+):
+    """
+    Runs cryptographic checksum audits over registered local and synthetic datasets,
+    verifying strict compliance with SIH26228 Open-Data mandates.
+    """
+    auditor = DatasetComplianceAuditor()
+    return auditor.run_audit()
+
+
+@router.get("/benchmarks", response_model=Dict[str, Any])
+async def list_reference_benchmarks(
+    user: dict = Depends(require_permission(Permission.VIEW_EVIDENCE))
+):
+    """
+    Returns the catalog of registered reference attack benchmarks (NIST TrojAI,
+    BackdoorBench, TRINETRA Synthetic Suite) and their local execution availability.
+    """
+    registry = get_benchmark_registry()
+    benchmarks = registry.list_all()
+    return {
+        "total": len(benchmarks),
+        "benchmarks": [b.model_dump() for b in benchmarks]
+    }
+
+
+@router.get("/synthetic-cases", response_model=Dict[str, Any])
+async def list_synthetic_cases(
+    user: dict = Depends(require_permission(Permission.VIEW_EVIDENCE))
+):
+    """
+    Lists the reproducible synthetic attack and evaluation cases stored in data/synthetic_eval/
+    along with their Merkle provenance root.
+    """
+    root = Path(__file__).resolve().parents[3]
+    prov_file = root / "data" / "synthetic_eval" / "synthetic_provenance.json"
+    if not prov_file.is_file():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Synthetic evaluation suite not generated. Run scripts/generate_synthetic_cases.py."
+        )
+    with open(prov_file, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+@router.post("/synthetic-cases/evaluate/{case_id}", response_model=SyntheticCaseEvaluationResult)
+async def run_synthetic_case_evaluation(
+    case_id: str,
+    user: dict = Depends(require_permission(Permission.VIEW_EVIDENCE))
+):
+    """
+    Executes automated defense evaluation on a designated synthetic attack case.
+    Demonstrates automated transition to QUARANTINE or REVIEW.
+    """
+    root = Path(__file__).resolve().parents[3]
+    suite_dir = root / "data" / "synthetic_eval"
+    try:
+        return evaluate_synthetic_case(case_id, suite_dir)
+    except FileNotFoundError:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Synthetic case '{case_id}' not found in suite."
+        )
+

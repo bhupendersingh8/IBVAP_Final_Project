@@ -31,7 +31,15 @@ from dataset.unified_dataset_prep import MultiDatasetHarmonizer
 class TestRealTimeVisionPipeline(unittest.TestCase):
 
     def setUp(self):
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        cand = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        if getattr(cand, "type", None) == "cuda":
+            try:
+                torch.zeros(1, device=cand)
+                self.device = cand
+            except Exception:
+                self.device = torch.device("cpu")
+        else:
+            self.device = cand
 
     def test_01_rtdetr_seg_architecture(self):
         """Verify RT-DETR-R18-Seg forward pass and output shapes."""

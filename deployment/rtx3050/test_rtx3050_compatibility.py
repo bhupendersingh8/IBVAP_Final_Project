@@ -108,10 +108,14 @@ class RTX3050CompatibilityAuditor:
                 cap = torch.cuda.get_device_capability(0)
 
                 # Test FP16
-                a = torch.randn((256, 256), dtype=torch.float16, device="cuda")
-                b = torch.randn((256, 256), dtype=torch.float16, device="cuda")
-                c = torch.matmul(a, b)
-                fp16_ok = c.shape == (256, 256)
+                fp16_ok = False
+                try:
+                    a = torch.randn((256, 256), dtype=torch.float16, device="cuda")
+                    b = torch.randn((256, 256), dtype=torch.float16, device="cuda")
+                    c = torch.matmul(a, b)
+                    fp16_ok = (c.shape == (256, 256))
+                except Exception as e:
+                    logger.warning(f"CUDA FP16 execution skipped: {e}")
 
                 self.results.append(AuditResult(
                     test_name="CUDA & FP16 Environment Audit",

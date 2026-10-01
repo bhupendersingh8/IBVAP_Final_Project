@@ -48,10 +48,15 @@ class LocalTacticalVLM:
     Synthesizes tactical descriptions, intent classification, and automated QRT alerts.
     """
     def __init__(self, device: Optional[str] = None):
-        if device is None:
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        cand_dev = torch.device("cuda" if torch.cuda.is_available() else "cpu") if device is None else torch.device(device)
+        if getattr(cand_dev, "type", None) == "cuda":
+            try:
+                torch.zeros(1, device=cand_dev)
+                self.device = cand_dev
+            except Exception:
+                self.device = torch.device("cpu")
         else:
-            self.device = torch.device(device)
+            self.device = cand_dev
 
         # CNN Visual Backing: MobileNet / ResNet feature stem running on GPU
         import torchvision.models as models

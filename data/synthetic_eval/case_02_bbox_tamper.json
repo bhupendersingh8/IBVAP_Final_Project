@@ -1,0 +1,20 @@
+{
+  "case_id": "case_02_bbox_tamper",
+  "category": "INFERENCE_TAMPERING",
+  "title": "Coordinate Overflow & Boundary Tampering",
+  "description": "Inference output where bounding box coordinates are intentionally corrupted (e.g. x2 < x1 or coords > 1.0) to bypass boundary fence checks.",
+  "target_defense": "Recursive Merkle Frame Assurance & Boundary Guardrails",
+  "expected_governance_disposition": "QUARANTINE",
+  "artifacts": [
+    "case_02_bbox_tamper.json"
+  ],
+  "parameters": {
+    "corrupted_box": [
+      120,
+      200,
+      80,
+      50
+    ],
+    "tamper_mode": "INVERTED_COORDINATES"
+  }
+}

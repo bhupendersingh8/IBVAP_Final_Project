@@ -1,0 +1,16 @@
+{
+  "case_id": "case_05_low_light_shift",
+  "category": "DISTRIBUTION_SHIFT",
+  "title": "Severe Low-Light Illumination Degradation",
+  "description": "Low illumination condition (mean lux < 15) requiring Zero-DCE++ curve enhancement before detector ingestion.",
+  "target_defense": "Zero-DCE++ Curve Enhancement & Lux Gating",
+  "expected_governance_disposition": "ACCEPT",
+  "artifacts": [
+    "case_05_low_light.png",
+    "case_05_low_light_shift.json"
+  ],
+  "parameters": {
+    "mean_lux": 11.2,
+    "enhancement_applied": true
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "suite_name": "TRINETRA Synthetic Attack & Tampering Evaluation Suite v1",
+  "version": "1.0.0",
+  "compliance_rule_id": "SIH26228-OPEN-DATA-CLAUSE",
+  "is_classified": false,
+  "is_operational": false,
+  "is_service_generated": false,
+  "is_synthetic": true,
+  "license": "Apache-2.0",
+  "generated_at": "2026-10-01T01:21:40.600530+00:00",
+  "total_cases": 7,
+  "total_files": 11,
+  "manifest_sha256": "5c9f82eefd05e4ca0ac695a17fa74373894f1a2355b6d63becebcc54c05c75e2",
+  "merkle_root": "eda64779e7d51208c73b8329fbfe7f0c982d3c779b8da010274eb11393308610",
+  "cases": [
+    {
+      "case_id": "case_01_label_flip",
+      "category": "LABEL_POISONING",
+      "title": "Adversarial Label Poisoning (Person -> Animal)",
+      "description": "Dataset sample where high-confidence person feature vector has label poisoned to 'cow' to induce blind spots.",
+      "target_defense": "Confident Learning / Merkle Dataset Tree",
+      "expected_governance_disposition": "QUARANTINE",
+      "artifacts": [
+        "case_01_label_flip.json"
+      ],
+      "parameters": {
+        "original_label": "person",
+        "poisoned_label": "cow",
+        "feature_divergence": 0.89
+      }
+    },
+    {
+      "case_id": "case_02_bbox_tamper",
+      "category": "INFERENCE_TAMPERING",
+      "title": "Coordinate Overflow & Boundary Tampering",
+      "description": "Inference output where bounding box coordinates are intentionally corrupted (e.g. x2 < x1 or coords > 1.0) to bypass boundary fence checks.",
+      "target_defense": "Recursive Merkle Frame Assurance & Boundary Guardrails",
+      "expected_governance_disposition": "QUARANTINE",
+      "artifacts": [
+        "case_02_bbox_tamper.json"
+      ],
+      "parameters": {
+        "corrupted_box": [
+          120,
+          200,
+          80,
+          50
+        ],
+        "tamper_mode": "INVERTED_COORDINATES"
+      }
+    },
+    {
+      "case_id": "case_03_ood_sample",
+      "category": "OUT_OF_DISTRIBUTION",
+      "title": "Out-of-Distribution Geometric Noise",
+      "description": "Extreme non-surveillance visual artifact designed to test ArcFace cosine distance and MMD anomaly detection.",
+      "target_defense": "ArcFace Cosine Distance & MMD Shift",
+      "expected_governance_disposition": "REVIEW",
+      "artifacts": [
+        "case_03_ood_image.png",
+        "case_03_ood_sample.json"
+      ],
+      "parameters": {
+        "cosine_distance_expected": 0.82,
+        "threshold": 0.65
+      }
+    },
+    {
+      "case_id": "case_04_badnets_trigger",
+      "category": "TRIGGER_INJECTION",
+      "title": "BadNets Corner Checkerboard Trigger",
+      "description": "Synthetic BadNets trigger patch located at pixel coordinates (290, 290) to evaluate trigger inversion and backdoor defenses.",
+      "target_defense": "Neural Cleanse / Patch Isolation",
+      "expected_governance_disposition": "QUARANTINE",
+      "artifacts": [
+        "case_04_badnets_trigger.png",
+        "case_04_badnets_trigger.json"
+      ],
+      "parameters": {
+        "patch_location": [
+          290,
+          290,
+          314,
+          314
+        ],
+        "trigger_type": "CHECKERBOARD"
+      }
+    },
+    {
+      "case_id": "case_05_low_light_shift",
+      "category": "DISTRIBUTION_SHIFT",
+      "title": "Severe Low-Light Illumination Degradation",
+      "description": "Low illumination condition (mean lux < 15) requiring Zero-DCE++ curve enhancement before detector ingestion.",
+      "target_defense": "Zero-DCE++ Curve Enhancement & Lux Gating",
+      "expected_governance_disposition": "ACCEPT",
+      "artifacts": [
+        "case_05_low_light.png",
+        "case_05_low_light_shift.json"
+      ],
+      "parameters": {
+        "mean_lux": 11.2,
+        "enhancement_applied": true
+      }
+    },
+    {
+      "case_id": "case_06_fog_haze_shift",
+      "category": "DISTRIBUTION_SHIFT",
+      "title": "Atmospheric Fog & Haze Attenuation",
+      "description": "Low-contrast foggy scene to test distribution shift detector and CLAHE contrast enhancement.",
+      "target_defense": "Two-Sample Kolmogorov-Smirnov Test",
+      "expected_governance_disposition": "REVIEW",
+      "artifacts": [
+        "case_06_fog_haze.png",
+        "case_06_fog_haze_shift.json"
+      ],
+      "parameters": {
+        "contrast_ratio": 0.18,
+        "ks_p_value": 0.0001
+      }
+    },
+    {
+      "case_id": "case_07_replay_attack",
+      "category": "REPLAY_ATTACK",
+      "title": "Stale Timestamp & Replay Sequence Manipulation",
+      "description": "Frame replayed from past sequence (regressive timestamp or reused nonce) causing Merkle hash-chain divergence.",
+      "target_defense": "Recursive Merkle Sequence Validation",
+      "expected_governance_disposition": "QUARANTINE",
+      "artifacts": [
+        "case_07_replay_attack.json"
+      ],
+      "parameters": {
+        "replayed_sequence_id": 14,
+        "current_sequence_id": 25,
+        "nonce_reused": true
+      }
+    }
+  ]
+}

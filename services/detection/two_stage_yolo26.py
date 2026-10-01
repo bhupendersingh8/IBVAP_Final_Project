@@ -114,10 +114,15 @@ class TwoStageYOLO26Pipeline:
         self.weights_dir = weights_dir
 
         # Device determination
-        if device == "cuda" and not torch.cuda.is_available():
-            self.device = "cpu"
+        cand_dev = str(device or "cpu")
+        if "cuda" in cand_dev.lower():
+            try:
+                torch.zeros(1, device="cuda")
+                self.device = cand_dev
+            except Exception:
+                self.device = "cpu"
         else:
-            self.device = str(device)
+            self.device = cand_dev
 
         # Fast Primary Gating Model
         self.primary_detector = YOLO(f"{weights_dir}/yolo26n.pt")

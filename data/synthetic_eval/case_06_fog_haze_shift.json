@@ -1,0 +1,16 @@
+{
+  "case_id": "case_06_fog_haze_shift",
+  "category": "DISTRIBUTION_SHIFT",
+  "title": "Atmospheric Fog & Haze Attenuation",
+  "description": "Low-contrast foggy scene to test distribution shift detector and CLAHE contrast enhancement.",
+  "target_defense": "Two-Sample Kolmogorov-Smirnov Test",
+  "expected_governance_disposition": "REVIEW",
+  "artifacts": [
+    "case_06_fog_haze.png",
+    "case_06_fog_haze_shift.json"
+  ],
+  "parameters": {
+    "contrast_ratio": 0.18,
+    "ks_p_value": 0.0001
+  }
+}

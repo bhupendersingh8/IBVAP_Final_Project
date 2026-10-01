@@ -1,0 +1,16 @@
+{
+  "case_id": "case_07_replay_attack",
+  "category": "REPLAY_ATTACK",
+  "title": "Stale Timestamp & Replay Sequence Manipulation",
+  "description": "Frame replayed from past sequence (regressive timestamp or reused nonce) causing Merkle hash-chain divergence.",
+  "target_defense": "Recursive Merkle Sequence Validation",
+  "expected_governance_disposition": "QUARANTINE",
+  "artifacts": [
+    "case_07_replay_attack.json"
+  ],
+  "parameters": {
+    "replayed_sequence_id": 14,
+    "current_sequence_id": 25,
+    "nonce_reused": true
+  }
+}

@@ -8,5 +8,5 @@
   "masked_url": "rtsp://127.0.0.1:8554/CAM-01",
   "resolution": "1920x1080",
   "message": "No physical CCTV detected on Ethernet switch. Active stream: CAM-01 simulator.",
-  "timestamp": 1790786047.1799698
+  "timestamp": 1790818296.6097012
 }

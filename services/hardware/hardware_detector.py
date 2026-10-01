@@ -199,13 +199,19 @@ class HardwareDetector:
         try:
             import torch
             if torch.cuda.is_available():
-                cuda_available = True
                 nvidia_present = True
                 gpu_name = torch.cuda.get_device_name(0)
                 props = torch.cuda.get_device_properties(0)
                 total_vram_mb = round(props.total_memory / (1024 ** 2), 2)
                 compute_capability = f"{props.major}.{props.minor}"
                 cuda_version = torch.version.cuda
+                try:
+                    # Verify that kernel execution actually works (guards against unsupported sm versions e.g. sm_120)
+                    torch.zeros(1, device="cuda")
+                    cuda_available = True
+                except Exception:
+                    cuda_available = False
+                    logger.warning("CUDA reported available by PyTorch but kernel execution failed (incompatible compute capability). Falling back to CPU.")
         except Exception as e:
             logger.debug(f"PyTorch CUDA check skipped: {e}")
 
@@ -242,7 +248,7 @@ class HardwareDetector:
         pytorch_cuda = False
         try:
             import torch
-            pytorch_cuda = torch.cuda.is_available()
+            pytorch_cuda = bool(torch.cuda.is_available() and gpu.cuda_available)
         except ImportError:
             pass
 
