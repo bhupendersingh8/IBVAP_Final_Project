@@ -108,7 +108,36 @@ Modern defence and edge video intelligence pipelines rely on deep learning model
 
 ---
 
-## 5. Benchmark Evidence & Validation
+## 5. Model Weights & Large Binaries (Downloadable Weights Architecture)
+
+In accordance with edge deployment best practices, **large model weights and compiled binaries are intentionally excluded from normal Git history**. They are preserved locally on the edge host machine (`weights/`, `models/`, and `infrastructure/`) to ensure fast cloning times and prevent repository bloat.
+
+- **Offline / Local Guarantee**: The operational pipeline remains completely unchanged. Once staged locally, all models run 100% offline with zero external network calls.
+- **Acquisition Mechanism**: Model weights can be inspected, verified, or acquired using the included project utility:
+  ```powershell
+  python download_weights_and_datasets.py
+  ```
+  *(Downloads official upstream release checkpoints directly to `./weights/` or stages local fallback copies).*
+- **Release Assets**: The project structure is prepared to support packaging these verified checkpoints as GitHub Release assets if hosted on an enterprise remote.
+
+### Model Weights Registry & Verification
+
+| Model | Purpose | Local Path | Required | Acquisition / Source |
+| :--- | :--- | :--- | :---: | :--- |
+| **YOLO11n** | Primary 2D Object Detection | `weights/yolo11n.pt` | **YES** | `python download_weights_and_datasets.py` (Ultralytics v8.3.0) |
+| **YOLO26x** | Two-Stage Cascade Verifier | `weights/yolo26x.pt` | **YES** | `python download_weights_and_datasets.py` (Ultralytics v8.3.0) |
+| **YOLO26n** | Two-Stage Fast Gating | `weights/yolo26n.pt` | **YES** | `python download_weights_and_datasets.py` (Ultralytics v8.3.0) |
+| **Threat YOLOv8n** | Armed Weapon / Explosive Classifier | `models/threat_yolov8n.pt` | **YES** | Local Host / Project Maintainer Setup |
+| **MobileSAM** | Silhouette & Camouflage Segmenter | `weights/mobile_sam.pt` | **YES** | `python download_weights_and_datasets.py` (ChaoningZhang/MobileSAM) |
+| **ArcFace-512D** | Facial Biometric Embeddings (FRS) | `weights/arcface_w600k_r50.onnx` | **YES** | `python download_weights_and_datasets.py` (InsightFace Buffalo_L) |
+| **EasyOCR** | Vehicle License Plate Recognition | `.cache/.EasyOCR/model/` | **YES** | Pre-cached locally / PyTorch Hub CRAFT+CTC |
+| **Zero-DCE++** | Low-Light Neural Curve Estimation | `ml/models/zero_dce.py` | **YES** | Procedural PyTorch Architecture (Zero download needed) |
+| **RT-DETR-L** | Real-Time Transformer Alternative | `weights/rtdetr-l.pt` | *Optional* | `python download_weights_and_datasets.py` (Ultralytics v8.3.0) |
+| **YOLOv8n-Pose** | Skeleton Keypoint & Liveness (EAR) | `models/pose/yolov8n-pose.pt`| *Optional* | `scripts/download_all_weights.py` (Ultralytics v8.2.0) |
+| **MiDaS v2.1** | Relative Monocular Depth | `models/depth/midas_v21_small.pt` | *Optional* | Download source must be configured by maintainer |
+| **MediaMTX** | RTSP / WebRTC Stream Server | `infrastructure/mediamtx/mediamtx.exe` | **YES** | Pre-compiled edge binary / bluenviron/mediamtx release |
+
+## 6. Benchmark Evidence & Validation
 
 > [!NOTE]
 > All benchmarks were measured under controlled, reproducible conditions logged in `docs/BENCHMARK_EVIDENCE.md` and machine-readable JSON logs (`benchmarks/results/latest.json`, `fault_injection_latest.json`).
@@ -139,7 +168,7 @@ Evaluated via `benchmarks/run_fault_injection.py` across 17 distinct attack vect
 
 ---
 
-## 6. Installation & Quick Start
+## 7. Installation & Quick Start
 
 ### Prerequisites
 - Windows 10/11 or Ubuntu 22.04 LTS
@@ -155,12 +184,17 @@ Evaluated via `benchmarks/run_fault_injection.py` across 17 distinct attack vect
 
 ### Manual Service Launch
 
-#### 1. Start RTSP Ingestion Server (MediaMTX)
+#### 1. Setup / Verify Local Model Weights (If Running Fresh)
+```powershell
+python download_weights_and_datasets.py
+```
+
+#### 2. Start RTSP Ingestion Server (MediaMTX)
 ```powershell
 infrastructure\mediamtx\mediamtx.exe infrastructure\mediamtx\mediamtx.yml
 ```
 
-#### 2. Start FastAPI Accelerated Backend
+#### 3. Start FastAPI Accelerated Backend
 ```powershell
 # Activate Python 3.11 virtual environment
 .\venv_rtx\Scripts\Activate.ps1
@@ -169,13 +203,13 @@ infrastructure\mediamtx\mediamtx.exe infrastructure\mediamtx\mediamtx.yml
 python -m uvicorn apps.backend.main:app --host 0.0.0.0 --port 8000
 ```
 
-#### 3. Start Live Inference Worker
+#### 4. Start Live Inference Worker
 ```powershell
 # Runs primary YOLO11n + ByteTrack + Assurance Engine
 python services\inference\main_inference_worker.py --camera CAM-01 --rtsp rtsp://127.0.0.1:8554/CAM-01
 ```
 
-#### 4. Launch React Operations Dashboard
+#### 5. Launch React Operations Dashboard
 ```powershell
 cd apps\frontend
 npm run dev
@@ -184,7 +218,7 @@ npm run dev
 
 ---
 
-## 7. Known Boundaries & Limitations
+## 8. Known Boundaries & Limitations
 
 1. **Controlled Battery Scope**: The 17/17 fault detection rate represents validation against a synthetic mutation test harness with specified attack vectors; it is not an empirical guarantee against uncharacterized zero-day adversarial attacks.
 2. **Relative Monocular Depth**: While `midas_v21_small.pt` is present, it generates relative topological depth maps; physical ground-truth distance in meters requires a calibrated camera intrinsic matrix.

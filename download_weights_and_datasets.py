@@ -203,6 +203,57 @@ def setup_weights():
     print()
 
 
+def check_weights_status() -> bool:
+    """
+    Checks if all required model weights exist locally.
+    Does not attempt any download or network call.
+    Returns True if all required weights are found, False otherwise.
+    """
+    print("=" * 70)
+    print("PHYSICAL MODEL WEIGHTS INTEGRITY & PRESENCE CHECK")
+    print("=" * 70)
+
+    missing = []
+    found = []
+
+    for filename, info in WEIGHTS_MANIFEST.items():
+        target = WEIGHTS_DIR / filename
+        min_sz = info["min_size_bytes"]
+
+        present = False
+        if target.exists() and target.stat().st_size >= min_sz:
+            sz_mb = target.stat().st_size / (1024 * 1024)
+            found.append((filename, str(target), sz_mb))
+            present = True
+        else:
+            for fb in info.get("local_fallbacks", []):
+                if fb.exists() and fb.stat().st_size >= min_sz:
+                    sz_mb = fb.stat().st_size / (1024 * 1024)
+                    found.append((filename, str(fb), sz_mb))
+                    present = True
+                    break
+
+        if not present:
+            missing.append(filename)
+
+    print("\nVerified Weights:")
+    for fn, p, sz in found:
+        print(f"  [OK] {fn:<22} ({sz:.1f} MB) -> {p}")
+
+    if missing:
+        print("\nMissing Weights:")
+        for fn in missing:
+            print(f"  [MISSING] {fn}")
+        print("\n" + "!" * 70)
+        print("Required model weights are missing. Run: python download_weights_and_datasets.py")
+        print("!" * 70 + "\n")
+        return False
+    else:
+        print("\n[SUCCESS] All registered model weights are present locally.")
+        print("=" * 70 + "\n")
+        return True
+
+
 def setup_datasets():
     """Initializes and structures ExDark, LLVIP, and RESIDE-RTTS dataset directories."""
     print("=" * 70)
@@ -511,7 +562,12 @@ if __name__ == "__main__":
     parser.add_argument("--print-datasets", action="store_true", help="Print complete catalog of 8 defense datasets")
     parser.add_argument("--clone-dataset", type=str, default="", help="Clone specific dataset (or 'all')")
     parser.add_argument("--skip-weights", action="store_true", help="Skip downloading weights")
+    parser.add_argument("--check-only", action="store_true", help="Verify presence of model weights without downloading")
     args = parser.parse_args()
+
+    if args.check_only:
+        ok = check_weights_status()
+        sys.exit(0 if ok else 1)
 
     print("\n" + "=" * 90)
     print("   IBVAP - DEFENSE SYSTEMS ENGINEERING SETUP")

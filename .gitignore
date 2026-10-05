@@ -51,3 +51,10 @@ ehthumbs.db
 *.sublime-workspace
 .agents/
 .gemini/
+
+# Large Model Weights & Compiled Binaries (Preserved locally, excluded from normal Git)
+*.pt
+*.onnx
+*.engine
+infrastructure/mediamtx/mediamtx.exe
+infrastructure/ffmpeg/bin/ffmpeg.exe
